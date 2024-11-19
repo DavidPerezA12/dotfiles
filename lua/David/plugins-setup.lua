@@ -100,6 +100,36 @@ return packer.startup(function(use)
 	-- git integration
 	use("lewis6991/gitsigns.nvim") -- show line modifications on left hand side
 
+	use({
+		"zbirenbaum/copilot.lua",
+		event = "InsertEnter",
+		config = function()
+			require("copilot").setup({
+				suggestion = {
+					enabled = true,
+					auto_trigger = true,
+					keymap = {
+						accept = "<Tab>",
+						next = "<C-]>",
+						prev = "<C-[>",
+						dismiss = "<Esc>", -- Usa <Esc> para cerrar sugerencias de Copilot
+					},
+				},
+				panel = {
+					enabled = true,
+					keymap = {
+						jump_prev = "[[",
+						jump_next = "]]",
+						accept = "<CR>",
+						refresh = "gr",
+						open = "<M-CR>",
+						close = "<Esc>", -- Usa <Esc> para cerrar el panel de Copilot
+					},
+				},
+			})
+		end,
+	})
+
 	if packer_bootstrap then
 		require("packer").sync()
 	end
