@@ -1,6 +1,6 @@
-# Configuración Personal de la Terminal en macOS
+# Configuración de Terminal en macOS
 
-Este documento describe los pasos necesarios para configurar una terminal en macOS con iTerm2, Neovim y varias otras herramientas esenciales para el desarrollo. La configuración está diseñada para ser fácil de seguir y personalizar. Puedes copiar y pegar los comandos para simplificar la instalación.
+Este documento describe los pasos necesarios para configurar una terminal en macOS con iTerm2, Neovim y varias otras herramientas esenciales para el desarrollo. La configuración está diseñada para ser fácil de seguir y personalizar.
 
 ## 1. Instalar Homebrew
 Homebrew es un administrador de paquetes que hace fácil instalar herramientas en macOS. Abre la terminal e instala Homebrew ejecutando el siguiente comando:
