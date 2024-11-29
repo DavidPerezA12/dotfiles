@@ -47,7 +47,7 @@ git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $ZSH/custom/the
 Luego, edita tu archivo `.zshrc` para usar Powerlevel10k:
 
 ```bash
-sed -i '' 's/ZSH_THEME=".*"/ZSH_THEME="powerlevel10k\/powerlevel10k"/' ~/.zshrc
+ZSH_THEME="powerlevel10k/powerlevel10k"/' 
 source ~/.zshrc
 ```
 
@@ -61,18 +61,6 @@ brew install neovim
 ## 7. Configurar `.zshrc`
 Para personalizar tu archivo `.zshrc` y asegurarte de que todas las herramientas funcionen correctamente, abre `.zshrc` y agrega las siguientes líneas si es necesario:
 
-```bash
-# Agregar Homebrew al PATH
-export PATH="/opt/homebrew/bin:$PATH"
-
-# Alias para abrir Neovim
-alias vim="nvim"
-
-# Inicializar Powerlevel10k si no está ya inicializado
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-# Agregar otras personalizaciones...
-```
 
 Despues de editar `.zshrc`, ejecuta:
 
@@ -89,8 +77,5 @@ git clone https://github.com/DavidPerezA12/nvim ~/.config/nvim
 
 Esto colocará tus archivos de configuración en la ubicación que Neovim espera por defecto.
 
-## 9. Listo
-Tu terminal ahora está configurada con iTerm2, Oh My Zsh, Powerlevel10k y Neovim. Puedes personalizar la configuración según tus preferencias editando los archivos relevantes.
 
-¡Disfruta tu nueva configuración de desarrollo!
 
