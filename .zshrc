@@ -125,3 +125,7 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 
 export PATH=$PATH:/usr/local/mysql/bin
 
+ia() {
+    gh copilot suggest -t shell "$*"
+  }
+ 

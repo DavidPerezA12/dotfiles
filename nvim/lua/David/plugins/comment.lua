@@ -16,8 +16,13 @@ return {
 
       -- Reduce which-key overlap noise: prefer explicit toggles under <leader>/
       local api = require("Comment.api")
+      local esc = vim.api.nvim_replace_termcodes("<ESC>", true, false, true)
+
       vim.keymap.set("n", "<leader>/", api.toggle.linewise.current, { desc = "Toggle comment line" })
-      vim.keymap.set("v", "<leader>/", api.toggle.linewise(vim.fn.visualmode()), { desc = "Toggle comment selection" })
+      vim.keymap.set("v", "<leader>/", function()
+        vim.api.nvim_feedkeys(esc, "nx", false)
+        api.toggle.linewise(vim.fn.visualmode())
+      end, { desc = "Toggle comment selection" })
     end,
   },
 }
