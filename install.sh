@@ -78,23 +78,13 @@ brew update
 print_success "Homebrew actualizado"
 echo ""
 
-# 4. Instalar herramientas CLI
-print_info "Instalando herramientas CLI..."
+# 4. Instalar herramientas CLI esenciales
+print_info "Instalando herramientas CLI esenciales..."
 brew install \
     git \
     neovim \
-    ripgrep \
-    fd \
-    fzf \
-    bat \
-    eza \
-    zoxide \
-    tmux \
-    tree \
-    wget \
     curl \
-    jq \
-    stow
+    wget
 
 print_success "Herramientas CLI instaladas"
 echo ""
@@ -162,15 +152,7 @@ else
 fi
 echo ""
 
-# 10. Backup de archivos existentes
-print_info "Haciendo backup de configuraciones existentes..."
-[ -f "$HOME/.zshrc" ] && mv "$HOME/.zshrc" "$BACKUP_DIR/.zshrc.backup"
-[ -f "$HOME/.p10k.zsh" ] && mv "$HOME/.p10k.zsh" "$BACKUP_DIR/.p10k.zsh.backup"
-[ -d "$HOME/.config/nvim" ] && mv "$HOME/.config/nvim" "$BACKUP_DIR/nvim.backup"
-print_success "Backup completado"
-echo ""
-
-# 11. Crear symlinks
+# 10. Crear symlinks
 print_info "Creando symlinks..."
 
 # Zsh
@@ -188,7 +170,7 @@ print_success "Linked: ~/.config/nvim"
 
 echo ""
 
-# 12. Configurar iTerm2 (opcional)
+# 11. Configurar iTerm2 (opcional)
 if [ -d "$DOTFILES_DIR/config/iterm2" ]; then
     print_info "Configurando iTerm2..."
     defaults write com.googlecode.iterm2 PrefsCustomFolder -string "$DOTFILES_DIR/config/iterm2"
@@ -197,13 +179,7 @@ if [ -d "$DOTFILES_DIR/config/iterm2" ]; then
     echo ""
 fi
 
-# 13. Instalar fzf key bindings
-print_info "Configurando fzf..."
-$(brew --prefix)/opt/fzf/install --key-bindings --completion --no-update-rc
-print_success "fzf configurado"
-echo ""
-
-# 14. Finalizar
+# 12. Finalizar
 echo -e "${GREEN}"
 cat << "EOF"
 ╔═══════════════════════════════════════════════════════╗

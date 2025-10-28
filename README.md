@@ -36,14 +36,13 @@ source ~/.zshrc
 
 El instalador automáticamente:
 - ✅ Instala Homebrew (si no está instalado)
-- ✅ Instala herramientas CLI modernas (eza, bat, ripgrep, fd, fzf, etc.)
+- ✅ Instala herramientas CLI esenciales (git, neovim, curl, wget)
 - ✅ Instala NVM para gestión de versiones de Node.js
 - ✅ Configura Zsh + Oh My Zsh + Powerlevel10k
 - ✅ Instala Neovim con plugins y configuración completa
 - ✅ Instala fuentes Nerd Fonts para iTerm2
-- ✅ Crea backups de tu configuración actual
-- ✅ Crea symlinks a tus dotfiles
-- ✅ Configura integración con iTerm2
+- ✅ Crea symlinks directos a tus dotfiles
+- ✅ Configura integración con iTerm2 (si existe config/iterm2/)
 
 ---
 
@@ -90,26 +89,22 @@ El instalador automáticamente:
 
 ### Esenciales (Instaladas Automáticamente)
 
-Todas estas herramientas se instalan automáticamente con `./install.sh`:
+Estas herramientas se instalan automáticamente con `./install.sh`:
 
 ```bash
 # No necesitas ejecutar estos comandos, se instalan solos:
-brew install git neovim ripgrep fd fzf bat eza zoxide tmux tree wget curl jq stow
+brew install git neovim curl wget
 
 # NVM también se instala automáticamente para gestión de versiones de Node.js
 ```
 
-| Herramienta | Descripción | Reemplaza |
-|-------------|-------------|-----------|
-| **eza** | `ls` moderno con iconos | `ls` |
-| **bat** | `cat` con syntax highlighting | `cat` |
-| **ripgrep** | Búsqueda ultrarrápida de texto | `grep` |
-| **fd** | Búsqueda de archivos intuitiva | `find` |
-| **fzf** | Fuzzy finder interactivo | - |
-| **zoxide** | `cd` que aprende tus rutas | `cd` |
-| **jq** | Procesador JSON | - |
-| **nvm** | Gestor de versiones de Node.js | - |
-| **stow** | Gestor de symlinks | - |
+| Herramienta | Descripción | Uso |
+|-------------|-------------|-----|
+| **git** | Control de versiones | `git`, `gst`, `gco`, etc. |
+| **neovim** | Editor de código moderno | `nvim` |
+| **curl** | Transferencia de datos | `curl` |
+| **wget** | Descarga de archivos | `wget` |
+| **nvm** | Gestor de versiones de Node.js | `nvm install node` |
 
 
 
@@ -162,6 +157,7 @@ brew install git neovim ripgrep fd fzf bat eza zoxide tmux tree wget curl jq sto
 │   │   ├── init.lua
 │   │   └── lua/David/
 │   └── iterm2/            # Configuración de iTerm2
+│       └── com.googlecode.iterm2.plist
 │
 └── docs/                  # Documentación
     ├── COMMANDS.md        # Comandos y aliases

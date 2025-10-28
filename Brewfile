@@ -5,22 +5,11 @@
 tap "homebrew/bundle"
 tap "homebrew/cask-fonts"
 
-# CLI Tools
+# CLI Tools (esenciales)
 brew "git"
 brew "neovim"
-brew "ripgrep"
-brew "fd"
-brew "fzf"
-brew "bat"
-brew "eza"
-brew "zoxide"
-brew "tmux"
-brew "tree"
-brew "wget"
 brew "curl"
-brew "jq"
-brew "stow"
-brew "gh"             # GitHub CLI
+brew "wget"
 
 # Lenguajes y Runtimes (opcional)
 # brew "node"  # Usar NVM en su lugar para gestión de versiones

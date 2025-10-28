@@ -26,10 +26,10 @@ sublime     # Abre Sublime Text
 ### Navegación Mejorada
 
 ```bash
-ls          # Reemplazado por eza con iconos y colores
-ll          # Lista detallada con eza
-la          # Lista todo incluyendo archivos ocultos
-cat         # Reemplazado por bat con syntax highlighting
+ls          # Comando ls estándar
+ll          # Alias personalizado (si lo agregas)
+la          # Lista todo incluyendo archivos ocultos (si lo agregas)
+cat         # Comando cat estándar
 ```
 
 ---
@@ -101,74 +101,24 @@ grv         # git remote -v
 
 ---
 
-## 🚀 Herramientas CLI Modernas
+## 🚀 Herramientas CLI Esenciales
 
-### `eza` - Mejor ls
+### `git` - Control de Versiones
 
 ```bash
-eza                          # Lista archivos básico
-eza -la                      # Lista detallada con ocultos
-eza --tree                   # Vista de árbol
-eza --tree --level=2         # Árbol con profundidad 2
-eza -la --git                # Muestra estado de Git
+git status                   # Ver estado
+git add .                    # Agregar todos los cambios
+git commit -m "mensaje"      # Hacer commit
+git push                     # Subir cambios
 ```
 
-### `bat` - cat con Superpoderes
+### `neovim` - Editor Moderno
 
 ```bash
-bat archivo.txt              # Ver archivo con syntax highlighting
-bat -n archivo.txt           # Con números de línea
-bat -A archivo.txt           # Muestra todos los caracteres
-bat archivo1.txt archivo2.txt # Ver múltiples archivos
-```
-
-### `ripgrep (rg)` - Búsqueda Ultrarrápida
-
-```bash
-rg "patrón"                  # Busca en directorio actual
-rg "patrón" -i               # Búsqueda case-insensitive
-rg "patrón" -t py            # Solo archivos Python
-rg "patrón" -g "*.js"        # Solo archivos .js
-rg "patrón" -l               # Solo nombres de archivos
-rg "patrón" --hidden         # Incluir archivos ocultos
-```
-
-### `fd` - Alternativa a find
-
-```bash
-fd archivo                   # Busca archivos por nombre
-fd "\.js$"                   # Busca por extensión
-fd -e js                     # Busca archivos .js
-fd -H archivo                # Incluir archivos ocultos
-fd -t f                      # Solo archivos
-fd -t d                      # Solo directorios
-```
-
-### `fzf` - Fuzzy Finder
-
-```bash
-# Ctrl+R                     # Buscar en historial
-# Ctrl+T                     # Buscar archivos
-# Alt+C                      # Cambiar directorio
-
-vim $(fzf)                   # Abrir archivo con fzf
-cd $(fd -t d | fzf)          # Cambiar a directorio con fzf
-```
-
-### `zoxide` - cd Inteligente
-
-```bash
-z proyectos                  # Salta a directorio frecuente
-zi                           # Selector interactivo
-z -                          # Directorio anterior
-```
-
-### `jq` - Procesador JSON
-
-```bash
-cat data.json | jq           # Formato bonito
-cat data.json | jq '.name'   # Extraer campo
-cat data.json | jq '.[] | .id' # Iterar array
+nvim archivo.txt             # Abrir archivo
+nvim .                       # Abrir directorio actual
+:Lazy                        # Gestor de plugins
+:Mason                       # Gestor de LSP
 ```
 
 ### `nvm` - Gestor de Versiones de Node
@@ -199,13 +149,12 @@ nvm alias default 20.10.0    # Establecer versión por defecto
 nvm which node               # Ruta del ejecutable node actual
 ```
 
-### `tree` - Visualizar Estructura
+### `curl` y `wget` - Transferencia de Datos
 
 ```bash
-tree                         # Árbol completo
-tree -L 2                    # Solo 2 niveles
-tree -a                      # Incluir ocultos
-tree -I 'node_modules'       # Ignorar carpeta
+curl https://example.com     # Descargar contenido
+curl -O https://example.com/file.txt  # Descargar archivo
+wget https://example.com/file.txt     # Descargar archivo
 ```
 
 ---
