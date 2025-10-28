@@ -55,13 +55,7 @@ El instalador automáticamente:
 
 | App | Uso | Instalación |
 |-----|-----|-------------|
-| [**Arc**](https://arc.net/) | Navegador principal | `brew install --cask arc` |
 | [**Raycast**](https://www.raycast.com/) | Launcher y productividad | `brew install --cask raycast` |
-| [**Notion**](https://notion.so) | Notas y organización | `brew install --cask notion` |
-| [**Obsidian**](https://obsidian.md/) | Notas personales Markdown | `brew install --cask obsidian` |
-| [**Rectangle**](https://rectangleapp.com/) | Gestor de ventanas | `brew install --cask rectangle` |
-| [**CleanShot X**](https://cleanshot.com/) | Screenshots avanzados | App Store |
-| [**Alfred**](https://www.alfredapp.com/) | Alternativa a Spotlight | `brew install --cask alfred` |
 
 ### 💻 Desarrollo
 
@@ -70,52 +64,8 @@ El instalador automáticamente:
 | [**iTerm2**](https://iterm2.com/) | Terminal principal | ✅ Instalado automáticamente |
 | [**Neovim**](https://neovim.io/) | Editor de código | ✅ Instalado automáticamente |
 | [**VS Code**](https://code.visualstudio.com/) | IDE secundario | `brew install --cask visual-studio-code` |
-| [**IntelliJ IDEA**](https://www.jetbrains.com/idea/) | IDE para Java/Kotlin | `brew install --cask intellij-idea` |
 | [**Xcode**](https://developer.apple.com/xcode/) | IDE para iOS/macOS | App Store |
-| [**Docker Desktop**](https://www.docker.com/products/docker-desktop/) | Contenedores | `brew install --cask docker` |
-| [**Postman**](https://www.postman.com/) | Testing de APIs | `brew install --cask postman` |
-| [**TablePlus**](https://tableplus.com/) | Cliente de bases de datos | `brew install --cask tableplus` |
-| [**GitHub Desktop**](https://desktop.github.com/) | Cliente Git visual | `brew install --cask github` |
 
-### 🎨 Diseño
-
-| App | Uso | Instalación |
-|-----|-----|-------------|
-| [**Figma**](https://www.figma.com/) | Diseño UI/UX | `brew install --cask figma` |
-| [**ImageOptim**](https://imageoptim.com/) | Optimización de imágenes | `brew install --cask imageoptim` |
-
-### 🎥 Media
-
-| App | Uso | Instalación |
-|-----|-----|-------------|
-| [**Spotify**](https://www.spotify.com/) | Música | `brew install --cask spotify` |
-| [**VLC**](https://www.videolan.org/) | Reproductor de video | `brew install --cask vlc` |
-| [**OBS Studio**](https://obsproject.com/) | Grabación de pantalla | `brew install --cask obs` |
-
-### 🛠️ Utilidades
-
-| App | Uso | Instalación |
-|-----|-----|-------------|
-| [**The Unarchiver**](https://theunarchiver.com/) | Descompresor universal | `brew install --cask the-unarchiver` |
-| [**AppCleaner**](https://freemacsoft.net/appcleaner/) | Desinstalador limpio | `brew install --cask appcleaner` |
-| [**Bartender**](https://www.macbartender.com/) | Organizar barra de menú | `brew install --cask bartender` |
-| [**iStat Menus**](https://bjango.com/mac/istatmenus/) | Monitor del sistema | `brew install --cask istat-menus` |
-| [**Keka**](https://www.keka.io/) | Compresor de archivos | `brew install --cask keka` |
-
-### 🔐 Seguridad
-
-| App | Uso | Instalación |
-|-----|-----|-------------|
-| [**1Password**](https://1password.com/) | Gestor de contraseñas | `brew install --cask 1password` |
-| [**Bitwarden**](https://bitwarden.com/) | Gestor (alternativa open source) | `brew install --cask bitwarden` |
-
-### 💬 Comunicación
-
-| App | Uso | Instalación |
-|-----|-----|-------------|
-| [**Slack**](https://slack.com/) | Mensajería de trabajo | `brew install --cask slack` |
-| [**Discord**](https://discord.com/) | Comunidades | `brew install --cask discord` |
-| [**Zoom**](https://zoom.us/) | Videollamadas | `brew install --cask zoom` |
 
 ### ⚙️ Otras Utilidades y Herramientas
 
@@ -346,23 +296,3 @@ cd ~/.dotfiles
 brew bundle install
 ```
 
----
-
-## 🙏 Créditos
-
-Inspirado por:
-- [r/unixporn](https://www.reddit.com/r/unixporn/)
-- [awesome-dotfiles](https://github.com/webpro/awesome-dotfiles)
-- Comunidad de Neovim y Oh My Zsh
-
----
-
-## 📄 Licencia
-
-MIT License - Siéntete libre de usar y modificar.
-
----
-
-**Hecho con ❤️ por David Perez**
-
-*¿Te fue útil? Dale una ⭐ en GitHub!*
