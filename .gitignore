@@ -1,0 +1,49 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Thumbnails
+Thumbs.db
+
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# Vim swap files
+*.swp
+*.swo
+*~
+
+# Backup files
+*.backup
+*.bak
+*_backup_*
+
+# API Keys y variables de entorno
+*.env.local
+.env
+!.env.example
+
+# iTerm2
+iTerm2/AppSupport/version.txt
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+*.log
