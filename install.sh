@@ -50,13 +50,7 @@ fi
 print_info "Iniciando instalación de dotfiles..."
 echo ""
 
-# 1. Crear directorio de backup
-print_info "Creando directorio de backup..."
-mkdir -p "$BACKUP_DIR"
-print_success "Backup: $BACKUP_DIR"
-echo ""
-
-# 2. Instalar Homebrew
+# 1. Instalar Homebrew
 if ! command -v brew &> /dev/null; then
     print_info "Instalando Homebrew..."
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -72,13 +66,13 @@ else
 fi
 echo ""
 
-# 3. Actualizar Homebrew
+# 2. Actualizar Homebrew
 print_info "Actualizando Homebrew..."
 brew update
 print_success "Homebrew actualizado"
 echo ""
 
-# 4. Instalar herramientas CLI esenciales
+# 3. Instalar herramientas CLI esenciales
 print_info "Instalando herramientas CLI esenciales..."
 brew install \
     git \
@@ -89,7 +83,7 @@ brew install \
 print_success "Herramientas CLI instaladas"
 echo ""
 
-# 5. Instalar aplicaciones con Cask
+# 4. Instalar aplicaciones con Cask
 print_info "Instalando aplicaciones con Homebrew Cask..."
 brew install --cask \
     iterm2 \
@@ -99,7 +93,7 @@ brew install --cask \
 print_success "Aplicaciones instaladas"
 echo ""
 
-# 6. Instalar Oh My Zsh
+# 5. Instalar Oh My Zsh
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
     print_info "Instalando Oh My Zsh..."
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
@@ -109,7 +103,7 @@ else
 fi
 echo ""
 
-# 7. Instalar Powerlevel10k
+# 6. Instalar Powerlevel10k
 if [ ! -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k" ]; then
     print_info "Instalando Powerlevel10k..."
     git clone --depth=1 https://github.com/romkatv/powerlevel10k.git \
@@ -120,7 +114,7 @@ else
 fi
 echo ""
 
-# 8. Instalar NVM (Node Version Manager)
+# 7. Instalar NVM (Node Version Manager)
 if [ ! -d "$HOME/.nvm" ]; then
     print_info "Instalando NVM..."
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
@@ -130,7 +124,7 @@ else
 fi
 echo ""
 
-# 9. Instalar plugins de Zsh
+# 8. Instalar plugins de Zsh
 print_info "Instalando plugins de Zsh..."
 
 # zsh-autosuggestions
@@ -152,7 +146,7 @@ else
 fi
 echo ""
 
-# 10. Crear symlinks
+# 9. Crear symlinks
 print_info "Creando symlinks..."
 
 # Zsh
@@ -170,7 +164,7 @@ print_success "Linked: ~/.config/nvim"
 
 echo ""
 
-# 11. Configurar iTerm2 (opcional)
+# 10. Configurar iTerm2 (opcional)
 if [ -d "$DOTFILES_DIR/config/iterm2" ]; then
     print_info "Configurando iTerm2..."
     defaults write com.googlecode.iterm2 PrefsCustomFolder -string "$DOTFILES_DIR/config/iterm2"
@@ -179,7 +173,7 @@ if [ -d "$DOTFILES_DIR/config/iterm2" ]; then
     echo ""
 fi
 
-# 12. Finalizar
+# 11. Finalizar
 echo -e "${GREEN}"
 cat << "EOF"
 ╔═══════════════════════════════════════════════════════╗
@@ -196,6 +190,4 @@ echo "  1. Reinicia tu terminal o ejecuta: source ~/.zshrc"
 echo "  2. Abre iTerm2 y configura la fuente Nerd Font"
 echo "  3. Si no te gusta el tema de Powerlevel10k, ejecuta: p10k configure"
 echo "  4. Abre Neovim para instalar plugins automáticamente"
-echo ""
-print_warning "Backup guardado en: $BACKUP_DIR"
 echo ""
