@@ -7,7 +7,6 @@ Documentación completa de comandos, aliases y funciones disponibles en esta con
 - [Aliases Generales](#aliases-generales)
 - [Aliases de Git](#aliases-de-git)
 - [Herramientas CLI Modernas](#herramientas-cli-modernas)
-- [Funciones de IA](#funciones-de-ia)
 - [Navegación y Búsqueda](#navegación-y-búsqueda)
 - [Tips y Trucos](#tips-y-trucos)
 
@@ -27,8 +26,6 @@ sublime     # Abre Sublime Text
 
 ```bash
 ls          # Comando ls estándar
-ll          # Alias personalizado (si lo agregas)
-la          # Lista todo incluyendo archivos ocultos (si lo agregas)
 cat         # Comando cat estándar
 ```
 
@@ -138,11 +135,6 @@ nvm ls-remote                # Listar versiones disponibles
 nvm ls-remote --lts          # Listar versiones LTS
 nvm current                  # Versión actual en uso
 
-# Aliases personalizados
-nvm-latest                   # Instalar última versión y migrar packages
-nvm-lts                      # Instalar LTS y migrar packages
-nvm-list                     # Listar versiones LTS remotas
-
 # Utilidades
 nvm uninstall 20.10.0        # Desinstalar versión
 nvm alias default 20.10.0    # Establecer versión por defecto
@@ -159,29 +151,6 @@ wget https://example.com/file.txt     # Descargar archivo
 
 ---
 
-## 🤖 Funciones de IA
-
-### Comando `ia`
-
-Pregunta directamente a la IA desde terminal (requiere `OPENROUTER_API_KEY`):
-
-```bash
-ia "cómo buscar archivos por fecha"
-ia "comando para ver procesos en macOS"
-ia "script para renombrar archivos en bash"
-ia --solo "respuesta sin streaming"
-```
-
-### Gestión de Reglas
-
-```bash
-ia-rules                     # Ver reglas actuales
-ia-rules "Nuevas reglas"     # Cambiar reglas del sistema
-ia-rules --reset             # Restaurar reglas por defecto
-```
-
----
-
 ## 🧭 Navegación y Búsqueda
 
 ### Combinaciones Útiles
@@ -192,9 +161,6 @@ nvim $(fzf)
 
 # Buscar contenido y abrir archivo
 rg "TODO" -l | fzf | xargs nvim
-
-# Ir a directorio del proyecto rápidamente
-z proyecto && nvim .
 
 # Ver historial de git de un archivo
 glog -- archivo.txt

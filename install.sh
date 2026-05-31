@@ -5,7 +5,7 @@
 # Autor: David Perez
 # ============================================================
 
-set -e
+set -euo pipefail
 
 # Colores
 RED='\033[0;31m'
@@ -14,15 +14,63 @@ YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
-# Directorio de dotfiles
-DOTFILES_DIR="$HOME/.dotfiles"
-BACKUP_DIR="$HOME/.dotfiles_backup_$(date +%Y%m%d_%H%M%S)"
+# Directorio de dotfiles. Use the checked-out repository, no matter where the
+# script is launched from.
+DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+BACKUP_DIR="$HOME/.dotfiles-backups/$(date +%Y%m%d_%H%M%S)"
+RUN_BREW="${RUN_BREW:-1}"
+RUN_LAZY_SYNC="${RUN_LAZY_SYNC:-1}"
 
 # Funciones auxiliares
 print_success() { echo -e "${GREEN}✓ $1${NC}"; }
 print_error() { echo -e "${RED}✗ $1${NC}"; }
 print_info() { echo -e "${BLUE}ℹ $1${NC}"; }
 print_warning() { echo -e "${YELLOW}⚠ $1${NC}"; }
+
+link_dotfile() {
+    local source_path="$1"
+    local target_path="$2"
+
+    mkdir -p "$(dirname "$target_path")"
+
+    if [ -L "$target_path" ]; then
+        local current_target
+        current_target="$(readlink "$target_path")"
+        if [ "$current_target" = "$source_path" ]; then
+            print_success "Already linked: $target_path"
+            return
+        fi
+        mkdir -p "$BACKUP_DIR"
+        mv "$target_path" "$BACKUP_DIR/$(basename "$target_path").symlink"
+        print_warning "Backed up old symlink: $target_path"
+    elif [ -e "$target_path" ]; then
+        mkdir -p "$BACKUP_DIR"
+        mv "$target_path" "$BACKUP_DIR/$(basename "$target_path")"
+        print_warning "Backed up existing path: $target_path"
+    fi
+
+    ln -s "$source_path" "$target_path"
+    print_success "Linked: $target_path -> $source_path"
+}
+
+verify_link() {
+    local source_path="$1"
+    local target_path="$2"
+
+    if [ ! -L "$target_path" ]; then
+        print_error "Missing symlink: $target_path"
+        return 1
+    fi
+
+    local current_target
+    current_target="$(readlink "$target_path")"
+    if [ "$current_target" != "$source_path" ]; then
+        print_error "Wrong symlink: $target_path -> $current_target"
+        return 1
+    fi
+
+    print_success "Verified: $target_path -> $source_path"
+}
 
 # Banner
 echo -e "${BLUE}"
@@ -54,43 +102,26 @@ echo ""
 if ! command -v brew &> /dev/null; then
     print_info "Instalando Homebrew..."
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-    
-    # Agregar Homebrew al PATH (Apple Silicon)
-    if [[ $(uname -m) == "arm64" ]]; then
-        echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
-        eval "$(/opt/homebrew/bin/brew shellenv)"
-    fi
     print_success "Homebrew instalado"
 else
     print_success "Homebrew ya está instalado"
 fi
+
+if [[ -x /opt/homebrew/bin/brew ]]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+elif [[ -x /usr/local/bin/brew ]]; then
+    eval "$(/usr/local/bin/brew shellenv)"
+fi
 echo ""
 
-# 2. Actualizar Homebrew
-print_info "Actualizando Homebrew..."
-brew update
-print_success "Homebrew actualizado"
-echo ""
-
-# 3. Instalar herramientas CLI esenciales
-print_info "Instalando herramientas CLI esenciales..."
-brew install \
-    git \
-    neovim \
-    curl \
-    wget
-
-print_success "Herramientas CLI instaladas"
-echo ""
-
-# 4. Instalar aplicaciones con Cask
-print_info "Instalando aplicaciones con Homebrew Cask..."
-brew install --cask \
-    iterm2 \
-    font-meslo-lg-nerd-font \
-    font-hack-nerd-font
-
-print_success "Aplicaciones instaladas"
+# 2. Instalar paquetes de Homebrew
+if [ "$RUN_BREW" = "1" ]; then
+    print_info "Instalando paquetes desde Brewfile..."
+    brew bundle --file "$DOTFILES_DIR/Brewfile"
+    print_success "Homebrew bundle completado"
+else
+    print_warning "Saltando Homebrew bundle porque RUN_BREW=0"
+fi
 echo ""
 
 # 5. Instalar Oh My Zsh
@@ -150,21 +181,26 @@ echo ""
 print_info "Creando symlinks..."
 
 # Zsh
-ln -sf "$DOTFILES_DIR/zshrc" "$HOME/.zshrc"
-print_success "Linked: ~/.zshrc"
+link_dotfile "$DOTFILES_DIR/zshrc" "$HOME/.zshrc"
+link_dotfile "$DOTFILES_DIR/zprofile" "$HOME/.zprofile"
 
 # Powerlevel10k
-ln -sf "$DOTFILES_DIR/p10k.zsh" "$HOME/.p10k.zsh"
-print_success "Linked: ~/.p10k.zsh"
+link_dotfile "$DOTFILES_DIR/p10k.zsh" "$HOME/.p10k.zsh"
 
 # Neovim
-mkdir -p "$HOME/.config"
-ln -sf "$DOTFILES_DIR/config/nvim" "$HOME/.config/nvim"
-print_success "Linked: ~/.config/nvim"
+link_dotfile "$DOTFILES_DIR/config/nvim" "$HOME/.config/nvim"
 
 echo ""
 
-# 10. Configurar iTerm2 (opcional)
+# 10. Verificar symlinks
+print_info "Verificando symlinks..."
+verify_link "$DOTFILES_DIR/zshrc" "$HOME/.zshrc"
+verify_link "$DOTFILES_DIR/zprofile" "$HOME/.zprofile"
+verify_link "$DOTFILES_DIR/p10k.zsh" "$HOME/.p10k.zsh"
+verify_link "$DOTFILES_DIR/config/nvim" "$HOME/.config/nvim"
+echo ""
+
+# 11. Configurar iTerm2 (opcional)
 if [ -d "$DOTFILES_DIR/config/iterm2" ]; then
     print_info "Configurando iTerm2..."
     defaults write com.googlecode.iterm2 PrefsCustomFolder -string "$DOTFILES_DIR/config/iterm2"
@@ -173,7 +209,24 @@ if [ -d "$DOTFILES_DIR/config/iterm2" ]; then
     echo ""
 fi
 
-# 11. Finalizar
+# 12. Sincronizar plugins de Neovim (opcional)
+if [ "$RUN_LAZY_SYNC" = "1" ] && command -v nvim &> /dev/null; then
+    print_info "Sincronizando plugins de Neovim..."
+    nvim --headless "+Lazy! sync" +qa
+    print_success "Plugins de Neovim sincronizados"
+elif [ "$RUN_LAZY_SYNC" != "1" ]; then
+    print_warning "Saltando Lazy sync porque RUN_LAZY_SYNC=0"
+fi
+echo ""
+
+# 13. Validaciones finales
+print_info "Validando configuración..."
+zsh -n "$DOTFILES_DIR/zshrc"
+nvim --headless "+lua assert(vim.uv.fs_realpath(vim.fn.stdpath('config')) == '$DOTFILES_DIR/config/nvim')" +qa
+print_success "Validación completada"
+echo ""
+
+# 14. Finalizar
 echo -e "${GREEN}"
 cat << "EOF"
 ╔═══════════════════════════════════════════════════════╗
@@ -189,5 +242,5 @@ echo ""
 echo "  1. Reinicia tu terminal o ejecuta: source ~/.zshrc"
 echo "  2. Abre iTerm2 y configura la fuente Nerd Font"
 echo "  3. Si no te gusta el tema de Powerlevel10k, ejecuta: p10k configure"
-echo "  4. Abre Neovim para instalar plugins automáticamente"
+echo "  4. Edita siempre el repo: $DOTFILES_DIR"
 echo ""

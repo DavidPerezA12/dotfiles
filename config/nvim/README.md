@@ -20,11 +20,13 @@ Una configuración moderna y completa de Neovim con lazy.nvim, LSP, debugging, y
 
 ### Instalación Rápida
 ```bash
-# Hacer backup de configuración existente
-mv ~/.config/nvim ~/.config/nvim.backup
+# Clonar el repo de dotfiles
+mkdir -p ~/Developer
+git clone <tu-repo> ~/Developer/dotfiles
+cd ~/Developer/dotfiles
 
-# Clonar esta configuración
-git clone <tu-repo> ~/.config/nvim
+# Crear/verificar symlink ~/.config/nvim -> ~/Developer/dotfiles/config/nvim
+./install.sh
 
 # Abrir Neovim (los plugins se instalarán automáticamente)
 nvim
@@ -97,11 +99,11 @@ La tecla líder está configurada como `<Espacio>`
 
 | Atajo | Acción | Descripción |
 |-------|--------|-------------|
-| `<leader>to` | **Nueva Pestaña** | Abre una nueva pestaña |
-| `<leader>tx` | **Cerrar Pestaña** | Cierra la pestaña actual |
-| `<leader>tn` | **Siguiente Pestaña** | Va a la siguiente pestaña |
-| `<leader>tp` | **Pestaña Anterior** | Va a la pestaña anterior |
-| `<leader>tf` | **Archivo en Nueva Pestaña** | Abre el archivo actual en nueva pestaña |
+| `<leader><tab>o` | **Nueva Pestaña** | Abre una nueva pestaña |
+| `<leader><tab>x` | **Cerrar Pestaña** | Cierra la pestaña actual |
+| `<leader><tab>n` | **Siguiente Pestaña** | Va a la siguiente pestaña |
+| `<leader><tab>p` | **Pestaña Anterior** | Va a la pestaña anterior |
+| `<leader><tab>f` | **Archivo en Nueva Pestaña** | Abre el archivo actual en nueva pestaña |
 
 ### 🔧 LSP (Language Server Protocol)
 
@@ -176,11 +178,12 @@ La tecla líder está configurada como `<Espacio>`
 | Atajo | Acción | Descripción |
 |-------|--------|-------------|
 | `<C-\>` | **Toggle Terminal** | Abre/cierra terminal flotante |
-| `<leader>tf` | **Terminal Flotante** | Terminal en ventana flotante |
-| `<leader>th` | **Terminal Horizontal** | Terminal en split horizontal |
-| `<leader>tv` | **Terminal Vertical** | Terminal en split vertical |
-| `<leader>tn` | **Node REPL** | Abre REPL de Node.js |
+| `<leader>tt` | **Terminal Flotante** | Terminal en ventana flotante |
+| `<leader>tH` | **Terminal Horizontal** | Terminal en split horizontal |
+| `<leader>tV` | **Terminal Vertical** | Terminal en split vertical |
+| `<leader>tj` | **Node REPL** | Abre REPL de Node.js |
 | `<leader>tp` | **Python REPL** | Abre REPL de Python |
+| `<leader>tu` | **Htop** | Abre htop |
 
 ### 🔍 Búsqueda y Navegación
 

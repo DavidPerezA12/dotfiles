@@ -45,8 +45,9 @@ git config --global init.defaultBranch main
 ```bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-# Agregar a PATH (Apple Silicon)
-echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
+# Agregar a PATH (Apple Silicon). En este repo vive en
+# ~/Developer/dotfiles/zprofile y se enlaza a ~/.zprofile con ./install.sh.
+echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/Developer/dotfiles/zprofile
 eval "$(/opt/homebrew/bin/brew shellenv)"
 ```
 
@@ -162,11 +163,7 @@ Ver [README.md - Apps que Uso](../README.md#-apps-que-uso)
 
 ```bash
 # Node.js (via nvm recomendado)
-brew install nvm
-mkdir ~/.nvm
-# Agregar a ~/.zshrc:
-# export NVM_DIR="$HOME/.nvm"
-# [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"
+# nvm se instala con ./install.sh y se carga desde ~/Developer/dotfiles/zshrc
 
 nvm install --lts
 nvm use --lts
@@ -248,8 +245,8 @@ echo $PATH
 # Agregar a PATH temporalmente
 export PATH="/nueva/ruta:$PATH"
 
-# Agregar permanentemente (en ~/.zshrc)
-echo 'export PATH="/nueva/ruta:$PATH"' >> ~/.zshrc
+# Agregar permanentemente en el repo de dotfiles
+echo 'path=("/nueva/ruta" $path)' >> ~/Developer/dotfiles/zshrc
 source ~/.zshrc
 ```
 

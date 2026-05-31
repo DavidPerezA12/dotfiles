@@ -12,10 +12,14 @@ return {
         -- enable syntax highlighting
         highlight = {
           enable = true,
+          disable = { "bash", "sh" },
           additional_vim_regex_highlighting = false,
         },
         -- enable indentation
-        indent = { enable = true },
+        indent = {
+          enable = true,
+          disable = { "bash", "sh" },
+        },
         -- enable autotagging (w/ nvim-ts-autotag plugin)
         autotag = { enable = true },
         -- ensure these language parsers are installed

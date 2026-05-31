@@ -246,7 +246,7 @@ K               Hover documentation
 ### Archivos de Configuración
 
 ```
-~/.config/nvim/
+~/Developer/dotfiles/config/nvim/
 ├── init.lua                    # Punto de entrada
 ├── lua/David/
 │   ├── core/

@@ -30,16 +30,16 @@ return {
         },
         win = {
           border = "rounded",
-          position = "bottom",
-          margin = { 1, 0, 1, 0 },
-          padding = { 2, 2, 2, 2 },
-          winblend = 0,
+          padding = { 1, 2 },
+          title = true,
+          title_pos = "center",
+          wo = {
+            winblend = 0,
+          },
         },
         layout = {
-          height = { min = 4, max = 25 },
           width = { min = 20, max = 50 },
           spacing = 3,
-          align = "left",
         },
         keys = {
           scroll_down = "<c-d>",
@@ -47,11 +47,6 @@ return {
         },
         sort = { "local", "order", "group", "alphanum", "mod" },
         expand = 0,
-        replace = {
-          ["<space>"] = "SPC",
-          ["<cr>"] = "RET",
-          ["<tab>"] = "TAB",
-        },
         icons = {
           breadcrumb = "»",
           separator = "➜",
@@ -106,7 +101,8 @@ return {
         { "<leader>c", group = "Code" },
         { "<leader>r", group = "Refactor" },
         { "<leader>s", group = "Split/Session" },
-        { "<leader>t", group = "Tab/Terminal" },
+        { "<leader>t", group = "Terminal" },
+        { "<leader><tab>", group = "Tabs" },
         { "<leader>d", group = "Debug/Diagnostics" },
         { "<leader>w", group = "Workspace" },
         { "<leader>h", group = "Harpoon" },

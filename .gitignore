@@ -40,6 +40,10 @@ Temporary Items
 
 # iTerm2
 iTerm2/AppSupport/version.txt
+*.itermexport
+
+# Browser exports / personal data dumps
+bookmarks_*.html
 
 # IDE
 .vscode/

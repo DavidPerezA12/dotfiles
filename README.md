@@ -23,8 +23,9 @@
 
 ```bash
 # Clonar el repositorio
-git clone https://github.com/DavidPerezA12/dotfiles.git ~/.dotfiles
-cd ~/.dotfiles
+mkdir -p ~/Developer
+git clone https://github.com/DavidPerezA12/dotfiles.git ~/Developer/dotfiles
+cd ~/Developer/dotfiles
 
 # Ejecutar el instalador
 chmod +x install.sh
@@ -43,6 +44,27 @@ El instalador automáticamente:
 - ✅ Instala fuentes Nerd Fonts para iTerm2
 - ✅ Crea symlinks directos a tus dotfiles
 - ✅ Configura integración con iTerm2 (si existe config/iterm2/)
+
+Para una pasada rápida sin tocar Homebrew ni resincronizar plugins de Neovim:
+
+```bash
+RUN_BREW=0 RUN_LAZY_SYNC=0 ./install.sh
+```
+
+### Fuente oficial de configuración
+
+Este repositorio es la fuente de verdad. La configuración activa en `HOME` debe
+ser solo un conjunto de symlinks hacia el repo:
+
+```text
+~/.config/nvim -> ~/Developer/dotfiles/config/nvim
+~/.zshrc       -> ~/Developer/dotfiles/zshrc
+~/.zprofile    -> ~/Developer/dotfiles/zprofile
+~/.p10k.zsh    -> ~/Developer/dotfiles/p10k.zsh
+```
+
+Para cambiar la configuración, edita el repo. No edites directamente
+`~/.config/nvim`, `~/.zshrc`, `~/.zprofile` ni `~/.p10k.zsh`, porque son enlaces.
 
 ---
 
@@ -125,7 +147,6 @@ brew install git neovim curl wget
   - `git` - Aliases útiles
   - `zsh-autosuggestions` - Sugerencias del historial
   - `zsh-syntax-highlighting` - Resaltado de sintaxis
-- **Función IA** integrada para consultas desde terminal
 
 ### 🎯 Neovim Completo
 - **Lazy.nvim** - Gestor de plugins moderno
@@ -142,14 +163,16 @@ brew install git neovim curl wget
 ## 📁 Estructura
 
 ```
-~/.dotfiles/
+~/Developer/dotfiles/
 ├── README.md              # Este archivo
 ├── install.sh             # Script de instalación
 ├── Brewfile               # Lista de paquetes Homebrew
 ├── .gitignore             # Archivos ignorados
 ├── .env.example           # Template para variables de entorno
+├── AGENTS.md              # Instrucciones para agentes de IA
 │
 ├── zshrc                  # Configuración de Zsh
+├── zprofile               # PATH de login shell para macOS/Homebrew
 ├── p10k.zsh               # Configuración de Powerlevel10k
 │
 ├── config/
@@ -172,7 +195,6 @@ brew install git neovim curl wget
 - 📟 [**Comandos y Aliases**](docs/COMMANDS.md) - Todos los comandos disponibles
 - 🎯 [**Guía de Neovim**](docs/NEOVIM.md) - Keymaps y plugins
 - 🍎 [**Setup de macOS**](docs/MACOS_SETUP.md) - Configuración del sistema
-- ⚡ [**Inicio Rápido**](QUICK_START.md) - Guía rápida de uso
 
 ---
 
@@ -188,7 +210,7 @@ p10k configure
 
 ### Añadir Plugins a Zsh
 
-Edita `~/.dotfiles/zshrc`:
+Edita `~/Developer/dotfiles/zshrc`:
 
 ```bash
 plugins=(
@@ -202,20 +224,20 @@ plugins=(
 ### Modificar Keymaps de Neovim
 
 ```bash
-nvim ~/.dotfiles/config/nvim/lua/David/core/keymaps.lua
+nvim ~/Developer/dotfiles/config/nvim/lua/David/core/keymaps.lua
 ```
 
 ### Variables de Entorno
 
 ```bash
 # Copiar template
-cp ~/.dotfiles/.env.example ~/.dotfiles/.env
+cp ~/Developer/dotfiles/.env.example ~/Developer/dotfiles/.env
 
 # Editar con tus valores
-nvim ~/.dotfiles/.env
+nvim ~/Developer/dotfiles/.env
 
 # Agregar a tu zshrc (si no está)
-echo '[ -f ~/.dotfiles/.env ] && source ~/.dotfiles/.env' >> ~/.zshrc
+echo '[ -f ~/Developer/dotfiles/.env ] && source ~/Developer/dotfiles/.env' >> ~/Developer/dotfiles/zshrc
 ```
 
 ---
@@ -223,7 +245,7 @@ echo '[ -f ~/.dotfiles/.env ] && source ~/.dotfiles/.env' >> ~/.zshrc
 ## 🔄 Actualización
 
 ```bash
-cd ~/.dotfiles
+cd ~/Developer/dotfiles
 git pull origin main
 
 # Reinstalar si hay cambios importantes
@@ -236,14 +258,14 @@ git pull origin main
 
 ```bash
 # Eliminar symlinks
-rm ~/.zshrc ~/.p10k.zsh
+rm ~/.zshrc ~/.zprofile ~/.p10k.zsh
 rm -rf ~/.config/nvim
 
-# Restaurar backups (buscar en ~/)
-ls -la ~ | grep dotfiles_backup
+# Restaurar backups
+ls -la ~/.dotfiles-backups
 
 # Eliminar repositorio
-rm -rf ~/.dotfiles
+rm -rf ~/Developer/dotfiles
 ```
 
 ---
@@ -262,8 +284,8 @@ brew install --cask font-meslo-lg-nerd-font
 ### Comandos no encontrados
 
 ```bash
-# Agregar Homebrew al PATH
-echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
+# Agregar Homebrew al PATH si no usas este repo
+echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/Developer/dotfiles/zprofile
 eval "$(/opt/homebrew/bin/brew shellenv)"
 ```
 
@@ -281,14 +303,13 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 ### Crear Brewfile de tu sistema actual
 
 ```bash
-cd ~/.dotfiles
+cd ~/Developer/dotfiles
 brew bundle dump --force
 ```
 
 ### Restaurar desde Brewfile
 
 ```bash
-cd ~/.dotfiles
+cd ~/Developer/dotfiles
 brew bundle install
 ```
-

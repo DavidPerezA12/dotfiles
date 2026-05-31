@@ -1,10 +1,6 @@
 # Brewfile - Lista de paquetes de Homebrew para restauración rápida
 # Uso: brew bundle install
 
-# Taps
-tap "homebrew/bundle"
-tap "homebrew/cask-fonts"
-
 # CLI Tools (esenciales)
 brew "git"
 brew "neovim"
