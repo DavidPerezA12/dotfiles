@@ -14,6 +14,7 @@
 - [Herramientas CLI](#️-herramientas-cli)
 - [Características](#-características)
 - [Estructura](#-estructura)
+- [Mantenimiento](#-mantenimiento)
 - [Documentación](#-documentación)
 - [Personalización](#-personalización)
 
@@ -37,7 +38,7 @@ source ~/.zshrc
 
 El instalador automáticamente:
 - ✅ Instala Homebrew (si no está instalado)
-- ✅ Instala herramientas CLI esenciales (git, neovim, curl, wget)
+- ✅ Instala herramientas CLI esenciales desde `Brewfile`
 - ✅ Instala NVM para gestión de versiones de Node.js
 - ✅ Configura Zsh + Oh My Zsh + Powerlevel10k
 - ✅ Instala Neovim con plugins y configuración completa
@@ -48,7 +49,21 @@ El instalador automáticamente:
 Para una pasada rápida sin tocar Homebrew ni resincronizar plugins de Neovim:
 
 ```bash
-RUN_BREW=0 RUN_LAZY_SYNC=0 ./install.sh
+./install.sh --no-brew --no-nvim-sync
+```
+
+Para verificar que todo sigue conectado sin instalar ni modificar nada:
+
+```bash
+./install.sh --verify
+```
+
+También hay atajos con `make`:
+
+```bash
+make install
+make quick
+make verify
 ```
 
 ### Fuente oficial de configuración
@@ -115,7 +130,7 @@ Estas herramientas se instalan automáticamente con `./install.sh`:
 
 ```bash
 # No necesitas ejecutar estos comandos, se instalan solos:
-brew install git neovim curl wget
+brew bundle install --file ~/Developer/dotfiles/Brewfile
 
 # NVM también se instala automáticamente para gestión de versiones de Node.js
 ```
@@ -126,6 +141,12 @@ brew install git neovim curl wget
 | **neovim** | Editor de código moderno | `nvim` |
 | **curl** | Transferencia de datos | `curl` |
 | **wget** | Descarga de archivos | `wget` |
+| **ripgrep** | Búsqueda rápida de texto | `rg "texto"` |
+| **fd** | Búsqueda rápida de archivos | `fd nombre` |
+| **fzf** | Selector fuzzy interactivo | `fzf` |
+| **lazygit** | UI terminal para Git | `lazygit` |
+| **tmux** | Multiplexor de terminal | `tmux` |
+| **shellcheck** | Linter para scripts shell | `shellcheck install.sh` |
 | **nvm** | Gestor de versiones de Node.js | `nvm install node` |
 
 
@@ -195,6 +216,39 @@ brew install git neovim curl wget
 - 📟 [**Comandos y Aliases**](docs/COMMANDS.md) - Todos los comandos disponibles
 - 🎯 [**Guía de Neovim**](docs/NEOVIM.md) - Keymaps y plugins
 - 🍎 [**Setup de macOS**](docs/MACOS_SETUP.md) - Configuración del sistema
+
+---
+
+## 🧰 Mantenimiento
+
+### Verificar configuración
+
+```bash
+make verify
+./install.sh --verify
+HOMEBREW_NO_ENV_HINTS=1 HOMEBREW_NO_REQUIRE_TAP_TRUST=1 brew bundle check --file ~/Developer/dotfiles/Brewfile
+shellcheck install.sh
+nvim --headless "+checkhealth" +qa
+```
+
+### Actualizar herramientas
+
+```bash
+brew update
+brew upgrade
+brew bundle install --file ~/Developer/dotfiles/Brewfile
+```
+
+### Actualizar plugins de Neovim
+
+```bash
+make nvim-sync
+nvim --headless "+Lazy! sync" +qa
+```
+
+`checkhealth` puede mostrar avisos de terminfo si se ejecuta desde un entorno no
+interactivo con `$TERM=dumb`. Lo relevante es probarlo también dentro de iTerm2
+con `:checkhealth`.
 
 ---
 

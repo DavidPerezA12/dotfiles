@@ -100,6 +100,12 @@ grv         # git remote -v
 
 ## 🚀 Herramientas CLI Esenciales
 
+Estas herramientas se instalan desde el `Brewfile` con `./install.sh` o con:
+
+```bash
+brew bundle install --file ~/Developer/dotfiles/Brewfile
+```
+
 ### `git` - Control de Versiones
 
 ```bash
@@ -147,6 +153,40 @@ nvm which node               # Ruta del ejecutable node actual
 curl https://example.com     # Descargar contenido
 curl -O https://example.com/file.txt  # Descargar archivo
 wget https://example.com/file.txt     # Descargar archivo
+```
+
+### `ripgrep`, `fd` y `fzf` - Búsqueda Rápida
+
+```bash
+rg "TODO"                    # Buscar texto en el proyecto
+rg "TODO" -l                 # Mostrar solo archivos con coincidencias
+fd config                    # Buscar archivos/carpetas por nombre
+fd lua config/nvim           # Buscar archivos lua bajo config/nvim
+fzf                          # Selector fuzzy interactivo
+nvim "$(fd . | fzf)"         # Elegir un archivo y abrirlo en Neovim
+```
+
+### `lazygit` - Git en Terminal
+
+```bash
+lazygit                      # Abrir UI de Git
+```
+
+En Neovim también está disponible desde `<leader>gg`.
+
+### `tmux` - Sesiones de Terminal
+
+```bash
+tmux                         # Nueva sesión
+tmux new -s trabajo          # Nueva sesión con nombre
+tmux ls                      # Listar sesiones
+tmux attach -t trabajo       # Volver a una sesión
+```
+
+### `shellcheck` - Validar Scripts Shell
+
+```bash
+shellcheck install.sh        # Revisar el instalador
 ```
 
 ---
@@ -211,6 +251,18 @@ brew outdated                # Ver paquetes desactualizados
 brew cleanup                 # Limpiar versiones antiguas
 brew list                    # Lista de paquetes instalados
 brew info <paquete>          # Información del paquete
+```
+
+### Dotfiles
+
+```bash
+cd ~/Developer/dotfiles
+make verify                 # Ejecutar verificaciones locales
+make quick                  # Reenlazar rápido sin brew/lazy sync
+make nvim-sync              # Sincronizar plugins de Neovim
+./install.sh --verify        # Verificar symlinks y sintaxis sin instalar
+./install.sh --no-brew --no-nvim-sync    # Reenlazar rápido sin brew/lazy sync
+HOMEBREW_NO_ENV_HINTS=1 HOMEBREW_NO_REQUIRE_TAP_TRUST=1 brew bundle check --file Brewfile
 ```
 
 ---

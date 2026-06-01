@@ -1,6 +1,12 @@
 local opt = vim.opt -- for conciseness
 local fn = vim.fn
 
+-- Disable optional remote plugin providers that this config does not use.
+vim.g.loaded_node_provider = 0
+vim.g.loaded_perl_provider = 0
+vim.g.loaded_python3_provider = 0
+vim.g.loaded_ruby_provider = 0
+
 local mason_bin = fn.stdpath("data") .. "/mason/bin"
 if fn.isdirectory(mason_bin) == 1 and not vim.env.PATH:find(mason_bin, 1, true) then
 	vim.env.PATH = mason_bin .. ":" .. vim.env.PATH

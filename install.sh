@@ -20,12 +20,52 @@ DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 BACKUP_DIR="$HOME/.dotfiles-backups/$(date +%Y%m%d_%H%M%S)"
 RUN_BREW="${RUN_BREW:-1}"
 RUN_LAZY_SYNC="${RUN_LAZY_SYNC:-1}"
+export HOMEBREW_NO_ENV_HINTS="${HOMEBREW_NO_ENV_HINTS:-1}"
+export HOMEBREW_NO_REQUIRE_TAP_TRUST="${HOMEBREW_NO_REQUIRE_TAP_TRUST:-1}"
+VERIFY_ONLY=0
 
 # Funciones auxiliares
 print_success() { echo -e "${GREEN}✓ $1${NC}"; }
 print_error() { echo -e "${RED}✗ $1${NC}"; }
 print_info() { echo -e "${BLUE}ℹ $1${NC}"; }
 print_warning() { echo -e "${YELLOW}⚠ $1${NC}"; }
+
+usage() {
+    cat << EOF
+Usage: ./install.sh [--verify] [--no-brew] [--no-nvim-sync]
+
+Options:
+  --verify        Check expected symlinks and config syntax without installing.
+  --no-brew       Skip Homebrew bundle install.
+  --no-nvim-sync  Skip lazy.nvim plugin sync.
+EOF
+}
+
+while [ "$#" -gt 0 ]; do
+    case "$1" in
+        --verify)
+            VERIFY_ONLY=1
+            shift
+            ;;
+        --no-brew)
+            RUN_BREW=0
+            shift
+            ;;
+        --no-nvim-sync)
+            RUN_LAZY_SYNC=0
+            shift
+            ;;
+        -h|--help)
+            usage
+            exit 0
+            ;;
+        *)
+            print_error "Unknown option: $1"
+            usage
+            exit 1
+            ;;
+    esac
+done
 
 link_dotfile() {
     local source_path="$1"
@@ -95,6 +135,22 @@ if [[ "$OSTYPE" != "darwin"* ]]; then
     exit 1
 fi
 
+if [ "$VERIFY_ONLY" = "1" ]; then
+    print_info "Verificando dotfiles sin instalar..."
+    verify_link "$DOTFILES_DIR/zshrc" "$HOME/.zshrc"
+    verify_link "$DOTFILES_DIR/zprofile" "$HOME/.zprofile"
+    verify_link "$DOTFILES_DIR/p10k.zsh" "$HOME/.p10k.zsh"
+    verify_link "$DOTFILES_DIR/config/nvim" "$HOME/.config/nvim"
+    zsh -n "$DOTFILES_DIR/zshrc"
+    zsh -n "$DOTFILES_DIR/zprofile"
+    zsh -n "$DOTFILES_DIR/p10k.zsh"
+    if command -v nvim &> /dev/null; then
+        nvim --headless "+lua assert(vim.uv.fs_realpath(vim.fn.stdpath('config')) == '$DOTFILES_DIR/config/nvim')" +qa
+    fi
+    print_success "Verificación completada"
+    exit 0
+fi
+
 print_info "Iniciando instalación de dotfiles..."
 echo ""
 
@@ -138,7 +194,7 @@ echo ""
 if [ ! -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k" ]; then
     print_info "Instalando Powerlevel10k..."
     git clone --depth=1 https://github.com/romkatv/powerlevel10k.git \
-        ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+        "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k"
     print_success "Powerlevel10k instalado"
 else
     print_success "Powerlevel10k ya está instalado"
@@ -161,7 +217,7 @@ print_info "Instalando plugins de Zsh..."
 # zsh-autosuggestions
 if [ ! -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions" ]; then
     git clone https://github.com/zsh-users/zsh-autosuggestions \
-        ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+        "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"
     print_success "zsh-autosuggestions instalado"
 else
     print_success "zsh-autosuggestions ya está instalado"
@@ -170,7 +226,7 @@ fi
 # zsh-syntax-highlighting
 if [ ! -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting" ]; then
     git clone https://github.com/zsh-users/zsh-syntax-highlighting.git \
-        ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+        "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting"
     print_success "zsh-syntax-highlighting instalado"
 else
     print_success "zsh-syntax-highlighting ya está instalado"

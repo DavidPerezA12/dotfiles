@@ -33,6 +33,7 @@ require("lazy").setup({
 	},
 	install = { colorscheme = { "nightfly" } },
 	checker = { enabled = true }, -- automatically check for plugin updates
+	rocks = { enabled = false },
 	performance = {
 		cache = {
 			enabled = true,
