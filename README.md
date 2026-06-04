@@ -6,6 +6,9 @@ nuevas o reinstaladas.
 
 ## Instalación
 
+Puedes clonar el repo donde prefieras. En mis máquinas uso
+`~/Developer/dotfiles`, y por eso aparece en algunos ejemplos.
+
 ```bash
 mkdir -p ~/Developer
 git clone https://github.com/DavidPerezA12/dotfiles.git ~/Developer/dotfiles
@@ -50,8 +53,11 @@ make verify
 
 ## Fuente de verdad
 
-La configuración se edita en este repositorio. Los archivos activos en `HOME`
-deben ser enlaces a estas rutas:
+La configuración se edita en este repositorio, esté donde esté clonado. El
+instalador calcula la ruta real del checkout y crea enlaces desde `HOME` hacia
+esa carpeta.
+
+Si clonaste el repo en `~/Developer/dotfiles`, los enlaces quedan así:
 
 ```text
 ~/.config/nvim -> ~/Developer/dotfiles/config/nvim
@@ -61,7 +67,8 @@ deben ser enlaces a estas rutas:
 ```
 
 No edites directamente `~/.config/nvim`, `~/.zshrc`, `~/.zprofile` ni
-`~/.p10k.zsh`, porque son enlaces.
+`~/.p10k.zsh`, porque son enlaces. Edita los archivos equivalentes dentro del
+repo que hayas clonado.
 
 ## Aplicaciones
 
@@ -106,7 +113,7 @@ instaladas por App Store, descarga directa u otra vía manual.
 Estas herramientas se instalan con `./install.sh`:
 
 ```bash
-brew bundle install --file ~/Developer/dotfiles/Brewfile
+brew bundle install --file ./Brewfile
 ```
 
 | Herramienta | Descripción | Uso |
@@ -154,12 +161,11 @@ brew bundle install --file ~/Developer/dotfiles/Brewfile
 ## Estructura
 
 ```text
-~/Developer/dotfiles/
+dotfiles/
 ├── README.md              # Este archivo
 ├── install.sh             # Script de instalación
 ├── Brewfile               # Paquetes Homebrew
 ├── .gitignore             # Archivos ignorados
-├── AGENTS.md              # Instrucciones para agentes
 │
 ├── zshrc                  # Configuración de Zsh
 ├── zprofile               # PATH de login shell para macOS/Homebrew
@@ -190,7 +196,7 @@ brew bundle install --file ~/Developer/dotfiles/Brewfile
 ```bash
 make verify
 ./install.sh --verify
-HOMEBREW_NO_ENV_HINTS=1 HOMEBREW_NO_REQUIRE_TAP_TRUST=1 brew bundle check --file ~/Developer/dotfiles/Brewfile
+HOMEBREW_NO_ENV_HINTS=1 HOMEBREW_NO_REQUIRE_TAP_TRUST=1 brew bundle check --file ./Brewfile
 shellcheck install.sh
 nvim --headless "+checkhealth" +qa
 ```
@@ -200,7 +206,7 @@ nvim --headless "+checkhealth" +qa
 ```bash
 brew update
 brew upgrade
-brew bundle install --file ~/Developer/dotfiles/Brewfile
+brew bundle install --file ./Brewfile
 ```
 
 ### Sincronizar Neovim

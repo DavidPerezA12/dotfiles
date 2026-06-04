@@ -3,13 +3,14 @@
 Mi configuración de Neovim para proyectos de código: fuzzy finding, LSP,
 diagnósticos, Git, terminal integrada y atajos que uso a diario.
 
-La configuración vive aquí:
+La configuración vive dentro de este repo, en:
 
 ```text
-~/Developer/dotfiles/config/nvim
+config/nvim
 ```
 
-Y la instalación activa debería apuntar a esta carpeta:
+Y la instalación activa debería apuntar a esa carpeta dentro de la ruta donde
+hayas clonado el repo. Por ejemplo, si usas `~/Developer/dotfiles`:
 
 ```text
 ~/.config/nvim -> ~/Developer/dotfiles/config/nvim
