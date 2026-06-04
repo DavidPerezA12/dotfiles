@@ -36,6 +36,14 @@ git config --global user.email "tu@email.com"
 git config --global init.defaultBranch main
 ```
 
+Este repo ya enlaza una configuración base de Git. Si instalas los dotfiles,
+puedes dejar el email privado en `~/.gitconfig.local`:
+
+```ini
+[user]
+  email = tu@email.com
+```
+
 ---
 
 ## 🍺 Homebrew Setup

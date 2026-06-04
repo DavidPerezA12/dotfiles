@@ -260,7 +260,18 @@ make quick                  # Reenlazar rápido sin brew/lazy sync
 make nvim-sync              # Sincronizar plugins de Neovim
 ./install.sh --verify        # Verificar symlinks y sintaxis sin instalar
 ./install.sh --no-brew --no-nvim-sync    # Reenlazar rápido sin brew/lazy sync
+./install.sh --no-iterm2     # Instalar sin tocar configuración de iTerm2
 HOMEBREW_NO_ENV_HINTS=1 HOMEBREW_NO_REQUIRE_TAP_TRUST=1 brew bundle check --file Brewfile
+```
+
+### Git local privado
+
+La configuración global de Git vive en `~/.gitconfig`, enlazada desde este repo.
+Los datos privados o específicos de una máquina van en `~/.gitconfig.local`:
+
+```ini
+[user]
+  email = tu@email.com
 ```
 
 ---
@@ -268,8 +279,6 @@ HOMEBREW_NO_ENV_HINTS=1 HOMEBREW_NO_REQUIRE_TAP_TRUST=1 brew bundle check --file
 ## 🔗 Referencias
 
 - [Oh My Zsh Cheatsheet](https://github.com/ohmyzsh/ohmyzsh/wiki/Cheatsheet)
-- [eza GitHub](https://github.com/eza-community/eza)
-- [bat GitHub](https://github.com/sharkdp/bat)
 - [ripgrep Guide](https://github.com/BurntSushi/ripgrep/blob/master/GUIDE.md)
 - [fd GitHub](https://github.com/sharkdp/fd)
 - [fzf Wiki](https://github.com/junegunn/fzf/wiki)

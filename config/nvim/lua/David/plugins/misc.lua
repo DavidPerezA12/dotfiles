@@ -87,13 +87,6 @@ return {
 			routes = {
 				{
 					filter = {
-						event = "notify",
-						find = "client.is_stopped is deprecated",
-					},
-					opts = { skip = true },
-				},
-				{
-					filter = {
 						event = "msg_show",
 						any = {
 							{ find = "%d+L, %d+B" },

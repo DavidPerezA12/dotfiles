@@ -1,8 +1,8 @@
 # Dotfiles de David Perez
 
-Configuración personal para desarrollo en macOS. Incluye Zsh, iTerm2, Neovim,
-Homebrew y algunos scripts para dejar el entorno en el mismo estado en máquinas
-nuevas o reinstaladas.
+Configuración personal para desarrollo en macOS. Incluye Zsh, Git, iTerm2,
+Neovim, Homebrew y algunos scripts para dejar el entorno en el mismo estado en
+máquinas nuevas o reinstaladas.
 
 ## Instalación
 
@@ -25,7 +25,7 @@ El instalador hace lo siguiente:
 - Instala Homebrew si no está disponible.
 - Instala las herramientas definidas en `Brewfile`.
 - Instala NVM para gestionar versiones de Node.js.
-- Configura Zsh, Oh My Zsh y Powerlevel10k.
+- Configura Zsh, Git, Oh My Zsh y Powerlevel10k.
 - Configura Neovim y sincroniza plugins.
 - Instala fuentes Nerd Fonts para iTerm2.
 - Crea symlinks desde `HOME` hacia este repositorio.
@@ -37,11 +37,23 @@ Para una pasada rápida sin tocar Homebrew ni resincronizar plugins de Neovim:
 ./install.sh --no-brew --no-nvim-sync
 ```
 
+Para instalar sin tocar la configuración de iTerm2:
+
+```bash
+./install.sh --no-iterm2
+```
+
 Para verificar que todo sigue conectado sin instalar ni modificar nada:
 
 ```bash
 ./install.sh --verify
 ```
+
+Los datos privados de Git, como email o claves de firmado, van en
+`~/.gitconfig.local`. Ese archivo se carga desde `.gitconfig` si existe, pero no
+forma parte del repo. Si ya tienes un `~/.gitconfig` con identidad configurada,
+el instalador intenta conservar esos datos en `~/.gitconfig.local` antes de crear
+el symlink.
 
 También hay atajos con `make`:
 
@@ -64,11 +76,13 @@ Si clonaste el repo en `~/Developer/dotfiles`, los enlaces quedan así:
 ~/.zshrc       -> ~/Developer/dotfiles/zshrc
 ~/.zprofile    -> ~/Developer/dotfiles/zprofile
 ~/.p10k.zsh    -> ~/Developer/dotfiles/p10k.zsh
+~/.gitconfig   -> ~/Developer/dotfiles/.gitconfig
+~/.gitignore_global -> ~/Developer/dotfiles/.gitignore_global
 ```
 
 No edites directamente `~/.config/nvim`, `~/.zshrc`, `~/.zprofile` ni
 `~/.p10k.zsh`, porque son enlaces. Edita los archivos equivalentes dentro del
-repo que hayas clonado.
+repo que hayas clonado. Para datos privados de Git, usa `~/.gitconfig.local`.
 
 ## Aplicaciones
 
@@ -164,7 +178,10 @@ dotfiles/
 ├── README.md              # Este archivo
 ├── install.sh             # Script de instalación
 ├── Brewfile               # Paquetes Homebrew
+├── LICENSE                # Licencia MIT
 ├── .gitignore             # Archivos ignorados
+├── .gitconfig             # Configuración global de Git
+├── .gitignore_global      # Ignorados globales de Git
 │
 ├── zshrc                  # Configuración de Zsh
 ├── zprofile               # PATH de login shell para macOS/Homebrew
@@ -221,4 +238,9 @@ readlink ~/.config/nvim
 readlink ~/.zshrc
 readlink ~/.zprofile
 readlink ~/.p10k.zsh
+readlink ~/.gitconfig
 ```
+
+## Licencia
+
+MIT. Úsalo como referencia y adapta lo que necesites.

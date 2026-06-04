@@ -20,6 +20,7 @@ DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 BACKUP_DIR="$HOME/.dotfiles-backups/$(date +%Y%m%d_%H%M%S)"
 RUN_BREW="${RUN_BREW:-1}"
 RUN_LAZY_SYNC="${RUN_LAZY_SYNC:-1}"
+RUN_ITERM2="${RUN_ITERM2:-1}"
 export HOMEBREW_NO_ENV_HINTS="${HOMEBREW_NO_ENV_HINTS:-1}"
 export HOMEBREW_NO_REQUIRE_TAP_TRUST="${HOMEBREW_NO_REQUIRE_TAP_TRUST:-1}"
 VERIFY_ONLY=0
@@ -32,12 +33,13 @@ print_warning() { echo -e "${YELLOW}⚠ $1${NC}"; }
 
 usage() {
     cat << EOF
-Usage: ./install.sh [--verify] [--no-brew] [--no-nvim-sync]
+Usage: ./install.sh [--verify] [--no-brew] [--no-nvim-sync] [--no-iterm2]
 
 Options:
   --verify        Check expected symlinks and config syntax without installing.
   --no-brew       Skip Homebrew bundle install.
   --no-nvim-sync  Skip lazy.nvim plugin sync.
+  --no-iterm2     Skip iTerm2 preferences configuration and verification.
 EOF
 }
 
@@ -53,6 +55,10 @@ while [ "$#" -gt 0 ]; do
             ;;
         --no-nvim-sync)
             RUN_LAZY_SYNC=0
+            shift
+            ;;
+        --no-iterm2)
+            RUN_ITERM2=0
             shift
             ;;
         -h|--help)
@@ -91,6 +97,36 @@ link_dotfile() {
 
     ln -s "$source_path" "$target_path"
     print_success "Linked: $target_path -> $source_path"
+}
+
+preserve_git_local_config() {
+    local existing_config="$HOME/.gitconfig"
+    local local_config="$HOME/.gitconfig.local"
+    local user_name=""
+    local user_email=""
+    local signing_key=""
+
+    if [ -e "$local_config" ] || [ ! -f "$existing_config" ] || [ -L "$existing_config" ] || ! command -v git &> /dev/null; then
+        return
+    fi
+
+    user_name="$(git config --file "$existing_config" --get user.name 2>/dev/null || true)"
+    user_email="$(git config --file "$existing_config" --get user.email 2>/dev/null || true)"
+    signing_key="$(git config --file "$existing_config" --get user.signingkey 2>/dev/null || true)"
+
+    if [ -z "$user_name" ] && [ -z "$user_email" ] && [ -z "$signing_key" ]; then
+        return
+    fi
+
+    {
+        echo "# Machine-local Git settings. This file is intentionally not tracked."
+        echo "[user]"
+        [ -n "$user_name" ] && printf '\tname = %s\n' "$user_name"
+        [ -n "$user_email" ] && printf '\temail = %s\n' "$user_email"
+        [ -n "$signing_key" ] && printf '\tsigningkey = %s\n' "$signing_key"
+    } > "$local_config"
+
+    print_success "Preserved Git identity in: $local_config"
 }
 
 verify_link() {
@@ -133,6 +169,15 @@ verify_iterm2() {
     print_success "Verified: iTerm2 prefs -> $expected_folder"
 }
 
+verify_nvim_config() {
+    if ! command -v nvim &> /dev/null; then
+        print_warning "Neovim no está instalado; saltando validación de Neovim"
+        return 0
+    fi
+
+    nvim --headless "+lua assert(vim.uv.fs_realpath(vim.fn.stdpath('config')) == '$DOTFILES_DIR/config/nvim')" +qa
+}
+
 # Banner
 echo -e "${BLUE}"
 cat << "EOF"
@@ -162,14 +207,18 @@ if [ "$VERIFY_ONLY" = "1" ]; then
     verify_link "$DOTFILES_DIR/zprofile" "$HOME/.zprofile"
     verify_link "$DOTFILES_DIR/p10k.zsh" "$HOME/.p10k.zsh"
     verify_link "$DOTFILES_DIR/config/nvim" "$HOME/.config/nvim"
-    verify_iterm2
+    verify_link "$DOTFILES_DIR/.gitconfig" "$HOME/.gitconfig"
+    verify_link "$DOTFILES_DIR/.gitignore_global" "$HOME/.gitignore_global"
+    if [ "$RUN_ITERM2" = "1" ]; then
+        verify_iterm2
+    else
+        print_warning "Saltando verificación de iTerm2 porque RUN_ITERM2=0"
+    fi
     zsh -n "$DOTFILES_DIR/zshrc"
     zsh -n "$DOTFILES_DIR/zprofile"
     zsh -n "$DOTFILES_DIR/p10k.zsh"
     python3 "$DOTFILES_DIR/scripts/verify-zsh-prompt.py"
-    if command -v nvim &> /dev/null; then
-        nvim --headless "+lua assert(vim.uv.fs_realpath(vim.fn.stdpath('config')) == '$DOTFILES_DIR/config/nvim')" +qa
-    fi
+    verify_nvim_config
     print_success "Verificación completada"
     exit 0
 fi
@@ -269,6 +318,11 @@ link_dotfile "$DOTFILES_DIR/p10k.zsh" "$HOME/.p10k.zsh"
 # Neovim
 link_dotfile "$DOTFILES_DIR/config/nvim" "$HOME/.config/nvim"
 
+# Git
+preserve_git_local_config
+link_dotfile "$DOTFILES_DIR/.gitconfig" "$HOME/.gitconfig"
+link_dotfile "$DOTFILES_DIR/.gitignore_global" "$HOME/.gitignore_global"
+
 echo ""
 
 # 10. Verify symlinks
@@ -277,14 +331,19 @@ verify_link "$DOTFILES_DIR/zshrc" "$HOME/.zshrc"
 verify_link "$DOTFILES_DIR/zprofile" "$HOME/.zprofile"
 verify_link "$DOTFILES_DIR/p10k.zsh" "$HOME/.p10k.zsh"
 verify_link "$DOTFILES_DIR/config/nvim" "$HOME/.config/nvim"
+verify_link "$DOTFILES_DIR/.gitconfig" "$HOME/.gitconfig"
+verify_link "$DOTFILES_DIR/.gitignore_global" "$HOME/.gitignore_global"
 echo ""
 
 # 11. Configure iTerm2 (optional)
-if [ -d "$DOTFILES_DIR/config/iterm2" ]; then
+if [ "$RUN_ITERM2" = "1" ] && [ -d "$DOTFILES_DIR/config/iterm2" ]; then
     print_info "Configurando iTerm2..."
     defaults write com.googlecode.iterm2 PrefsCustomFolder -string "$DOTFILES_DIR/config/iterm2"
     defaults write com.googlecode.iterm2 LoadPrefsFromCustomFolder -bool true
     print_success "iTerm2 configurado"
+    echo ""
+elif [ "$RUN_ITERM2" != "1" ]; then
+    print_warning "Saltando configuración de iTerm2 porque RUN_ITERM2=0"
     echo ""
 fi
 
@@ -295,13 +354,15 @@ if [ "$RUN_LAZY_SYNC" = "1" ] && command -v nvim &> /dev/null; then
     print_success "Plugins de Neovim sincronizados"
 elif [ "$RUN_LAZY_SYNC" != "1" ]; then
     print_warning "Saltando Lazy sync porque RUN_LAZY_SYNC=0"
+else
+    print_warning "Neovim no está instalado; saltando Lazy sync"
 fi
 echo ""
 
 # 13. Final validation
 print_info "Validando configuración..."
 zsh -n "$DOTFILES_DIR/zshrc"
-nvim --headless "+lua assert(vim.uv.fs_realpath(vim.fn.stdpath('config')) == '$DOTFILES_DIR/config/nvim')" +qa
+verify_nvim_config
 print_success "Validación completada"
 echo ""
 

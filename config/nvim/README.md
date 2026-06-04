@@ -143,10 +143,21 @@ La tecla leader es `Space`.
 | `<leader>gb` | Ramas |
 | `<leader>gg` | Abrir lazygit |
 | `]c` / `[c` | Cambio siguiente / anterior |
-| `<leader>hs` | Stage hunk |
-| `<leader>hr` | Reset hunk |
-| `<leader>hp` | Preview hunk |
-| `<leader>hb` | Blame de la línea |
+| `<leader>ghs` | Stage hunk |
+| `<leader>ghr` | Reset hunk |
+| `<leader>ghp` | Preview hunk |
+| `<leader>ghb` | Blame de la línea |
+| `<leader>gtb` | Activar/desactivar blame de línea |
+| `<leader>gtd` | Activar/desactivar líneas borradas |
+
+### Harpoon
+
+| Atajo | Hace |
+| --- | --- |
+| `<leader>ha` | Añadir archivo |
+| `<leader>hh` | Menú rápido |
+| `<leader>h1` ... `<leader>h4` | Saltar a archivo marcado |
+| `<leader>hp` / `<leader>hn` | Archivo marcado anterior / siguiente |
 
 ### Terminal
 
