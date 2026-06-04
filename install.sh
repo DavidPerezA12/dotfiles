@@ -166,6 +166,7 @@ if [ "$VERIFY_ONLY" = "1" ]; then
     zsh -n "$DOTFILES_DIR/zshrc"
     zsh -n "$DOTFILES_DIR/zprofile"
     zsh -n "$DOTFILES_DIR/p10k.zsh"
+    python3 "$DOTFILES_DIR/scripts/verify-zsh-prompt.py"
     if command -v nvim &> /dev/null; then
         nvim --headless "+lua assert(vim.uv.fs_realpath(vim.fn.stdpath('config')) == '$DOTFILES_DIR/config/nvim')" +qa
     fi

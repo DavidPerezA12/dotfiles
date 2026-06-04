@@ -1,7 +1,17 @@
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
-if [[ -o interactive && -t 0 && -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+_dotfiles_has_terminal() {
+  [[ -t 0 || -t 1 || -t 2 || -n "${DOTFILES_FORCE_TERMINAL:-}" ]]
+}
+
+if [[ "${_DOTFILES_ZSHRC_LOADED_PID:-}" == "$$" ]] &&
+   { [[ -n "${ZSH_THEME:-}" ]] || (( $+functions[p10k] )) || ! _dotfiles_has_terminal; }; then
+  return
+fi
+typeset -g _DOTFILES_ZSHRC_LOADED_PID="$$"
+
+if [[ -o interactive ]] && _dotfiles_has_terminal && [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
@@ -15,7 +25,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # load a random theme each time Oh My Zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-if [[ -o interactive && -t 0 ]]; then
+if [[ -o interactive ]] && _dotfiles_has_terminal; then
   ZSH_THEME="powerlevel10k/powerlevel10k"
 else
   ZSH_THEME=""
@@ -147,13 +157,10 @@ export BUN_INSTALL="$HOME/.bun"
 export NVM_DIR="$HOME/.nvm"
 path_prepend "$HOME/.local/bin"
 path_prepend "$BUN_INSTALL/bin"
-path_prepend "$HOME/.opencode/bin"
 path_prepend "/opt/homebrew/opt/curl/bin"
 path_prepend "/opt/homebrew/opt/openjdk/bin"
 path_prepend "/opt/homebrew/opt/libpq/bin"
 path_append "$HOME/.local/share/nvim/mason/bin"
-path_append "/usr/local/mysql/bin"
-path_append "$HOME/.lmstudio/bin"
 
 path_prune_missing
 
@@ -186,14 +193,10 @@ if [[ -s "$NVM_DIR/nvm.sh" ]]; then
 fi
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-if [[ -o interactive && -t 0 && -f ~/.p10k.zsh ]]; then
+if [[ -o interactive ]] && _dotfiles_has_terminal && [[ -f ~/.p10k.zsh ]]; then
   source ~/.p10k.zsh
 fi
 
-if [[ -o interactive && -t 0 && -e "$HOME/.iterm2_shell_integration.zsh" ]]; then
-  source "$HOME/.iterm2_shell_integration.zsh"
-fi
+unfunction _dotfiles_has_terminal
 
-alias idea='open -a "IntelliJ IDEA.app"'
 alias xcode='open -a Xcode.app'
-alias sublime='open -a "Sublime Text.app"'

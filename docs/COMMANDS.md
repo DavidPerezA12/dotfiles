@@ -17,9 +17,7 @@ Documentación completa de comandos, aliases y funciones disponibles en esta con
 ### Aliases de Aplicaciones macOS
 
 ```bash
-idea        # Abre IntelliJ IDEA
 xcode       # Abre Xcode
-sublime     # Abre Sublime Text
 ```
 
 ### Navegación Mejorada
@@ -275,7 +273,7 @@ HOMEBREW_NO_ENV_HINTS=1 HOMEBREW_NO_REQUIRE_TAP_TRUST=1 brew bundle check --file
 - [ripgrep Guide](https://github.com/BurntSushi/ripgrep/blob/master/GUIDE.md)
 - [fd GitHub](https://github.com/sharkdp/fd)
 - [fzf Wiki](https://github.com/junegunn/fzf/wiki)
-- [Neovim Keymaps](./NEOVIM.md)
+- [Neovim Keymaps](../config/nvim/README.md)
 
 ---
 

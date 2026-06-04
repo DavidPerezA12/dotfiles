@@ -20,15 +20,5 @@ brew "shellcheck"
 
 # Aplicaciones
 cask "iterm2"
-cask "raycast"
-cask "cloudflare-warp"
-cask "macs-fan-control"
 cask "font-meslo-lg-nerd-font"
 cask "font-hack-nerd-font"
-
-# Aplicaciones adicionales (descomenta las que quieras)
-# cask "visual-studio-code"
-# cask "docker"
-# cask "arc"
-# cask "raycast"
-# cask "notion"

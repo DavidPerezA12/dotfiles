@@ -1,8 +1,7 @@
 # Neovim
 
-Mi configuración de Neovim. Está pensada para trabajar rápido en proyectos de
-código sin tener que pelearme mucho con el editor: fuzzy finding, LSP,
-diagnósticos, Git, terminal integrada y algunos atajos que uso a diario.
+Mi configuración de Neovim para proyectos de código: fuzzy finding, LSP,
+diagnósticos, Git, terminal integrada y atajos que uso a diario.
 
 La configuración vive aquí:
 
@@ -63,7 +62,7 @@ config/nvim/
 - `plugins/` tiene cada plugin separado en su propio archivo.
 - `plugins/lsp/` agrupa Mason, LSP, formatters y herramientas relacionadas.
 
-## Cosas configuradas
+## Configuración incluida
 
 - `lazy.nvim` para gestionar plugins.
 - `nightfly` como tema principal.
