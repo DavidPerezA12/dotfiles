@@ -1,7 +1,7 @@
-# Brewfile - Lista de paquetes de Homebrew para restauración rápida
-# Uso: brew bundle install
+# Brewfile - Homebrew packages for quick machine restore.
+# Usage: brew bundle install
 
-# CLI Tools (esenciales)
+# CLI tools
 brew "git"
 brew "neovim"
 brew "curl"
@@ -13,12 +13,12 @@ brew "lazygit"
 brew "tmux"
 brew "shellcheck"
 
-# Lenguajes y Runtimes (opcional)
-# brew "node"  # Usar NVM en su lugar para gestión de versiones
+# Languages and runtimes
+# brew "node"  # Use NVM instead for version management.
 # brew "python@3.11"
 # brew "go"
 
-# Aplicaciones
+# Applications
 cask "iterm2"
 cask "font-meslo-lg-nerd-font"
 cask "font-hack-nerd-font"

@@ -1,20 +1,20 @@
 #!/usr/bin/env bash
 
 # ============================================================
-# Instalador de Dotfiles para macOS
-# Autor: David Perez
+# Dotfiles installer for macOS
+# Author: David Perez
 # ============================================================
 
 set -euo pipefail
 
-# Colores
+# Colors
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
-# Directorio de dotfiles. Use the checked-out repository, no matter where the
+# Dotfiles directory. Use the checked-out repository, no matter where the
 # script is launched from.
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 BACKUP_DIR="$HOME/.dotfiles-backups/$(date +%Y%m%d_%H%M%S)"
@@ -24,7 +24,7 @@ export HOMEBREW_NO_ENV_HINTS="${HOMEBREW_NO_ENV_HINTS:-1}"
 export HOMEBREW_NO_REQUIRE_TAP_TRUST="${HOMEBREW_NO_REQUIRE_TAP_TRUST:-1}"
 VERIFY_ONLY=0
 
-# Funciones auxiliares
+# Helper functions
 print_success() { echo -e "${GREEN}✓ $1${NC}"; }
 print_error() { echo -e "${RED}✗ $1${NC}"; }
 print_info() { echo -e "${BLUE}ℹ $1${NC}"; }
@@ -150,7 +150,7 @@ cat << "EOF"
 EOF
 echo -e "${NC}"
 
-# Verificar macOS
+# Verify macOS
 if [[ "$OSTYPE" != "darwin"* ]]; then
     print_error "Este script solo funciona en macOS"
     exit 1
@@ -177,7 +177,7 @@ fi
 print_info "Iniciando instalación de dotfiles..."
 echo ""
 
-# 1. Instalar Homebrew
+# 1. Install Homebrew
 if ! command -v brew &> /dev/null; then
     print_info "Instalando Homebrew..."
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -193,7 +193,7 @@ elif [[ -x /usr/local/bin/brew ]]; then
 fi
 echo ""
 
-# 2. Instalar paquetes de Homebrew
+# 2. Install Homebrew packages
 if [ "$RUN_BREW" = "1" ]; then
     print_info "Instalando paquetes desde Brewfile..."
     brew bundle --file "$DOTFILES_DIR/Brewfile"
@@ -203,7 +203,7 @@ else
 fi
 echo ""
 
-# 5. Instalar Oh My Zsh
+# 5. Install Oh My Zsh
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
     print_info "Instalando Oh My Zsh..."
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
@@ -213,7 +213,7 @@ else
 fi
 echo ""
 
-# 6. Instalar Powerlevel10k
+# 6. Install Powerlevel10k
 if [ ! -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k" ]; then
     print_info "Instalando Powerlevel10k..."
     git clone --depth=1 https://github.com/romkatv/powerlevel10k.git \
@@ -224,7 +224,7 @@ else
 fi
 echo ""
 
-# 7. Instalar NVM (Node Version Manager)
+# 7. Install NVM (Node Version Manager)
 if [ ! -d "$HOME/.nvm" ]; then
     print_info "Instalando NVM..."
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
@@ -234,7 +234,7 @@ else
 fi
 echo ""
 
-# 8. Instalar plugins de Zsh
+# 8. Install Zsh plugins
 print_info "Instalando plugins de Zsh..."
 
 # zsh-autosuggestions
@@ -256,7 +256,7 @@ else
 fi
 echo ""
 
-# 9. Crear symlinks
+# 9. Create symlinks
 print_info "Creando symlinks..."
 
 # Zsh
@@ -271,7 +271,7 @@ link_dotfile "$DOTFILES_DIR/config/nvim" "$HOME/.config/nvim"
 
 echo ""
 
-# 10. Verificar symlinks
+# 10. Verify symlinks
 print_info "Verificando symlinks..."
 verify_link "$DOTFILES_DIR/zshrc" "$HOME/.zshrc"
 verify_link "$DOTFILES_DIR/zprofile" "$HOME/.zprofile"
@@ -279,7 +279,7 @@ verify_link "$DOTFILES_DIR/p10k.zsh" "$HOME/.p10k.zsh"
 verify_link "$DOTFILES_DIR/config/nvim" "$HOME/.config/nvim"
 echo ""
 
-# 11. Configurar iTerm2 (opcional)
+# 11. Configure iTerm2 (optional)
 if [ -d "$DOTFILES_DIR/config/iterm2" ]; then
     print_info "Configurando iTerm2..."
     defaults write com.googlecode.iterm2 PrefsCustomFolder -string "$DOTFILES_DIR/config/iterm2"
@@ -288,7 +288,7 @@ if [ -d "$DOTFILES_DIR/config/iterm2" ]; then
     echo ""
 fi
 
-# 12. Sincronizar plugins de Neovim (opcional)
+# 12. Sync Neovim plugins (optional)
 if [ "$RUN_LAZY_SYNC" = "1" ] && command -v nvim &> /dev/null; then
     print_info "Sincronizando plugins de Neovim..."
     nvim --headless "+Lazy! sync" +qa
@@ -298,14 +298,14 @@ elif [ "$RUN_LAZY_SYNC" != "1" ]; then
 fi
 echo ""
 
-# 13. Validaciones finales
+# 13. Final validation
 print_info "Validando configuración..."
 zsh -n "$DOTFILES_DIR/zshrc"
 nvim --headless "+lua assert(vim.uv.fs_realpath(vim.fn.stdpath('config')) == '$DOTFILES_DIR/config/nvim')" +qa
 print_success "Validación completada"
 echo ""
 
-# 14. Finalizar
+# 14. Finish
 echo -e "${GREEN}"
 cat << "EOF"
 ╔═══════════════════════════════════════════════════════╗
