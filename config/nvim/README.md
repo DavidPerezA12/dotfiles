@@ -1,47 +1,47 @@
 # Neovim
 
-Mi configuración de Neovim para proyectos de código: fuzzy finding, LSP,
-diagnósticos, Git, terminal integrada y atajos que uso a diario.
+My Neovim setup for code projects: fuzzy finding, LSP, diagnostics, Git,
+integrated terminals, and the shortcuts I use every day.
 
-La configuración vive dentro de este repo, en:
+The configuration lives inside this repo at:
 
 ```text
 config/nvim
 ```
 
-Y la instalación activa debería apuntar a esa carpeta dentro de la ruta donde
-hayas clonado el repo. Por ejemplo, si usas `~/Developer/dotfiles`:
+The active installation should point to that folder inside the path where you
+cloned the repository. For example, if you use `~/Developer/dotfiles`:
 
 ```text
 ~/.config/nvim -> ~/Developer/dotfiles/config/nvim
 ```
 
-## Instalación
+## Installation
 
-Desde la raíz del repo:
+From the repository root:
 
 ```bash
 ./install.sh
 ```
 
-El script crea el symlink y deja Neovim usando esta configuración. Al abrir
-`nvim` por primera vez, `lazy.nvim` descarga los plugins.
+The script creates the symlink and makes Neovim use this configuration. When
+you open `nvim` for the first time, `lazy.nvim` downloads the plugins.
 
-Requisitos útiles:
+Useful requirements:
 
-- Neovim 0.9 o superior
+- Neovim 0.9 or newer
 - Git
-- ripgrep, para las búsquedas de Telescope
-- Node.js, Python, Go o Rust solo si vas a usar sus language servers
-- lazygit, si quieres abrirlo desde Neovim
+- ripgrep, for Telescope searches
+- Node.js, Python, Go, or Rust only if you plan to use their language servers
+- lazygit, if you want to open it from Neovim
 
-Para comprobar que el enlace apunta al sitio correcto:
+To confirm that the link points to the right place:
 
 ```bash
 readlink ~/.config/nvim
 ```
 
-## Estructura
+## Structure
 
 ```text
 config/nvim/
@@ -57,133 +57,133 @@ config/nvim/
         └── *.lua
 ```
 
-- `init.lua` carga opciones, keymaps y plugins.
-- `core/options.lua` contiene comportamiento base del editor.
-- `core/keymaps.lua` guarda los atajos generales.
-- `plugins/` tiene cada plugin separado en su propio archivo.
-- `plugins/lsp/` agrupa Mason, LSP, formatters y herramientas relacionadas.
+- `init.lua` loads options, keymaps, and plugins.
+- `core/options.lua` contains the editor's base behavior.
+- `core/keymaps.lua` keeps the general shortcuts.
+- `plugins/` keeps each plugin in its own file.
+- `plugins/lsp/` groups Mason, LSP, formatters, and related tools.
 
-## Configuración incluida
+## Included Configuration
 
-- `lazy.nvim` para gestionar plugins.
-- `nightfly` como tema principal.
-- `telescope.nvim` para buscar archivos, texto, buffers y ayuda.
-- `nvim-tree.lua` como explorador de archivos.
-- `nvim-lspconfig`, `mason.nvim` y `nvim-cmp` para LSP y autocompletado.
-- `treesitter` para mejor resaltado y parsing.
-- `gitsigns.nvim`, Telescope Git y `lazygit` para trabajar con Git.
-- `toggleterm.nvim` para terminales dentro de Neovim.
-- `harpoon` para saltar rápido entre archivos frecuentes.
-- `trouble.nvim` para diagnósticos, quickfix y símbolos.
-- `nvim-dap` para debug.
-- `copilot.lua` para sugerencias de Copilot.
+- `lazy.nvim` for plugin management.
+- `nightfly` as the main theme.
+- `telescope.nvim` for finding files, text, buffers, and help.
+- `nvim-tree.lua` as the file explorer.
+- `nvim-lspconfig`, `mason.nvim`, and `nvim-cmp` for LSP and completion.
+- `treesitter` for better highlighting and parsing.
+- `gitsigns.nvim`, Telescope Git, and `lazygit` for Git workflows.
+- `toggleterm.nvim` for terminals inside Neovim.
+- `harpoon` for quickly jumping between frequent files.
+- `trouble.nvim` for diagnostics, quickfix, and symbols.
+- `nvim-dap` for debugging.
+- `copilot.lua` for Copilot suggestions.
 
-## Atajos que más uso
+## Most-Used Shortcuts
 
-La tecla leader es `Space`.
+The leader key is `Space`.
 
-### Buscar
+### Search
 
-| Atajo | Hace |
+| Shortcut | Action |
 | --- | --- |
-| `<leader>ff` | Buscar archivos |
-| `<leader>fr` | Archivos recientes |
-| `<leader>fs` | Buscar texto en el proyecto |
-| `<leader>fc` | Buscar palabra bajo el cursor |
-| `<leader>fb` | Buffers abiertos |
-| `<leader>fh` | Ayuda de Neovim |
+| `<leader>ff` | Find files |
+| `<leader>fr` | Recent files |
+| `<leader>fs` | Search text in the project |
+| `<leader>fc` | Search word under cursor |
+| `<leader>fb` | Open buffers |
+| `<leader>fh` | Neovim help |
 
-### Archivos y buffers
+### Files and Buffers
 
-| Atajo | Hace |
+| Shortcut | Action |
 | --- | --- |
-| `<leader>ee` | Abrir/cerrar nvim-tree |
-| `<leader>ef` | Abrir nvim-tree en el archivo actual |
-| `<S-h>` / `<S-l>` | Buffer anterior / siguiente |
-| `[b` / `]b` | Buffer anterior / siguiente |
-| `<leader>bb` | Volver al último buffer |
+| `<leader>ee` | Toggle nvim-tree |
+| `<leader>ef` | Open nvim-tree at current file |
+| `<S-h>` / `<S-l>` | Previous / next buffer |
+| `[b` / `]b` | Previous / next buffer |
+| `<leader>bb` | Return to last buffer |
 
-### Ventanas y tabs
+### Windows and Tabs
 
-| Atajo | Hace |
+| Shortcut | Action |
 | --- | --- |
-| `<leader>sv` | Split vertical |
-| `<leader>sh` | Split horizontal |
-| `<leader>se` | Igualar tamaño de splits |
-| `<leader>sx` | Cerrar split |
-| `<leader>sm` | Maximizar/restaurar split |
-| `<C-h/j/k/l>` | Moverse entre ventanas |
-| `<leader><tab>o` | Nueva tab |
-| `<leader><tab>x` | Cerrar tab |
+| `<leader>sv` | Vertical split |
+| `<leader>sh` | Horizontal split |
+| `<leader>se` | Equalize split sizes |
+| `<leader>sx` | Close split |
+| `<leader>sm` | Maximize/restore split |
+| `<C-h/j/k/l>` | Move between windows |
+| `<leader><tab>o` | New tab |
+| `<leader><tab>x` | Close tab |
 
 ### LSP
 
-| Atajo | Hace |
+| Shortcut | Action |
 | --- | --- |
-| `gd` | Ir a definición |
-| `gD` | Ir a declaración |
-| `gR` | Ver referencias |
-| `gi` | Ir a implementación |
-| `gt` | Ver definición de tipo |
-| `K` | Documentación hover |
+| `gd` | Go to definition |
+| `gD` | Go to declaration |
+| `gR` | Show references |
+| `gi` | Go to implementation |
+| `gt` | Show type definition |
+| `K` | Hover documentation |
 | `<leader>ca` | Code actions |
-| `<leader>rn` | Renombrar símbolo |
-| `<leader>d` | Diagnóstico de la línea |
-| `<leader>D` | Diagnósticos del buffer |
-| `[d` / `]d` | Diagnóstico anterior / siguiente |
-| `<leader>rs` | Reiniciar LSP |
+| `<leader>rn` | Rename symbol |
+| `<leader>d` | Line diagnostics |
+| `<leader>D` | Buffer diagnostics |
+| `[d` / `]d` | Previous / next diagnostic |
+| `<leader>rs` | Restart LSP |
 
 ### Git
 
-| Atajo | Hace |
+| Shortcut | Action |
 | --- | --- |
-| `<leader>gs` | Estado de Git con Telescope |
+| `<leader>gs` | Git status with Telescope |
 | `<leader>gc` | Commits |
-| `<leader>gfc` | Commits del archivo actual |
-| `<leader>gb` | Ramas |
-| `<leader>gg` | Abrir lazygit |
-| `]c` / `[c` | Cambio siguiente / anterior |
+| `<leader>gfc` | Current file commits |
+| `<leader>gb` | Branches |
+| `<leader>gg` | Open lazygit |
+| `]c` / `[c` | Next / previous change |
 | `<leader>ghs` | Stage hunk |
 | `<leader>ghr` | Reset hunk |
 | `<leader>ghp` | Preview hunk |
-| `<leader>ghb` | Blame de la línea |
-| `<leader>gtb` | Activar/desactivar blame de línea |
-| `<leader>gtd` | Activar/desactivar líneas borradas |
+| `<leader>ghb` | Line blame |
+| `<leader>gtb` | Toggle line blame |
+| `<leader>gtd` | Toggle deleted lines |
 
 ### Harpoon
 
-| Atajo | Hace |
+| Shortcut | Action |
 | --- | --- |
-| `<leader>ha` | Añadir archivo |
-| `<leader>hh` | Menú rápido |
-| `<leader>h1` ... `<leader>h4` | Saltar a archivo marcado |
-| `<leader>hp` / `<leader>hn` | Archivo marcado anterior / siguiente |
+| `<leader>ha` | Add file |
+| `<leader>hh` | Quick menu |
+| `<leader>h1` ... `<leader>h4` | Jump to marked file |
+| `<leader>hp` / `<leader>hn` | Previous / next marked file |
 
 ### Terminal
 
-| Atajo | Hace |
+| Shortcut | Action |
 | --- | --- |
-| `<C-\>` | Abrir/cerrar terminal |
-| `<leader>tt` | Terminal flotante |
-| `<leader>tH` | Terminal horizontal |
-| `<leader>tV` | Terminal vertical |
+| `<C-\>` | Toggle terminal |
+| `<leader>tt` | Floating terminal |
+| `<leader>tH` | Horizontal terminal |
+| `<leader>tV` | Vertical terminal |
 | `<leader>tj` | Node REPL |
 | `<leader>tp` | Python REPL |
 | `<leader>tu` | htop |
 
-### Edición y acciones rápidas
+### Editing and Quick Actions
 
-| Atajo | Hace |
+| Shortcut | Action |
 | --- | --- |
-| `jk` | Salir de insert mode |
-| `<leader>/` | Comentar línea o selección |
-| `<leader>nh` | Quitar resaltado de búsqueda |
-| `<leader>+` / `<leader>-` | Incrementar / decrementar número |
-| `<leader>ww` | Guardar |
-| `<leader>qq` | Salir |
-| `<leader>un` | Cerrar notificaciones |
+| `jk` | Leave insert mode |
+| `<leader>/` | Comment line or selection |
+| `<leader>nh` | Clear search highlight |
+| `<leader>+` / `<leader>-` | Increment / decrement number |
+| `<leader>ww` | Save |
+| `<leader>qq` | Quit |
+| `<leader>un` | Dismiss notifications |
 
-## Comandos útiles
+## Useful Commands
 
 ```vim
 :Lazy
@@ -192,37 +192,37 @@ La tecla leader es `Space`.
 :checkhealth
 ```
 
-Si algo de LSP no aparece, normalmente basta con abrir `:Mason` e instalar el
-server que falte. Los binarios de Mason se añaden al `PATH` desde
+If an LSP feature does not appear, opening `:Mason` and installing the missing
+server is usually enough. Mason binaries are added to the `PATH` from
 `core/options.lua`.
 
 ## Copilot
 
-Los atajos principales son:
+The main shortcuts are:
 
-| Atajo | Hace |
+| Shortcut | Action |
 | --- | --- |
-| `<M-l>` | Aceptar sugerencia |
-| `<M-]>` | Siguiente sugerencia |
-| `<M-[>` | Sugerencia anterior |
-| `<C-]>` | Descartar sugerencia |
-| `<M-CR>` | Abrir panel |
+| `<M-l>` | Accept suggestion |
+| `<M-]>` | Next suggestion |
+| `<M-[>` | Previous suggestion |
+| `<C-]>` | Dismiss suggestion |
+| `<M-CR>` | Open panel |
 
-## Mantenimiento
+## Maintenance
 
-Actualizar plugins:
+Update plugins:
 
 ```vim
 :Lazy sync
 ```
 
-Revisar problemas generales:
+Check general issues:
 
 ```vim
 :checkhealth
 ```
 
-Limpiar caché si Neovim queda en un estado raro:
+Clear cache if Neovim gets into a weird state:
 
 ```bash
 rm -rf ~/.cache/nvim
@@ -230,6 +230,5 @@ rm -rf ~/.local/share/nvim
 rm -rf ~/.local/state/nvim
 ```
 
-Hazlo solo sabiendo que eso borra plugins descargados, estado local y datos
-temporales. Al abrir Neovim de nuevo, `lazy.nvim` volverá a instalar lo que
-falte.
+Only do this knowing it removes downloaded plugins, local state, and temporary
+data. When you open Neovim again, `lazy.nvim` will reinstall anything missing.

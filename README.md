@@ -1,13 +1,13 @@
-# Dotfiles de David Perez
+# David Perez's Dotfiles
 
-Configuración personal para desarrollo en macOS. Incluye Zsh, Git, iTerm2,
-Neovim, Homebrew y algunos scripts para dejar el entorno en el mismo estado en
-máquinas nuevas o reinstaladas.
+Personal macOS development setup. It includes Zsh, Git, iTerm2, Neovim,
+Homebrew, and a few scripts to bring new or freshly reinstalled machines back to
+the same baseline.
 
-## Instalación
+## Installation
 
-Puedes clonar el repo donde prefieras. En mis máquinas uso
-`~/Developer/dotfiles`, y por eso aparece en algunos ejemplos.
+Clone the repository wherever you prefer. On my machines I use
+`~/Developer/dotfiles`, so that path appears in a few examples.
 
 ```bash
 mkdir -p ~/Developer
@@ -20,42 +20,43 @@ chmod +x install.sh
 source ~/.zshrc
 ```
 
-El instalador hace lo siguiente:
+The installer does the following:
 
-- Instala Homebrew si no está disponible.
-- Instala las herramientas definidas en `Brewfile`.
-- Instala NVM para gestionar versiones de Node.js.
-- Configura Zsh, Git, Oh My Zsh y Powerlevel10k.
-- Configura Neovim y sincroniza plugins.
-- Instala fuentes Nerd Fonts para iTerm2.
-- Crea symlinks desde `HOME` hacia este repositorio.
-- Aplica la configuración de iTerm2 si existe `config/iterm2/`.
+- Installs Homebrew if it is not available.
+- Installs the tools listed in `Brewfile`.
+- Installs NVM to manage Node.js versions.
+- Configures Zsh, Git, Oh My Zsh, and Powerlevel10k.
+- Configures Neovim and syncs plugins.
+- Installs Nerd Fonts for iTerm2.
+- Creates symlinks from `HOME` to this repository.
+- Applies the iTerm2 configuration when `config/iterm2/` exists.
 
-Para una pasada rápida sin tocar Homebrew ni resincronizar plugins de Neovim:
+For a quick pass without touching Homebrew or resyncing Neovim plugins:
 
 ```bash
 ./install.sh --no-brew --no-nvim-sync
 ```
 
-Para instalar sin tocar la configuración de iTerm2:
+To install without touching the iTerm2 configuration:
 
 ```bash
 ./install.sh --no-iterm2
 ```
 
-Para verificar que todo sigue conectado sin instalar ni modificar nada:
+To verify that everything is still connected without installing or changing
+anything:
 
 ```bash
 ./install.sh --verify
 ```
 
-Los datos privados de Git, como email o claves de firmado, van en
-`~/.gitconfig.local`. Ese archivo se carga desde `.gitconfig` si existe, pero no
-forma parte del repo. Si ya tienes un `~/.gitconfig` con identidad configurada,
-el instalador intenta conservar esos datos en `~/.gitconfig.local` antes de crear
-el symlink.
+Private Git data, such as email addresses or signing keys, belongs in
+`~/.gitconfig.local`. That file is loaded from `.gitconfig` when it exists, but
+it is not part of the repository. If you already have a `~/.gitconfig` with an
+identity configured, the installer tries to preserve those values in
+`~/.gitconfig.local` before creating the symlink.
 
-También hay atajos con `make`:
+There are also `make` shortcuts:
 
 ```bash
 make install
@@ -63,13 +64,13 @@ make quick
 make verify
 ```
 
-## Fuente de verdad
+## Source of Truth
 
-La configuración se edita en este repositorio, esté donde esté clonado. El
-instalador calcula la ruta real del checkout y crea enlaces desde `HOME` hacia
-esa carpeta.
+Configuration is edited in this repository, no matter where it is cloned. The
+installer resolves the real checkout path and creates links from `HOME` back to
+that folder.
 
-Si clonaste el repo en `~/Developer/dotfiles`, los enlaces quedan así:
+If the repository is cloned to `~/Developer/dotfiles`, the links look like this:
 
 ```text
 ~/.config/nvim -> ~/Developer/dotfiles/config/nvim
@@ -80,78 +81,78 @@ Si clonaste el repo en `~/Developer/dotfiles`, los enlaces quedan así:
 ~/.gitignore_global -> ~/Developer/dotfiles/.gitignore_global
 ```
 
-No edites directamente `~/.config/nvim`, `~/.zshrc`, `~/.zprofile` ni
-`~/.p10k.zsh`, porque son enlaces. Edita los archivos equivalentes dentro del
-repo que hayas clonado. Para datos privados de Git, usa `~/.gitconfig.local`.
+Do not edit `~/.config/nvim`, `~/.zshrc`, `~/.zprofile`, or `~/.p10k.zsh`
+directly, because they are links. Edit the matching files inside the cloned
+repository instead. For private Git data, use `~/.gitconfig.local`.
 
-## Aplicaciones
+## Applications
 
-El instalador deja listas las herramientas gestionadas por este repo. El resto
-son aplicaciones que uso según la máquina o el momento y pueden estar
-instaladas por App Store, descarga directa u otra vía manual.
+The installer sets up the tools managed by this repository. The rest are apps I
+use depending on the machine or the moment, and they may be installed from the
+App Store, direct downloads, or another manual path.
 
-### Productividad
+### Productivity
 
-| App | Uso | Instalación |
+| App | Use | Installation |
 | --- | --- | --- |
-| [Raycast](https://www.raycast.com/) | Launcher y productividad | App instalada manualmente |
+| [Raycast](https://www.raycast.com/) | Launcher and productivity | Manually installed app |
 
-### Desarrollo
+### Development
 
-| App | Uso | Instalación |
+| App | Use | Installation |
 | --- | --- | --- |
-| [iTerm2](https://iterm2.com/) | Terminal principal | Instalado por el script |
-| [Neovim](https://neovim.io/) | Editor de código | Instalado por el script |
-| [VS Code](https://code.visualstudio.com/) | IDE secundario | App instalada manualmente |
-| [Xcode](https://developer.apple.com/xcode/) | IDE para iOS/macOS | App Store |
+| [iTerm2](https://iterm2.com/) | Main terminal | Installed by the script |
+| [Neovim](https://neovim.io/) | Code editor | Installed by the script |
+| [VS Code](https://code.visualstudio.com/) | Secondary IDE | Manually installed app |
+| [Xcode](https://developer.apple.com/xcode/) | IDE for iOS/macOS | App Store |
 
-### Otras utilidades
+### Other Utilities
 
-| App | Uso | Enlace |
+| App | Use | Link |
 | --- | --- | --- |
-| [Macs Fan Control](https://crystalidea.com/macs-fan-control) | Control de ventiladores | [crystalidea.com](https://crystalidea.com/macs-fan-control) |
-| [Amphetamine](https://apps.apple.com/es/app/amphetamine/id937984704?mt=12) | Mantener el Mac despierto | App Store |
-| [AlDente](https://apphousekitchen.com/) | Límite de carga de batería | [apphousekitchen.com](https://apphousekitchen.com/) |
+| [Macs Fan Control](https://crystalidea.com/macs-fan-control) | Fan control | [crystalidea.com](https://crystalidea.com/macs-fan-control) |
+| [Amphetamine](https://apps.apple.com/es/app/amphetamine/id937984704?mt=12) | Keep the Mac awake | App Store |
+| [AlDente](https://apphousekitchen.com/) | Battery charge limit | [apphousekitchen.com](https://apphousekitchen.com/) |
 | [Cloudflare WARP](https://one.one.one.one/) | VPN | [one.one.one.one](https://one.one.one.one/) |
-| [Magnet](https://apps.apple.com/es/app/magnet/id441258766?mt=12) | Gestión de ventanas | App Store |
-| [CrossOver](https://www.codeweavers.com/crossover/) | Apps y juegos de Windows | [codeweavers.com](https://www.codeweavers.com/crossover/) |
-| [Parallels Desktop](https://www.parallels.com/) | Virtualización | [parallels.com](https://www.parallels.com/) |
+| [Magnet](https://apps.apple.com/es/app/magnet/id441258766?mt=12) | Window management | App Store |
+| [CrossOver](https://www.codeweavers.com/crossover/) | Windows apps and games | [codeweavers.com](https://www.codeweavers.com/crossover/) |
+| [Parallels Desktop](https://www.parallels.com/) | Virtualization | [parallels.com](https://www.parallels.com/) |
 | [CyberGhost VPN](https://www.cyberghostvpn.com/) | VPN | [cyberghostvpn.com](https://www.cyberghostvpn.com/) |
-| [CleanMyMac X](https://macpaw.com/cleanmymac) | Limpieza de macOS | [macpaw.com](https://macpaw.com/cleanmymac) |
-| [LM Studio](https://lmstudio.ai/) | Modelos locales | [lmstudio.ai](https://lmstudio.ai/) |
-| [Warp](https://www.warp.dev/) | Terminal alternativa | [warp.dev](https://www.warp.dev/) |
+| [CleanMyMac X](https://macpaw.com/cleanmymac) | macOS cleanup | [macpaw.com](https://macpaw.com/cleanmymac) |
+| [LM Studio](https://lmstudio.ai/) | Local models | [lmstudio.ai](https://lmstudio.ai/) |
+| [Warp](https://www.warp.dev/) | Alternative terminal | [warp.dev](https://www.warp.dev/) |
 
-## Herramientas CLI
+## CLI Tools
 
-Estas herramientas se instalan con `./install.sh`:
+These tools are installed with `./install.sh`:
 
 ```bash
 brew bundle install --file ./Brewfile
 ```
 
-| Herramienta | Descripción | Uso |
+| Tool | Description | Usage |
 | --- | --- | --- |
-| `git` | Control de versiones | `git`, `gst`, `gco` |
-| `neovim` | Editor de código | `nvim` |
-| `curl` | Transferencia de datos | `curl` |
-| `wget` | Descarga de archivos | `wget` |
-| `ripgrep` | Búsqueda rápida de texto | `rg "texto"` |
-| `fd` | Búsqueda rápida de archivos | `fd nombre` |
-| `fzf` | Selector fuzzy interactivo | `fzf` |
-| `lazygit` | UI terminal para Git | `lazygit` |
-| `tmux` | Multiplexor de terminal | `tmux` |
-| `shellcheck` | Linter para scripts shell | `shellcheck install.sh` |
-| `nvm` | Gestor de versiones de Node.js | `nvm install node` |
+| `git` | Version control | `git`, `gst`, `gco` |
+| `neovim` | Code editor | `nvim` |
+| `curl` | Data transfer | `curl` |
+| `wget` | File downloads | `wget` |
+| `ripgrep` | Fast text search | `rg "text"` |
+| `fd` | Fast file search | `fd name` |
+| `fzf` | Interactive fuzzy finder | `fzf` |
+| `lazygit` | Terminal UI for Git | `lazygit` |
+| `tmux` | Terminal multiplexer | `tmux` |
+| `shellcheck` | Shell script linter | `shellcheck install.sh` |
+| `nvm` | Node.js version manager | `nvm install node` |
 
-[Ver todos los comandos y aliases](docs/COMMANDS.md).
+[See all commands and aliases](docs/COMMANDS.md).
 
-## Qué queda configurado
+## What Gets Configured
 
 ### Terminal
 
-- iTerm2 con configuración propia.
-- Powerlevel10k para el prompt.
-- Nerd Fonts para iconos.
+- iTerm2 with custom preferences.
+- Powerlevel10k for the prompt.
+- Nerd Fonts for icons.
 
 ### Zsh
 
@@ -162,52 +163,52 @@ brew bundle install --file ./Brewfile
 
 ### Neovim
 
-- `lazy.nvim` para plugins.
-- LSP configurado con Mason.
-- Telescope para búsquedas.
+- `lazy.nvim` for plugins.
+- LSP configured with Mason.
+- Telescope for searches.
 - GitHub Copilot.
 - Treesitter.
-- Plugins de Git, terminal, debug y navegación.
+- Plugins for Git, terminal, debugging, and navigation.
 
-[Ver keymaps de Neovim](config/nvim/README.md).
+[See Neovim keymaps](config/nvim/README.md).
 
-## Estructura
+## Structure
 
 ```text
 dotfiles/
-├── README.md              # Este archivo
-├── install.sh             # Script de instalación
-├── Brewfile               # Paquetes Homebrew
-├── LICENSE                # Licencia MIT
-├── .gitignore             # Archivos ignorados
-├── .gitconfig             # Configuración global de Git
-├── .gitignore_global      # Ignorados globales de Git
+├── README.md              # This file
+├── install.sh             # Installation script
+├── Brewfile               # Homebrew packages
+├── LICENSE                # MIT license
+├── .gitignore             # Ignored files
+├── .gitconfig             # Global Git configuration
+├── .gitignore_global      # Global Git ignores
 │
-├── zshrc                  # Configuración de Zsh
-├── zprofile               # PATH de login shell para macOS/Homebrew
-├── p10k.zsh               # Configuración de Powerlevel10k
+├── zshrc                  # Zsh configuration
+├── zprofile               # Login-shell PATH for macOS/Homebrew
+├── p10k.zsh               # Powerlevel10k configuration
 │
 ├── config/
-│   ├── nvim/              # Configuración de Neovim
+│   ├── nvim/              # Neovim configuration
 │   │   ├── init.lua
 │   │   └── lua/David/
-│   └── iterm2/            # Configuración de iTerm2
+│   └── iterm2/            # iTerm2 configuration
 │       └── com.googlecode.iterm2.plist
 │
-└── docs/                  # Documentación
-    ├── COMMANDS.md        # Comandos y aliases
-    └── MACOS_SETUP.md     # Configuración de macOS
+└── docs/                  # Documentation
+    ├── COMMANDS.md        # Commands and aliases
+    └── MACOS_SETUP.md     # macOS setup
 ```
 
-## Documentación
+## Documentation
 
-- [Comandos y aliases](docs/COMMANDS.md)
-- [Guía de Neovim](config/nvim/README.md)
-- [Setup de macOS](docs/MACOS_SETUP.md)
+- [Commands and aliases](docs/COMMANDS.md)
+- [Neovim guide](config/nvim/README.md)
+- [macOS setup](docs/MACOS_SETUP.md)
 
-## Mantenimiento
+## Maintenance
 
-### Verificar configuración
+### Verify Configuration
 
 ```bash
 make verify
@@ -217,7 +218,7 @@ shellcheck install.sh
 nvim --headless "+checkhealth" +qa
 ```
 
-### Actualizar herramientas
+### Update Tools
 
 ```bash
 brew update
@@ -225,13 +226,13 @@ brew upgrade
 brew bundle install --file ./Brewfile
 ```
 
-### Sincronizar Neovim
+### Sync Neovim
 
 ```bash
 nvim --headless "+Lazy! sync" +qa
 ```
 
-### Revisar enlaces
+### Check Links
 
 ```bash
 readlink ~/.config/nvim
@@ -241,6 +242,6 @@ readlink ~/.p10k.zsh
 readlink ~/.gitconfig
 ```
 
-## Licencia
+## License
 
-MIT. Úsalo como referencia y adapta lo que necesites.
+MIT. Use it as a reference and adapt whatever you need.

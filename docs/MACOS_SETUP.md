@@ -1,100 +1,100 @@
-# 🍎 Guía de Configuración de macOS
+# 🍎 macOS Setup Guide
 
-Configuración completa del sistema operativo macOS para desarrollo.
+Complete macOS operating-system setup for development.
 
-## 📑 Tabla de Contenidos
+## 📑 Table of Contents
 
-- [Configuración Inicial](#configuración-inicial)
+- [Initial Setup](#initial-setup)
 - [Homebrew Setup](#homebrew-setup)
 - [macOS Defaults](#macos-defaults)
-- [Apps Esenciales](#apps-esenciales)
-- [Herramientas de Desarrollo](#herramientas-de-desarrollo)
+- [Essential Apps](#essential-apps)
+- [Development Tools](#development-tools)
 - [Troubleshooting](#troubleshooting)
 
 ---
 
-## 🚀 Configuración Inicial
+## 🚀 Initial Setup
 
-### 1. Actualizar macOS
+### 1. Update macOS
 
 ```bash
-softwareupdate -l                # Listar actualizaciones
-softwareupdate -ia               # Instalar todas
+softwareupdate -l                # List updates
+softwareupdate -ia               # Install all updates
 ```
 
-### 2. Instalar Xcode Command Line Tools
+### 2. Install Xcode Command Line Tools
 
 ```bash
 xcode-select --install
 ```
 
-### 3. Configurar Git
+### 3. Configure Git
 
 ```bash
-git config --global user.name "Tu Nombre"
-git config --global user.email "tu@email.com"
+git config --global user.name "Your Name"
+git config --global user.email "you@example.com"
 git config --global init.defaultBranch main
 ```
 
-Este repo ya enlaza una configuración base de Git. Si instalas los dotfiles,
-puedes dejar el email privado en `~/.gitconfig.local`:
+This repo already links a base Git configuration. If you install the dotfiles,
+you can keep your private email in `~/.gitconfig.local`:
 
 ```ini
 [user]
-  email = tu@email.com
+  email = you@example.com
 ```
 
 ---
 
 ## 🍺 Homebrew Setup
 
-### Instalación
+### Installation
 
 ```bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-# Agregar a PATH (Apple Silicon). En este repo vive en
-# ~/Developer/dotfiles/zprofile y se enlaza a ~/.zprofile con ./install.sh.
+# Add to PATH (Apple Silicon). In this repo it lives in
+# ~/Developer/dotfiles/zprofile and is linked to ~/.zprofile by ./install.sh.
 echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/Developer/dotfiles/zprofile
 eval "$(/opt/homebrew/bin/brew shellenv)"
 ```
 
-### Comandos Útiles
+### Useful Commands
 
 ```bash
-brew update                      # Actualizar Homebrew
-brew upgrade                     # Actualizar paquetes
-brew outdated                    # Ver desactualizados
-brew cleanup                     # Limpiar versiones antiguas
-brew doctor                      # Diagnosticar problemas
-brew list                        # Lista de instalados
-brew search <nombre>             # Buscar paquete
-brew info <nombre>               # Info del paquete
+brew update                      # Update Homebrew
+brew upgrade                     # Upgrade packages
+brew outdated                    # Show outdated packages
+brew cleanup                     # Clean old versions
+brew doctor                      # Diagnose issues
+brew list                        # List installed packages
+brew search <name>               # Search for a package
+brew info <name>                 # Package information
 ```
 
 ---
 
 ## ⚙️ macOS Defaults
 
-### Sistema
+### System
 
 ```bash
-# Mostrar archivos ocultos en Finder
+# Show hidden files in Finder
 defaults write com.apple.finder AppleShowAllFiles -bool true
 
-# Mostrar extensiones de archivo
+# Show file extensions
 defaults write NSGlobalDomain AppleShowAllExtensions -bool true
 
-# Evitar crear archivos .DS_Store en redes
+# Avoid creating .DS_Store files on network volumes
 defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
 
-# Desactivar advertencia al cambiar extensión
+# Disable the warning when changing file extensions
 defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
 
-# Mostrar path bar en Finder
+# Show path bar in Finder
 defaults write com.apple.finder ShowPathbar -bool true
 
-# Mostrar status bar en Finder
+# Show status bar in Finder
 defaults write com.apple.finder ShowStatusBar -bool true
 ```
 
@@ -104,74 +104,74 @@ defaults write com.apple.finder ShowStatusBar -bool true
 # Auto-hide Dock
 defaults write com.apple.dock autohide -bool true
 
-# Tiempo de animación del Dock
+# Dock animation time
 defaults write com.apple.dock autohide-time-modifier -float 0.5
 
-# Remover delay del auto-hide
+# Remove auto-hide delay
 defaults write com.apple.dock autohide-delay -float 0
 
-# Tamaño del Dock
+# Dock size
 defaults write com.apple.dock tilesize -int 48
 
-# Reiniciar Dock
+# Restart Dock
 killall Dock
 ```
 
 ### Screenshots
 
 ```bash
-# Cambiar ubicación de screenshots
+# Change screenshot location
 mkdir -p ~/Screenshots
 defaults write com.apple.screencapture location ~/Screenshots
 
-# Formato de screenshots (png, jpg, pdf)
+# Screenshot format (png, jpg, pdf)
 defaults write com.apple.screencapture type -string "png"
 
-# Desactivar sombra en screenshots
+# Disable screenshot shadow
 defaults write com.apple.screencapture disable-shadow -bool true
 
-# Reiniciar servicio
+# Restart service
 killall SystemUIServer
 ```
 
-### Teclado
+### Keyboard
 
 ```bash
-# Repetición de tecla rápida
+# Fast key repeat
 defaults write NSGlobalDomain KeyRepeat -int 2
 
-# Delay corto antes de repetir
+# Short delay before repeat
 defaults write NSGlobalDomain InitialKeyRepeat -int 15
 ```
 
-### Aplicar Cambios
+### Apply Changes
 
 ```bash
-# Reiniciar Finder
+# Restart Finder
 killall Finder
 
-# Reiniciar Dock
+# Restart Dock
 killall Dock
 
-# Reiniciar SystemUIServer
+# Restart SystemUIServer
 killall SystemUIServer
 ```
 
 ---
 
-## 📱 Apps Esenciales
+## 📱 Essential Apps
 
-Ver [README.md - Apps que Uso](../README.md#-apps-que-uso)
+See [README.md - Applications](../README.md#applications).
 
 ---
 
-## 🛠️ Herramientas de Desarrollo
+## 🛠️ Development Tools
 
-### Lenguajes y Runtimes
+### Languages and Runtimes
 
 ```bash
-# Node.js (via nvm recomendado)
-# nvm se instala con ./install.sh y se carga desde ~/Developer/dotfiles/zshrc
+# Node.js (nvm recommended)
+# nvm is installed by ./install.sh and loaded from ~/Developer/dotfiles/zshrc
 
 nvm install --lts
 nvm use --lts
@@ -179,7 +179,7 @@ nvm use --lts
 # Python
 brew install python@3.11
 
-# Ruby (ya incluido en macOS, pero para versión más nueva)
+# Ruby (already included with macOS, but install this for a newer version)
 brew install ruby
 
 # Go
@@ -191,11 +191,11 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 # Java (OpenJDK)
 brew install openjdk@17
 
-# Bun (JavaScript runtime rápido)
+# Bun (fast JavaScript runtime)
 curl -fsSL https://bun.sh/install | bash
 ```
 
-### Bases de Datos
+### Databases
 
 ```bash
 # PostgreSQL
@@ -215,17 +215,17 @@ brew services start mongodb-community
 brew install redis
 brew services start redis
 
-# SQLite (ya incluido en macOS)
+# SQLite (already included with macOS)
 brew install sqlite
 ```
 
-### Contenedores
+### Containers
 
 ```bash
 # Docker Desktop
 brew install --cask docker
 
-# Orbstack (alternativa ligera a Docker Desktop)
+# OrbStack (lightweight Docker Desktop alternative)
 brew install --cask orbstack
 ```
 
@@ -233,50 +233,50 @@ brew install --cask orbstack
 
 ## 🐛 Troubleshooting
 
-### Problemas con Homebrew
+### Homebrew Issues
 
 ```bash
-# Permisos
+# Permissions
 sudo chown -R $(whoami) /opt/homebrew
 
-# Reinstalar Homebrew
+# Reinstall Homebrew
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/uninstall.sh)"
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
-### Problemas con PATH
+### PATH Issues
 
 ```bash
-# Ver PATH actual
+# Show current PATH
 echo $PATH
 
-# Agregar a PATH temporalmente
-export PATH="/nueva/ruta:$PATH"
+# Add to PATH temporarily
+export PATH="/new/path:$PATH"
 
-# Agregar permanentemente en el repo de dotfiles
-echo 'path=("/nueva/ruta" $path)' >> ~/Developer/dotfiles/zshrc
+# Add permanently in the dotfiles repo
+echo 'path=("/new/path" $path)' >> ~/Developer/dotfiles/zshrc
 source ~/.zshrc
 ```
 
-### Limpiar Caches
+### Clear Caches
 
 ```bash
-# Cache de Homebrew
+# Homebrew cache
 brew cleanup -s
 
-# Cache de npm
+# npm cache
 npm cache clean --force
 
-# Cache de pip
+# pip cache
 pip cache purge
 
-# Cache del sistema
+# System cache
 sudo rm -rf ~/Library/Caches/*
 ```
 
 ---
 
-## 🔗 Referencias
+## 🔗 References
 
 - [Homebrew](https://brew.sh/)
 - [macOS Defaults](https://macos-defaults.com/)
@@ -284,4 +284,4 @@ sudo rm -rf ~/Library/Caches/*
 
 ---
 
-⬅️ [Volver al README](../README.md)
+⬅️ [Back to README](../README.md)

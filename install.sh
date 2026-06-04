@@ -171,7 +171,7 @@ verify_iterm2() {
 
 verify_nvim_config() {
     if ! command -v nvim &> /dev/null; then
-        print_warning "Neovim no está instalado; saltando validación de Neovim"
+        print_warning "Neovim is not installed; skipping Neovim validation"
         return 0
     fi
 
@@ -190,19 +190,19 @@ cat << "EOF"
 ║     ██████╔╝╚██████╔╝   ██║   ██║     ██║███████╗███████╗███████║    ║
 ║     ╚═════╝  ╚═════╝    ╚═╝   ╚═╝     ╚═╝╚══════╝╚══════╝╚══════╝    ║
 ║                                                       ║
-║               Instalador para macOS                   ║
+║                Installer for macOS                    ║
 ╚═══════════════════════════════════════════════════════╝
 EOF
 echo -e "${NC}"
 
 # Verify macOS
 if [[ "$OSTYPE" != "darwin"* ]]; then
-    print_error "Este script solo funciona en macOS"
+    print_error "This script only works on macOS"
     exit 1
 fi
 
 if [ "$VERIFY_ONLY" = "1" ]; then
-    print_info "Verificando dotfiles sin instalar..."
+    print_info "Verifying dotfiles without installing..."
     verify_link "$DOTFILES_DIR/zshrc" "$HOME/.zshrc"
     verify_link "$DOTFILES_DIR/zprofile" "$HOME/.zprofile"
     verify_link "$DOTFILES_DIR/p10k.zsh" "$HOME/.p10k.zsh"
@@ -212,27 +212,27 @@ if [ "$VERIFY_ONLY" = "1" ]; then
     if [ "$RUN_ITERM2" = "1" ]; then
         verify_iterm2
     else
-        print_warning "Saltando verificación de iTerm2 porque RUN_ITERM2=0"
+        print_warning "Skipping iTerm2 verification because RUN_ITERM2=0"
     fi
     zsh -n "$DOTFILES_DIR/zshrc"
     zsh -n "$DOTFILES_DIR/zprofile"
     zsh -n "$DOTFILES_DIR/p10k.zsh"
     python3 "$DOTFILES_DIR/scripts/verify-zsh-prompt.py"
     verify_nvim_config
-    print_success "Verificación completada"
+    print_success "Verification completed"
     exit 0
 fi
 
-print_info "Iniciando instalación de dotfiles..."
+print_info "Starting dotfiles installation..."
 echo ""
 
 # 1. Install Homebrew
 if ! command -v brew &> /dev/null; then
-    print_info "Instalando Homebrew..."
+    print_info "Installing Homebrew..."
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-    print_success "Homebrew instalado"
+    print_success "Homebrew installed"
 else
-    print_success "Homebrew ya está instalado"
+    print_success "Homebrew is already installed"
 fi
 
 if [[ -x /opt/homebrew/bin/brew ]]; then
@@ -244,69 +244,69 @@ echo ""
 
 # 2. Install Homebrew packages
 if [ "$RUN_BREW" = "1" ]; then
-    print_info "Instalando paquetes desde Brewfile..."
+    print_info "Installing packages from Brewfile..."
     brew bundle --file "$DOTFILES_DIR/Brewfile"
-    print_success "Homebrew bundle completado"
+    print_success "Homebrew bundle completed"
 else
-    print_warning "Saltando Homebrew bundle porque RUN_BREW=0"
+    print_warning "Skipping Homebrew bundle because RUN_BREW=0"
 fi
 echo ""
 
 # 5. Install Oh My Zsh
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
-    print_info "Instalando Oh My Zsh..."
+    print_info "Installing Oh My Zsh..."
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-    print_success "Oh My Zsh instalado"
+    print_success "Oh My Zsh installed"
 else
-    print_success "Oh My Zsh ya está instalado"
+    print_success "Oh My Zsh is already installed"
 fi
 echo ""
 
 # 6. Install Powerlevel10k
 if [ ! -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k" ]; then
-    print_info "Instalando Powerlevel10k..."
+    print_info "Installing Powerlevel10k..."
     git clone --depth=1 https://github.com/romkatv/powerlevel10k.git \
         "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k"
-    print_success "Powerlevel10k instalado"
+    print_success "Powerlevel10k installed"
 else
-    print_success "Powerlevel10k ya está instalado"
+    print_success "Powerlevel10k is already installed"
 fi
 echo ""
 
 # 7. Install NVM (Node Version Manager)
 if [ ! -d "$HOME/.nvm" ]; then
-    print_info "Instalando NVM..."
+    print_info "Installing NVM..."
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
-    print_success "NVM instalado"
+    print_success "NVM installed"
 else
-    print_success "NVM ya está instalado"
+    print_success "NVM is already installed"
 fi
 echo ""
 
 # 8. Install Zsh plugins
-print_info "Instalando plugins de Zsh..."
+print_info "Installing Zsh plugins..."
 
 # zsh-autosuggestions
 if [ ! -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions" ]; then
     git clone https://github.com/zsh-users/zsh-autosuggestions \
         "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"
-    print_success "zsh-autosuggestions instalado"
+    print_success "zsh-autosuggestions installed"
 else
-    print_success "zsh-autosuggestions ya está instalado"
+    print_success "zsh-autosuggestions is already installed"
 fi
 
 # zsh-syntax-highlighting
 if [ ! -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting" ]; then
     git clone https://github.com/zsh-users/zsh-syntax-highlighting.git \
         "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting"
-    print_success "zsh-syntax-highlighting instalado"
+    print_success "zsh-syntax-highlighting installed"
 else
-    print_success "zsh-syntax-highlighting ya está instalado"
+    print_success "zsh-syntax-highlighting is already installed"
 fi
 echo ""
 
 # 9. Create symlinks
-print_info "Creando symlinks..."
+print_info "Creating symlinks..."
 
 # Zsh
 link_dotfile "$DOTFILES_DIR/zshrc" "$HOME/.zshrc"
@@ -326,7 +326,7 @@ link_dotfile "$DOTFILES_DIR/.gitignore_global" "$HOME/.gitignore_global"
 echo ""
 
 # 10. Verify symlinks
-print_info "Verificando symlinks..."
+print_info "Verifying symlinks..."
 verify_link "$DOTFILES_DIR/zshrc" "$HOME/.zshrc"
 verify_link "$DOTFILES_DIR/zprofile" "$HOME/.zprofile"
 verify_link "$DOTFILES_DIR/p10k.zsh" "$HOME/.p10k.zsh"
@@ -337,33 +337,33 @@ echo ""
 
 # 11. Configure iTerm2 (optional)
 if [ "$RUN_ITERM2" = "1" ] && [ -d "$DOTFILES_DIR/config/iterm2" ]; then
-    print_info "Configurando iTerm2..."
+    print_info "Configuring iTerm2..."
     defaults write com.googlecode.iterm2 PrefsCustomFolder -string "$DOTFILES_DIR/config/iterm2"
     defaults write com.googlecode.iterm2 LoadPrefsFromCustomFolder -bool true
-    print_success "iTerm2 configurado"
+    print_success "iTerm2 configured"
     echo ""
 elif [ "$RUN_ITERM2" != "1" ]; then
-    print_warning "Saltando configuración de iTerm2 porque RUN_ITERM2=0"
+    print_warning "Skipping iTerm2 configuration because RUN_ITERM2=0"
     echo ""
 fi
 
 # 12. Sync Neovim plugins (optional)
 if [ "$RUN_LAZY_SYNC" = "1" ] && command -v nvim &> /dev/null; then
-    print_info "Sincronizando plugins de Neovim..."
+    print_info "Syncing Neovim plugins..."
     nvim --headless "+Lazy! sync" +qa
-    print_success "Plugins de Neovim sincronizados"
+    print_success "Neovim plugins synced"
 elif [ "$RUN_LAZY_SYNC" != "1" ]; then
-    print_warning "Saltando Lazy sync porque RUN_LAZY_SYNC=0"
+    print_warning "Skipping Lazy sync because RUN_LAZY_SYNC=0"
 else
-    print_warning "Neovim no está instalado; saltando Lazy sync"
+    print_warning "Neovim is not installed; skipping Lazy sync"
 fi
 echo ""
 
 # 13. Final validation
-print_info "Validando configuración..."
+print_info "Validating configuration..."
 zsh -n "$DOTFILES_DIR/zshrc"
 verify_nvim_config
-print_success "Validación completada"
+print_success "Validation completed"
 echo ""
 
 # 14. Finish
@@ -371,16 +371,16 @@ echo -e "${GREEN}"
 cat << "EOF"
 ╔═══════════════════════════════════════════════════════╗
 ║                                                       ║
-║           ✓ Instalación completada!                   ║
+║            ✓ Installation completed!                  ║
 ║                                                       ║
 ╚═══════════════════════════════════════════════════════╝
 EOF
 echo -e "${NC}"
 
-print_info "Próximos pasos:"
+print_info "Next steps:"
 echo ""
-echo "  1. Reinicia tu terminal o ejecuta: source ~/.zshrc"
-echo "  2. Abre iTerm2 y configura la fuente Nerd Font"
-echo "  3. Si no te gusta el tema de Powerlevel10k, ejecuta: p10k configure"
-echo "  4. Edita siempre el repo: $DOTFILES_DIR"
+echo "  1. Restart your terminal or run: source ~/.zshrc"
+echo "  2. Open iTerm2 and configure the Nerd Font"
+echo "  3. If you do not like the Powerlevel10k theme, run: p10k configure"
+echo "  4. Always edit the repo: $DOTFILES_DIR"
 echo ""

@@ -1,45 +1,46 @@
-# 📟 Guía de Comandos y Aliases
+# 📟 Commands and Aliases Guide
 
-Documentación completa de comandos, aliases y funciones disponibles en esta configuración.
+Full documentation for the commands, aliases, and functions available in this
+setup.
 
-## 📑 Tabla de Contenidos
+## 📑 Table of Contents
 
-- [Aliases Generales](#aliases-generales)
-- [Aliases de Git](#aliases-de-git)
-- [Herramientas CLI Modernas](#herramientas-cli-modernas)
-- [Navegación y Búsqueda](#navegación-y-búsqueda)
-- [Tips y Trucos](#tips-y-trucos)
-
----
-
-## 🔧 Aliases Generales
-
-### Aliases de Aplicaciones macOS
-
-```bash
-xcode       # Abre Xcode
-```
-
-### Navegación Mejorada
-
-```bash
-ls          # Comando ls estándar
-cat         # Comando cat estándar
-```
+- [General Aliases](#general-aliases)
+- [Git Aliases](#git-aliases)
+- [Essential CLI Tools](#essential-cli-tools)
+- [Navigation and Search](#navigation-and-search)
+- [Tips and Tricks](#tips-and-tricks)
 
 ---
 
-## 🐙 Aliases de Git
+## 🔧 General Aliases
 
-Provistos por el plugin `git` de Oh My Zsh:
+### macOS App Aliases
 
 ```bash
-# Status y básicos
+xcode       # Opens Xcode
+```
+
+### Improved Navigation
+
+```bash
+ls          # Standard ls command
+cat         # Standard cat command
+```
+
+---
+
+## 🐙 Git Aliases
+
+Provided by the Oh My Zsh `git` plugin:
+
+```bash
+# Status and basics
 g           # git
 gst         # git status
 gss         # git status -s
 
-# Add y Commit
+# Add and commit
 ga          # git add
 gaa         # git add --all
 gc          # git commit -v
@@ -58,7 +59,7 @@ gco         # git checkout
 gcb         # git checkout -b
 gcm         # git checkout main/master
 
-# Pull y Push
+# Pull and push
 gl          # git pull
 gp          # git push
 gpf         # git push --force-with-lease
@@ -75,7 +76,7 @@ gd          # git diff
 gds         # git diff --staged
 gdw         # git diff --word-diff
 
-# Merge y Rebase
+# Merge and rebase
 gm          # git merge
 gma         # git merge --abort
 grb         # git rebase
@@ -96,187 +97,187 @@ grv         # git remote -v
 
 ---
 
-## 🚀 Herramientas CLI Esenciales
+## 🚀 Essential CLI Tools
 
-Estas herramientas se instalan desde el `Brewfile` con `./install.sh` o con:
+These tools are installed from the `Brewfile` with `./install.sh` or with:
 
 ```bash
 brew bundle install --file ~/Developer/dotfiles/Brewfile
 ```
 
-### `git` - Control de Versiones
+### `git` - Version Control
 
 ```bash
-git status                   # Ver estado
-git add .                    # Agregar todos los cambios
-git commit -m "mensaje"      # Hacer commit
-git push                     # Subir cambios
+git status                   # Show status
+git add .                    # Add all changes
+git commit -m "message"      # Create commit
+git push                     # Push changes
 ```
 
-### `neovim` - Editor Moderno
+### `neovim` - Modern Editor
 
 ```bash
-nvim archivo.txt             # Abrir archivo
-nvim .                       # Abrir directorio actual
-:Lazy                        # Gestor de plugins
-:Mason                       # Gestor de LSP
+nvim file.txt                # Open file
+nvim .                       # Open current directory
+:Lazy                        # Plugin manager
+:Mason                       # LSP manager
 ```
 
-### `nvm` - Gestor de Versiones de Node
+### `nvm` - Node Version Manager
 
 ```bash
-# Instalación y gestión
-nvm install node             # Instalar última versión
-nvm install 20.10.0          # Instalar versión específica
-nvm install --lts            # Instalar versión LTS
-nvm use 20.10.0              # Usar versión específica
-nvm use node                 # Usar última versión
-nvm use --lts                # Usar versión LTS
+# Installation and management
+nvm install node             # Install latest version
+nvm install 20.10.0          # Install specific version
+nvm install --lts            # Install LTS version
+nvm use 20.10.0              # Use specific version
+nvm use node                 # Use latest version
+nvm use --lts                # Use LTS version
 
-# Listado y búsqueda
-nvm ls                       # Listar versiones instaladas
-nvm ls-remote                # Listar versiones disponibles
-nvm ls-remote --lts          # Listar versiones LTS
-nvm current                  # Versión actual en uso
+# Listing and search
+nvm ls                       # List installed versions
+nvm ls-remote                # List available versions
+nvm ls-remote --lts          # List LTS versions
+nvm current                  # Current version in use
 
-# Utilidades
-nvm uninstall 20.10.0        # Desinstalar versión
-nvm alias default 20.10.0    # Establecer versión por defecto
-nvm which node               # Ruta del ejecutable node actual
+# Utilities
+nvm uninstall 20.10.0        # Uninstall version
+nvm alias default 20.10.0    # Set default version
+nvm which node               # Path to current node executable
 ```
 
-### `curl` y `wget` - Transferencia de Datos
+### `curl` and `wget` - Data Transfer
 
 ```bash
-curl https://example.com     # Descargar contenido
-curl -O https://example.com/file.txt  # Descargar archivo
-wget https://example.com/file.txt     # Descargar archivo
+curl https://example.com     # Download content
+curl -O https://example.com/file.txt  # Download file
+wget https://example.com/file.txt     # Download file
 ```
 
-### `ripgrep`, `fd` y `fzf` - Búsqueda Rápida
+### `ripgrep`, `fd`, and `fzf` - Fast Search
 
 ```bash
-rg "TODO"                    # Buscar texto en el proyecto
-rg "TODO" -l                 # Mostrar solo archivos con coincidencias
-fd config                    # Buscar archivos/carpetas por nombre
-fd lua config/nvim           # Buscar archivos lua bajo config/nvim
-fzf                          # Selector fuzzy interactivo
-nvim "$(fd . | fzf)"         # Elegir un archivo y abrirlo en Neovim
+rg "TODO"                    # Search text in the project
+rg "TODO" -l                 # Show only files with matches
+fd config                    # Search files/folders by name
+fd lua config/nvim           # Search Lua files under config/nvim
+fzf                          # Interactive fuzzy finder
+nvim "$(fd . | fzf)"         # Pick a file and open it in Neovim
 ```
 
-### `lazygit` - Git en Terminal
+### `lazygit` - Git in the Terminal
 
 ```bash
-lazygit                      # Abrir UI de Git
+lazygit                      # Open Git UI
 ```
 
-En Neovim también está disponible desde `<leader>gg`.
+In Neovim it is also available from `<leader>gg`.
 
-### `tmux` - Sesiones de Terminal
+### `tmux` - Terminal Sessions
 
 ```bash
-tmux                         # Nueva sesión
-tmux new -s trabajo          # Nueva sesión con nombre
-tmux ls                      # Listar sesiones
-tmux attach -t trabajo       # Volver a una sesión
+tmux                         # New session
+tmux new -s work             # New named session
+tmux ls                      # List sessions
+tmux attach -t work          # Attach to a session
 ```
 
-### `shellcheck` - Validar Scripts Shell
+### `shellcheck` - Validate Shell Scripts
 
 ```bash
-shellcheck install.sh        # Revisar el instalador
+shellcheck install.sh        # Check the installer
 ```
 
 ---
 
-## 🧭 Navegación y Búsqueda
+## 🧭 Navigation and Search
 
-### Combinaciones Útiles
+### Useful Combinations
 
 ```bash
-# Buscar y editar con Neovim
+# Search and edit with Neovim
 nvim $(fzf)
 
-# Buscar contenido y abrir archivo
+# Search content and open file
 rg "TODO" -l | fzf | xargs nvim
 
-# Ver historial de git de un archivo
-glog -- archivo.txt
+# View Git history for a file
+glog -- file.txt
 ```
 
 ---
 
-## 💡 Tips y Trucos
+## 💡 Tips and Tricks
 
-### Recargar Configuración
+### Reload Configuration
 
 ```bash
-source ~/.zshrc              # Recargar zshrc
-exec zsh                     # Reiniciar shell
+source ~/.zshrc              # Reload zshrc
+exec zsh                     # Restart shell
 ```
 
 ### Powerlevel10k
 
 ```bash
-p10k configure               # Reconfigurar tema
-p10k segment list            # Ver segmentos disponibles
+p10k configure               # Reconfigure theme
+p10k segment list            # Show available segments
 ```
 
 ### Neovim
 
 ```bash
-nvim                         # Abrir Neovim
-:Lazy                        # Gestor de plugins
-:Mason                       # Gestor de LSP
-:checkhealth                 # Verificar salud
+nvim                         # Open Neovim
+:Lazy                        # Plugin manager
+:Mason                       # LSP manager
+:checkhealth                 # Check health
 ```
 
-### Historial
+### History
 
 ```bash
-history | grep comando       # Buscar en historial
-!!                           # Repetir último comando
-!$                           # Último argumento del comando anterior
-!*                           # Todos los argumentos del comando anterior
+history | grep command       # Search history
+!!                           # Repeat last command
+!$                           # Last argument of previous command
+!*                           # All arguments of previous command
 ```
 
 ### Homebrew
 
 ```bash
-brew update                  # Actualizar Homebrew
-brew upgrade                 # Actualizar paquetes
-brew outdated                # Ver paquetes desactualizados
-brew cleanup                 # Limpiar versiones antiguas
-brew list                    # Lista de paquetes instalados
-brew info <paquete>          # Información del paquete
+brew update                  # Update Homebrew
+brew upgrade                 # Upgrade packages
+brew outdated                # Show outdated packages
+brew cleanup                 # Clean old versions
+brew list                    # List installed packages
+brew info <package>          # Package information
 ```
 
 ### Dotfiles
 
 ```bash
 cd ~/Developer/dotfiles
-make verify                 # Ejecutar verificaciones locales
-make quick                  # Reenlazar rápido sin brew/lazy sync
-make nvim-sync              # Sincronizar plugins de Neovim
-./install.sh --verify        # Verificar symlinks y sintaxis sin instalar
-./install.sh --no-brew --no-nvim-sync    # Reenlazar rápido sin brew/lazy sync
-./install.sh --no-iterm2     # Instalar sin tocar configuración de iTerm2
+make verify                 # Run local checks
+make quick                  # Fast relink without brew/lazy sync
+make nvim-sync              # Sync Neovim plugins
+./install.sh --verify        # Verify symlinks and syntax without installing
+./install.sh --no-brew --no-nvim-sync    # Fast relink without brew/lazy sync
+./install.sh --no-iterm2     # Install without touching iTerm2 configuration
 HOMEBREW_NO_ENV_HINTS=1 HOMEBREW_NO_REQUIRE_TAP_TRUST=1 brew bundle check --file Brewfile
 ```
 
-### Git local privado
+### Private Local Git
 
-La configuración global de Git vive en `~/.gitconfig`, enlazada desde este repo.
-Los datos privados o específicos de una máquina van en `~/.gitconfig.local`:
+The global Git configuration lives in `~/.gitconfig`, linked from this repo.
+Private or machine-specific data belongs in `~/.gitconfig.local`:
 
 ```ini
 [user]
-  email = tu@email.com
+  email = you@example.com
 ```
 
 ---
 
-## 🔗 Referencias
+## 🔗 References
 
 - [Oh My Zsh Cheatsheet](https://github.com/ohmyzsh/ohmyzsh/wiki/Cheatsheet)
 - [ripgrep Guide](https://github.com/BurntSushi/ripgrep/blob/master/GUIDE.md)
@@ -286,4 +287,4 @@ Los datos privados o específicos de una máquina van en `~/.gitconfig.local`:
 
 ---
 
-⬅️ [Volver al README](../README.md)
+⬅️ [Back to README](../README.md)
