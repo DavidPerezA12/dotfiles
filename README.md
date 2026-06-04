@@ -105,7 +105,6 @@ instaladas por App Store, descarga directa u otra vía manual.
 | [CyberGhost VPN](https://www.cyberghostvpn.com/) | VPN | [cyberghostvpn.com](https://www.cyberghostvpn.com/) |
 | [CleanMyMac X](https://macpaw.com/cleanmymac) | Limpieza de macOS | [macpaw.com](https://macpaw.com/cleanmymac) |
 | [LM Studio](https://lmstudio.ai/) | Modelos locales | [lmstudio.ai](https://lmstudio.ai/) |
-| [Cursor](https://cursor.sh/) | Editor de código | [cursor.sh](https://cursor.sh/) |
 | [Warp](https://www.warp.dev/) | Terminal alternativa | [warp.dev](https://www.warp.dev/) |
 
 ## Herramientas CLI
