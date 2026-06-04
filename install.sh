@@ -112,6 +112,27 @@ verify_link() {
     print_success "Verified: $target_path -> $source_path"
 }
 
+verify_iterm2() {
+    local expected_folder="$DOTFILES_DIR/config/iterm2"
+    local current_folder
+    local load_from_custom_folder
+
+    current_folder="$(defaults read com.googlecode.iterm2 PrefsCustomFolder 2>/dev/null || true)"
+    load_from_custom_folder="$(defaults read com.googlecode.iterm2 LoadPrefsFromCustomFolder 2>/dev/null || true)"
+
+    if [ "$current_folder" != "$expected_folder" ]; then
+        print_error "Wrong iTerm2 custom folder: ${current_folder:-unset}"
+        return 1
+    fi
+
+    if [ "$load_from_custom_folder" != "1" ]; then
+        print_error "iTerm2 is not loading prefs from custom folder"
+        return 1
+    fi
+
+    print_success "Verified: iTerm2 prefs -> $expected_folder"
+}
+
 # Banner
 echo -e "${BLUE}"
 cat << "EOF"
@@ -141,6 +162,7 @@ if [ "$VERIFY_ONLY" = "1" ]; then
     verify_link "$DOTFILES_DIR/zprofile" "$HOME/.zprofile"
     verify_link "$DOTFILES_DIR/p10k.zsh" "$HOME/.p10k.zsh"
     verify_link "$DOTFILES_DIR/config/nvim" "$HOME/.config/nvim"
+    verify_iterm2
     zsh -n "$DOTFILES_DIR/zshrc"
     zsh -n "$DOTFILES_DIR/zprofile"
     zsh -n "$DOTFILES_DIR/p10k.zsh"

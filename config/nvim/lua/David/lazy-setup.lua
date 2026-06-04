@@ -32,7 +32,7 @@ require("lazy").setup({
 		version = false, -- always use the latest git commit
 	},
 	install = { colorscheme = { "nightfly" } },
-	checker = { enabled = true }, -- automatically check for plugin updates
+	checker = { enabled = false },
 	rocks = { enabled = false },
 	performance = {
 		cache = {

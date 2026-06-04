@@ -148,6 +148,7 @@ export NVM_DIR="$HOME/.nvm"
 path_prepend "$HOME/.local/bin"
 path_prepend "$BUN_INSTALL/bin"
 path_prepend "$HOME/.opencode/bin"
+path_prepend "/opt/homebrew/opt/curl/bin"
 path_prepend "/opt/homebrew/opt/openjdk/bin"
 path_prepend "/opt/homebrew/opt/libpq/bin"
 path_append "$HOME/.local/share/nvim/mason/bin"
@@ -167,9 +168,22 @@ fi
 # bun completions
 [[ -s "$BUN_INSTALL/_bun" ]] && source "$BUN_INSTALL/_bun"
 
-# nvm is installed by install.sh. Load it lazily when present.
-[[ -s "$NVM_DIR/nvm.sh" ]] && source "$NVM_DIR/nvm.sh"
-[[ -s "$NVM_DIR/bash_completion" ]] && source "$NVM_DIR/bash_completion"
+# nvm is useful but expensive to load on every new terminal. Load it on demand.
+if [[ -s "$NVM_DIR/nvm.sh" ]]; then
+  nvm() {
+    unfunction nvm
+    source "$NVM_DIR/nvm.sh"
+    [[ -s "$NVM_DIR/bash_completion" ]] && source "$NVM_DIR/bash_completion"
+    nvm "$@"
+  }
+
+  for _nvm_cmd in node npm npx corepack; do
+    if ! (( $+commands[$_nvm_cmd] )); then
+      eval "${_nvm_cmd}() { unfunction node npm npx corepack 2>/dev/null; source \"\$NVM_DIR/nvm.sh\"; [[ -s \"\$NVM_DIR/bash_completion\" ]] && source \"\$NVM_DIR/bash_completion\"; ${_nvm_cmd} \"\$@\"; }"
+    fi
+  done
+  unset _nvm_cmd
+fi
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 if [[ -o interactive && -t 0 && -f ~/.p10k.zsh ]]; then

@@ -48,8 +48,9 @@ return {
           "markdown",
           "markdown_inline",
         },
-        -- auto install above language parsers
-        auto_install = true,
+        -- Keep installs explicit; auto-installing while opening files can feel slow
+        -- or flaky when the network is unavailable.
+        auto_install = false,
         -- textobjects configuration
         textobjects = {
           select = {
