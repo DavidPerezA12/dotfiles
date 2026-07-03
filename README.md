@@ -133,6 +133,7 @@ brew bundle install --file ./Brewfile
 | Tool | Description | Usage |
 | --- | --- | --- |
 | `git` | Version control | `git`, `gst`, `gco` |
+| `gh` | GitHub CLI and Git credential helper | `gh auth login`, `gh pr view` |
 | `neovim` | Code editor | `nvim` |
 | `curl` | Data transfer | `curl` |
 | `wget` | File downloads | `wget` |

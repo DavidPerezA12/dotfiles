@@ -3,6 +3,7 @@
 
 # CLI tools
 brew "git"
+brew "gh"
 brew "neovim"
 brew "curl"
 brew "wget"

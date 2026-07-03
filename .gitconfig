@@ -58,3 +58,13 @@
 
 [include]
 	path = ~/.gitconfig.local
+
+# GitHub credentials come from the gh CLI (run `gh auth login` once per
+# machine). The empty helper clears anything inherited from the system config,
+# and gh is resolved through PATH so this works on Intel and Apple Silicon.
+[credential "https://github.com"]
+	helper =
+	helper = !gh auth git-credential
+[credential "https://gist.github.com"]
+	helper =
+	helper = !gh auth git-credential
