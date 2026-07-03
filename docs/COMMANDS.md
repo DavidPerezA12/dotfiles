@@ -114,6 +114,19 @@ git commit -m "message"      # Create commit
 git push                     # Push changes
 ```
 
+### `gh` - GitHub CLI
+
+`.gitconfig` uses `gh` as the credential helper for github.com, so Git pushes
+work once `gh` is authenticated:
+
+```bash
+gh auth login                # Authenticate; Git credentials come from here
+gh auth status               # Check the current session
+gh repo view --web           # Open the current repository on GitHub
+gh pr create                 # Create a pull request from the current branch
+gh pr view                   # Show the pull request for the current branch
+```
+
 ### `neovim` - Modern Editor
 
 ```bash
