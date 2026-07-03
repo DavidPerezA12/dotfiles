@@ -151,7 +151,8 @@ brew bundle install --file ./Brewfile
 ### Terminal
 
 - iTerm2 with custom preferences.
-- Powerlevel10k for the prompt.
+- Powerlevel10k for the prompt. The prompt stability rules live in
+  [docs/TERMINAL_PROMPT.md](docs/TERMINAL_PROMPT.md).
 - Nerd Fonts for icons.
 
 ### Zsh
@@ -197,7 +198,8 @@ dotfiles/
 │
 └── docs/                  # Documentation
     ├── COMMANDS.md        # Commands and aliases
-    └── MACOS_SETUP.md     # macOS setup
+    ├── MACOS_SETUP.md     # macOS setup
+    └── TERMINAL_PROMPT.md # Terminal prompt invariants
 ```
 
 ## Documentation
@@ -205,6 +207,7 @@ dotfiles/
 - [Commands and aliases](docs/COMMANDS.md)
 - [Neovim guide](config/nvim/README.md)
 - [macOS setup](docs/MACOS_SETUP.md)
+- [Terminal prompt stability](docs/TERMINAL_PROMPT.md)
 
 ## Maintenance
 

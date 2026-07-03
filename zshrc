@@ -1,6 +1,5 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
+# Powerlevel10k startup guard. Keep this close to the top of ~/.zshrc so prompt
+# behavior is decided before Oh My Zsh or version managers can change it.
 _dotfiles_has_terminal() {
   [[ -t 0 || -t 1 || -t 2 || -n "${DOTFILES_FORCE_TERMINAL:-}" ]]
 }
@@ -11,9 +10,10 @@ if [[ "${_DOTFILES_ZSHRC_LOADED_PID:-}" == "$$" ]] &&
 fi
 typeset -g _DOTFILES_ZSHRC_LOADED_PID="$$"
 
-if [[ -o interactive ]] && _dotfiles_has_terminal && [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
+# Instant prompt stays off. It replays a cached prompt frame before zshrc
+# finishes, and a stale cache makes iTerm open with a layout that then jumps.
+# The cache under ~/.cache/p10k-instant-prompt-* is never sourced.
+typeset -g POWERLEVEL9K_INSTANT_PROMPT=off
 
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH

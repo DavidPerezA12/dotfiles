@@ -9,6 +9,9 @@ typeset -U path PATH
 [[ -d /opt/homebrew/opt/libpq/bin ]] && path=("/opt/homebrew/opt/libpq/bin" $path)
 [[ -d "$HOME/.local/bin" ]] && path=("$HOME/.local/bin" $path)
 
+# iTerm starts zsh as a login shell. Load zshrc from here so Powerlevel10k is in
+# place before the first prompt render; zshrc has a same-PID guard for the normal
+# second read.
 if [[ -o interactive && "${_DOTFILES_ZSHRC_LOADED_PID:-}" != "$$" && -r "$HOME/.zshrc" ]]; then
   _dotfiles_parent_comm="$(ps -p "$PPID" -o comm= 2>/dev/null)"
 
