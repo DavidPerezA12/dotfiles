@@ -115,3 +115,9 @@ autoload -Uz compinit && compinit -C
 # <<< grok installer <<<
 # claude-yolo: ejecuta Claude Code sin pedir permisos
 alias claude-yolo='claude --dangerously-skip-permissions'
+
+# iTerm2 shell integration. Needed for Cmd+D / Cmd+T to reuse the current
+# directory (OSC 7), semantic marks and other profile features.
+if [[ -o interactive && -s "$HOME/.iterm2_shell_integration.zsh" ]]; then
+  source "$HOME/.iterm2_shell_integration.zsh"
+fi
