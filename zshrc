@@ -113,3 +113,5 @@ export PATH="$HOME/.grok/bin:$PATH"
 fpath=(~/.grok/completions/zsh $fpath)
 autoload -Uz compinit && compinit -C
 # <<< grok installer <<<
+# claude-yolo: ejecuta Claude Code sin pedir permisos
+alias claude-yolo='claude --dangerously-skip-permissions'
