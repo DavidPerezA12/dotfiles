@@ -65,6 +65,33 @@
 	<true/>
 	<key>ClickToSelectCommand</key>
 	<false/>
+	<key>CodeReviewSavedPrompts</key>
+	<data>
+	W3sibmFtZSI6IkRlZmF1bHQiLCJ1dWlkIjoiRTExNTQ3QkMtQTgzMC00QjE3LUE5N0Ut
+	NjhGMzg4NTIzRDFDIiwidGV4dCI6IlJldmlldyB0aGUgcGVuZGluZyBjaGFuZ2VzIGlu
+	IHRoaXMgcmVwby4gRmxhZyBpc3N1ZXMgYSBjYXJlZnVsIG1haW50YWluZXIgd291bGQg
+	YmxvY2sgb24gYmVmb3JlIG1lcmdlLCBpbiByb3VnaGx5IHRoaXMgb3JkZXI6XG4gIDEu
+	IENvcnJlY3RuZXNzIOKAlCBsb2dpYyBlcnJvcnMsIGJyb2tlbiBpbnZhcmlhbnRzLCBt
+	aXNzZWQgZWRnZSBjYXNlcywgb2ZmLWJ5LW9uZSwgcmFjZXMsIGxpZmV0aW1lXC9tZW1v
+	cnkgYnVncywgZXJyb3IgcGF0aHMgdGhhdCBzd2FsbG93IGZhaWx1cmVzLlxuICAyLiBT
+	ZWN1cml0eSDigJQgaW5qZWN0aW9uLCBhdXRoblwvYXV0aHogbWlzdGFrZXMsIHNlY3Jl
+	dCBoYW5kbGluZywgdW5zYWZlIGRlc2VyaWFsaXphdGlvbiwgdW5zYWZlIGRlZmF1bHRz
+	LCBUT0NUT1UuXG4gIDMuIFJlbGlhYmlsaXR5ICYgcGVyZm9ybWFuY2Ug4oCUIGJsb2Nr
+	aW5nIHRoZSB3cm9uZyB0aHJlYWQsIHVuYm91bmRlZCByZXNvdXJjZSB1c2UsIGFjY2lk
+	ZW50YWwgTyhOwrIpLCByZXRyaWVzIHdpdGhvdXQgYmFja29mZiwgc2lsZW50IGZhaWx1
+	cmUgcGF0aHMuXG4gIDQuIENvbnRyYWN0IHJpc2sg4oCUIGJlaGF2aW9yIGNoYW5nZXMg
+	Y2FsbGVycyByZWx5IG9uLCBzaWxlbnRseSBjaGFuZ2VkIGRlZmF1bHRzLCBicm9rZW4g
+	YmFja3dhcmQgY29tcGF0aWJpbGl0eSwgbWlzc2luZyBtaWdyYXRpb25zLlxuXG5Gb3Ig
+	ZWFjaCBmaW5kaW5nIGNpdGUgYGZpbGU6bGluZWAsIGV4cGxhaW4gKndoeSogaXQgaXMg
+	d3JvbmcgKG5vdCB3aGF0IHRoZSBjb2RlIGRvZXMpLCBhbmQgcHJvcG9zZSBhIGNvbmNy
+	ZXRlIGZpeCB3aGVuIG9uZSBpcyBvYnZpb3VzLiBCZSBjYWxpYnJhdGVkOiBpZiBhIGZp
+	bmRpbmcgaXMgbm90IGhpZ2gtY29uZmlkZW5jZSwgc2F5IHNvIG9yIHNraXAgaXQuIFZl
+	cmlmeSBjbGFpbXMgYWdhaW5zdCB0aGUgYWN0dWFsIGNvZGUgcmF0aGVyIHRoYW4gaW5m
+	ZXJyaW5nIGZyb20gbmFtZXMuXG5cblNraXAgcHVyZSBzdHlsZSwgZm9ybWF0dGluZywg
+	bmFtaW5nLCBhbmQgYW55dGhpbmcgYSBsaW50ZXIgb3IgQ0kgYWxyZWFkeSBlbmZvcmNl
+	cy5cblxuSWYgeW91IGZpbmQgbm90aGluZyB3b3J0aCBmaXhpbmcsIHNheSBzbyBwbGFp
+	bmx5LiJ9XQ==
+	</data>
 	<key>Custom Color Presets</key>
 	<dict>
 		<key>coolnight</key>
@@ -486,15 +513,15 @@
 			<key>AWDS Pane Directory</key>
 			<string></string>
 			<key>AWDS Pane Option</key>
-			<string>No</string>
+			<string>Recycle</string>
 			<key>AWDS Tab Directory</key>
 			<string></string>
 			<key>AWDS Tab Option</key>
-			<string>No</string>
+			<string>Recycle</string>
 			<key>AWDS Window Directory</key>
 			<string></string>
 			<key>AWDS Window Option</key>
-			<string>No</string>
+			<string>Recycle</string>
 			<key>Ambiguous Double Width</key>
 			<false/>
 			<key>Ansi 0 Color</key>
@@ -1384,7 +1411,7 @@
 			<key>Custom Command</key>
 			<string>No</string>
 			<key>Custom Directory</key>
-			<string>No</string>
+			<string>Advanced</string>
 			<key>Default Bookmark</key>
 			<string>No</string>
 			<key>Description</key>
@@ -1928,15 +1955,15 @@
 			<key>AWDS Pane Directory</key>
 			<string></string>
 			<key>AWDS Pane Option</key>
-			<string>No</string>
+			<string>Recycle</string>
 			<key>AWDS Tab Directory</key>
 			<string></string>
 			<key>AWDS Tab Option</key>
-			<string>No</string>
+			<string>Recycle</string>
 			<key>AWDS Window Directory</key>
 			<string></string>
 			<key>AWDS Window Option</key>
-			<string>No</string>
+			<string>Recycle</string>
 			<key>Ambiguous Double Width</key>
 			<false/>
 			<key>Ansi 0 Color</key>
@@ -2828,7 +2855,7 @@
 			<key>Custom Command</key>
 			<string>No</string>
 			<key>Custom Directory</key>
-			<string>No</string>
+			<string>Advanced</string>
 			<key>Default Bookmark</key>
 			<string>No</string>
 			<key>Description</key>
@@ -3450,6 +3477,37 @@
 	<false/>
 	<key>WindowNumber</key>
 	<false/>
+	<key>Workgroups</key>
+	<data>
+	W3sibmFtZSI6IkNsYXVkZSBDb2RlIiwidW5pcXVlSWRlbnRpZmllciI6ImJ1aWx0aW4u
+	Y2xhdWRlQ29kZSIsInNlc3Npb25zIjpbeyJjb21tYW5kIjoiIiwia2luZCI6eyJraW5k
+	Ijoicm9vdCJ9LCJ1bmlxdWVJZGVudGlmaWVyIjoiYnVpbHRpbi5jbGF1ZGVDb2RlLm1h
+	aW4iLCJwZXJGaWxlQ29tbWFuZCI6IiIsImRpc3BsYXlOYW1lIjoiQ2hhdCIsInRvb2xi
+	YXJJdGVtcyI6W3sia2luZCI6Im1vZGVTd2l0Y2hlciJ9LHsia2luZCI6ImdpdFN0YXR1
+	cyJ9LHsia2luZCI6ImF1dG9SZXF1ZXN0UmV2aWV3V2hlbklkbGUifV0sIm1vZGUiOiJy
+	ZWd1bGFyIiwidXJsU3RyaW5nIjoiIn0seyJraW5kIjp7ImtpbmQiOiJwZWVyIn0sInVu
+	aXF1ZUlkZW50aWZpZXIiOiJidWlsdGluLmNsYXVkZUNvZGUuZGlmZiIsInVybFN0cmlu
+	ZyI6IiIsInBhcmVudElEIjoiYnVpbHRpbi5jbGF1ZGVDb2RlLm1haW4iLCJkaXNwbGF5
+	TmFtZSI6IkRpZmYiLCJtb2RlIjoiZGlmZiIsInBlckZpbGVDb21tYW5kIjoiZ2l0IGRp
+	ZmZ0b29sIC15IC14IHZpbWRpZmYgXFwoZ2l0QmFzZSkgLS0gXFwoZmlsZSkiLCJ0b29s
+	YmFySXRlbXMiOlt7ImtpbmQiOiJtb2RlU3dpdGNoZXIifSx7ImtpbmQiOiJjaGFuZ2Vk
+	RmlsZVNlbGVjdG9yIn0seyJraW5kIjoiZ2l0QmFzZVNlbGVjdG9yIn0seyJraW5kIjoi
+	bmF2aWdhdGlvbiIsImZvcndhcmRTaG9ydGN1dCI6eyJzZXJpYWxpemVkIjoiMHhmNzAz
+	LTB4MzQwMDAwLTB4N2MifSwiYmFja1Nob3J0Y3V0Ijp7InNlcmlhbGl6ZWQiOiIweGY3
+	MDItMHgzNDAwMDAtMHg3YiJ9LCJyZWxvYWRTaG9ydGN1dCI6eyJzZXJpYWxpemVkIjoi
+	MHg3Mi0weDEwMDAwMC0weGYifX1dLCJjb21tYW5kIjoiZ2l0IGRpZmZ0b29sIC15IC14
+	IHZpbWRpZmYgXFwoZ2l0QmFzZSkifSx7InRvb2xiYXJJdGVtcyI6W3sia2luZCI6Im1v
+	ZGVTd2l0Y2hlciJ9LHsia2luZCI6InJlbG9hZCIsInNob3J0Y3V0Ijp7InNlcmlhbGl6
+	ZWQiOiIweDcyLTB4MTAwMDAwLTB4ZiJ9fSx7ImtpbmQiOiJhdXRvU2VuZENsaXBwaW5n
+	c1doZW5JZGxlIn1dLCJraW5kIjp7ImtpbmQiOiJwZWVyIn0sInVuaXF1ZUlkZW50aWZp
+	ZXIiOiJidWlsdGluLmNsYXVkZUNvZGUucmV2aWV3IiwidXJsU3RyaW5nIjoiIiwicGVy
+	RmlsZUNvbW1hbmQiOiIiLCJwYXJlbnRJRCI6ImJ1aWx0aW4uY2xhdWRlQ29kZS5tYWlu
+	IiwiY29tbWFuZCI6ImNsYXVkZSBcXChjb2RlUmV2aWV3UHJvbXB0KSAtLWFwcGVuZC1z
+	eXN0ZW0tcHJvbXB0LWZpbGUgJ1xcKGNvZGVSZXZpZXdTeXN0ZW1Qcm9tcHRGaWxlKScg
+	LS1zZXR0aW5ncyAnXFwoaXRlcm0yLmFwcEJ1bmRsZVBhdGgpXC9Db250ZW50c1wvUmVz
+	b3VyY2VzXC9jb2RlLXJldmlldy1zZXR0aW5ncy50eHQnIiwiZGlzcGxheU5hbWUiOiJD
+	b2RlIFJldmlldyIsIm1vZGUiOiJjb2RlUmV2aWV3In1dfV0=
+	</data>
 	<key>findMode_iTerm</key>
 	<integer>0</integer>
 	<key>kCPKSelectionViewPreferredModeKey</key>
