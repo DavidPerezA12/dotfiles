@@ -1,86 +1,28 @@
 # Neovim
 
-My Neovim setup for code projects: fuzzy finding, LSP, diagnostics, Git,
-integrated terminals, and the shortcuts I use every day.
+My Neovim config. `./install.sh` links it to `~/.config/nvim`, and the first
+time you open `nvim`, lazy.nvim downloads the plugins.
 
-The configuration lives inside this repo at:
+You need Neovim 0.9 or newer, Git and ripgrep (Telescope uses it). Node, Python,
+Go or Rust only matter if you want their language servers.
 
-```text
-config/nvim
-```
+## Layout
 
-The active installation should point to that folder inside the path where you
-cloned the repository. For example, if you use `~/Developer/dotfiles`:
+- `init.lua` loads the options, keymaps and plugins.
+- `lua/David/core/` has the base options and general keymaps.
+- `lua/David/plugins/` has one file per plugin; LSP and formatters are in
+  `plugins/lsp/`.
 
-```text
-~/.config/nvim -> ~/Developer/dotfiles/config/nvim
-```
+## Plugins
 
-## Installation
+Telescope for searching, nvim-tree as the file explorer, LSP with Mason and
+nvim-cmp, Treesitter, gitsigns and lazygit for Git, toggleterm, harpoon,
+trouble for diagnostics, nvim-dap for debugging and Copilot. The theme is
+nightfly.
 
-From the repository root:
+## Keymaps
 
-```bash
-./install.sh
-```
-
-The script creates the symlink and makes Neovim use this configuration. When
-you open `nvim` for the first time, `lazy.nvim` downloads the plugins.
-
-Useful requirements:
-
-- Neovim 0.9 or newer
-- Git
-- ripgrep, for Telescope searches
-- Node.js, Python, Go, or Rust only if you plan to use their language servers
-- lazygit, if you want to open it from Neovim
-
-To confirm that the link points to the right place:
-
-```bash
-readlink ~/.config/nvim
-```
-
-## Structure
-
-```text
-config/nvim/
-├── init.lua
-├── lazy-lock.json
-└── lua/David/
-    ├── core/
-    │   ├── options.lua
-    │   └── keymaps.lua
-    ├── lazy-setup.lua
-    └── plugins/
-        ├── lsp/
-        └── *.lua
-```
-
-- `init.lua` loads options, keymaps, and plugins.
-- `core/options.lua` contains the editor's base behavior.
-- `core/keymaps.lua` keeps the general shortcuts.
-- `plugins/` keeps each plugin in its own file.
-- `plugins/lsp/` groups Mason, LSP, formatters, and related tools.
-
-## Included Configuration
-
-- `lazy.nvim` for plugin management.
-- `nightfly` as the main theme.
-- `telescope.nvim` for finding files, text, buffers, and help.
-- `nvim-tree.lua` as the file explorer.
-- `nvim-lspconfig`, `mason.nvim`, and `nvim-cmp` for LSP and completion.
-- `treesitter` for better highlighting and parsing.
-- `gitsigns.nvim`, Telescope Git, and `lazygit` for Git workflows.
-- `toggleterm.nvim` for terminals inside Neovim.
-- `harpoon` for quickly jumping between frequent files.
-- `trouble.nvim` for diagnostics, quickfix, and symbols.
-- `nvim-dap` for debugging.
-- `copilot.lua` for Copilot suggestions.
-
-## Most-Used Shortcuts
-
-The leader key is `Space`.
+The leader is `Space`.
 
 ### Search
 
@@ -93,7 +35,7 @@ The leader key is `Space`.
 | `<leader>fb` | Open buffers |
 | `<leader>fh` | Neovim help |
 
-### Files and Buffers
+### Files and buffers
 
 | Shortcut | Action |
 | --- | --- |
@@ -103,7 +45,7 @@ The leader key is `Space`.
 | `[b` / `]b` | Previous / next buffer |
 | `<leader>bb` | Return to last buffer |
 
-### Windows and Tabs
+### Windows and tabs
 
 | Shortcut | Action |
 | --- | --- |
@@ -171,7 +113,7 @@ The leader key is `Space`.
 | `<leader>tp` | Python REPL |
 | `<leader>tu` | htop |
 
-### Editing and Quick Actions
+### Editing
 
 | Shortcut | Action |
 | --- | --- |
@@ -183,22 +125,7 @@ The leader key is `Space`.
 | `<leader>qq` | Quit |
 | `<leader>un` | Dismiss notifications |
 
-## Useful Commands
-
-```vim
-:Lazy
-:Lazy sync
-:Mason
-:checkhealth
-```
-
-If an LSP feature does not appear, opening `:Mason` and installing the missing
-server is usually enough. Mason binaries are added to the `PATH` from
-`core/options.lua`.
-
-## Copilot
-
-The main shortcuts are:
+### Copilot
 
 | Shortcut | Action |
 | --- | --- |
@@ -208,27 +135,15 @@ The main shortcuts are:
 | `<C-]>` | Dismiss suggestion |
 | `<M-CR>` | Open panel |
 
-## Maintenance
+## When something's off
 
-Update plugins:
+If an LSP feature is missing, it's usually because the server isn't
+installed: open `:Mason` and install it. `:checkhealth` covers most other
+problems.
 
-```vim
-:Lazy sync
-```
-
-Check general issues:
-
-```vim
-:checkhealth
-```
-
-Clear cache if Neovim gets into a weird state:
+If Neovim ends up in a weird state, you can clear its local data. It wipes the
+downloaded plugins, but lazy.nvim reinstalls them on the next launch:
 
 ```bash
-rm -rf ~/.cache/nvim
-rm -rf ~/.local/share/nvim
-rm -rf ~/.local/state/nvim
+rm -rf ~/.cache/nvim ~/.local/share/nvim ~/.local/state/nvim
 ```
-
-Only do this knowing it removes downloaded plugins, local state, and temporary
-data. When you open Neovim again, `lazy.nvim` will reinstall anything missing.
