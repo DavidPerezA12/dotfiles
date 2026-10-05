@@ -1,37 +1,33 @@
-# Terminal Prompt
+# Terminal prompt
 
-The terminal prompt is intentionally kept boring and stable. The source of truth
-is this repository:
+The Powerlevel10k prompt has broken on me a few times: it jumped when a new
+terminal opened, labels floated around, or iTerm showed the plain macOS prompt.
+These are the rules that keep it stable. The files involved are `zprofile`,
+`zshrc` and `p10k.zsh`.
 
-```text
-zprofile  -> ~/.zprofile
-zshrc     -> ~/.zshrc
-p10k.zsh  -> ~/.p10k.zsh
-```
+## Rules
 
-## Invariants
+- `zprofile` loads `zshrc` in interactive login shells, so iTerm already has
+  Powerlevel10k when it draws the first prompt.
+- Instant prompt stays off (`POWERLEVEL9K_INSTANT_PROMPT=off`) in both `zshrc`
+  and `p10k.zsh`, and the `~/.cache/p10k-instant-prompt-*` cache is never
+  loaded. An old cache draws a stale prompt and then it jumps when `zshrc`
+  finishes.
+- The right prompt is empty (`POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=()`). With
+  version segments over there, they overlap the command in narrow windows.
+- Every `*_SHOW_SYSTEM` flag is `false`, so `nvm` and the like don't show a
+  random `system` label.
 
-- `zprofile` loads `zshrc` for interactive login shells so iTerm gets
-  Powerlevel10k before the first prompt render.
-- `zshrc` sets `POWERLEVEL9K_INSTANT_PROMPT=off` near the top and never sources
-  the `~/.cache/p10k-instant-prompt-*` cache. A stale cache replays an old
-  prompt frame, so the layout jumps once zshrc finishes. `p10k.zsh` sets the
-  same value so a future `p10k configure` run does not silently re-enable it.
-- `p10k.zsh` keeps `POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=()`. Do not add
-  version-manager segments to the right prompt; on narrow windows they collide
-  with the command line.
-- All `*_SHOW_SYSTEM` prompt flags stay `false`. This prevents segments such as
-  `nvm` from showing a floating `system` label.
+Running `p10k configure` overwrites `p10k.zsh`, so after that you have to put
+these rules back.
 
-## If The Prompt Breaks Again
-
-Run this in a real terminal:
+## If it breaks
 
 ```bash
 typeset -p POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS POWERLEVEL9K_NVM_SHOW_SYSTEM POWERLEVEL9K_INSTANT_PROMPT
 ```
 
-Expected:
+It should print:
 
 ```text
 typeset -a POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=( )
@@ -39,22 +35,11 @@ typeset POWERLEVEL9K_NVM_SHOW_SYSTEM=false
 typeset POWERLEVEL9K_INSTANT_PROMPT=off
 ```
 
-If iTerm shows the plain macOS prompt, check:
+If iTerm shows the macOS prompt, check `echo "$TERM $TERM_PROGRAM"`. It should
+be `xterm-256color iTerm.app`.
 
-```bash
-echo "$TERM $TERM_PROGRAM"
-```
-
-Expected in iTerm:
-
-```text
-xterm-256color iTerm.app
-```
-
-Then run the prompt checks before committing:
+Before committing changes to the prompt:
 
 ```bash
 python3 scripts/verify-zsh-prompt.py
 ```
-
-If `p10k configure` is run again, re-apply the invariants above before committing.
