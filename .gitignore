@@ -23,11 +23,6 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
-# Vim swap files
-*.swp
-*.swo
-*~
-
 # Backup files
 *.backup
 *.bak
@@ -36,6 +31,13 @@ Temporary Items
 # API Keys y variables de entorno
 *.env.local
 .env
+.env.*
+!.env.example
+.claude/
+.codex/
+.ssh/
+.gitconfig.local
+config/ssh/config.local
 
 # iTerm2
 iTerm2/AppSupport/version.txt
@@ -43,10 +45,6 @@ iTerm2/AppSupport/version.txt
 
 # Browser exports / personal data dumps
 bookmarks_*.html
-
-# IDE
-.vscode/
-.idea/
 
 # Logs
 *.log

@@ -1,0 +1,45 @@
+# Brewfile.apps - the GUI apps I use on my Macs.
+# The Mac App Store entries need an Apple ID signed in to the App Store first.
+# Usage: brew bundle install --file Brewfile.apps
+
+# Select apps for the host before installing. The Mac mini follows Serverfiles'
+# docs/DEVELOPMENT.md; do not install this whole file there.
+# Essentials. Install and sign in to the selected apps first.
+cask "google-chrome"
+cask "tailscale-app"
+cask "raycast"
+cask "docker-desktop"
+cask "visual-studio-code"
+cask "wispr-flow"  # MacBook client only; excluded from the Mac mini server.
+cask "t3-code"
+
+# System and utilities
+cask "betterdisplay"
+cask "macs-fan-control"
+cask "cleanmymac"
+mas "Amphetamine", id: 937984704
+mas "Magnet", id: 441258766
+
+# Network and security
+cask "cloudflare-warp"
+mas "Bitwarden", id: 1352778147
+mas "Jump Desktop", id: 524141863
+
+# Development
+mas "Xcode", id: 497799835
+
+# AI
+cask "claude"
+cask "chatgpt"
+cask "opencode-desktop"
+cask "lm-studio"
+
+# Virtualization
+cask "parallels"
+cask "crossover"
+
+# Media
+cask "vlc"
+
+# Laptops only. Skip on a Mac mini or iMac.
+cask "aldente"

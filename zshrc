@@ -30,6 +30,10 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 
 plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
 
+# Completions from tools installed outside Homebrew. They have to be in fpath
+# before Oh My Zsh runs compinit.
+[[ -d "$HOME/.grok/completions/zsh" ]] && fpath=("$HOME/.grok/completions/zsh" $fpath)
+
 if [[ -r "$ZSH/oh-my-zsh.sh" ]]; then
   source "$ZSH/oh-my-zsh.sh"
 fi
@@ -63,11 +67,25 @@ fi
 export BUN_INSTALL="$HOME/.bun"
 export NVM_DIR="$HOME/.nvm"
 path_prepend "$HOME/.local/bin"
+path_prepend "$HOME/.grok/bin"
+path_prepend "$HOME/.kilo/bin"
 path_prepend "$BUN_INSTALL/bin"
 path_prepend "/opt/homebrew/opt/curl/bin"
 path_prepend "/opt/homebrew/opt/openjdk/bin"
 path_prepend "/opt/homebrew/opt/libpq/bin"
 path_append "$HOME/.local/share/nvim/mason/bin"
+
+# Android SDK, from android-commandlinetools in the Brewfile. Gradle and the
+# SDK tools use JDK 17 through JAVA_HOME; `java` stays the latest openjdk.
+if [[ -d /opt/homebrew/share/android-commandlinetools ]]; then
+  export ANDROID_HOME="/opt/homebrew/share/android-commandlinetools"
+  export ANDROID_SDK_ROOT="$ANDROID_HOME"
+  [[ -d /opt/homebrew/opt/openjdk@17 ]] &&
+    export JAVA_HOME="/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home"
+  path_append "$ANDROID_HOME/cmdline-tools/latest/bin"
+  path_append "$ANDROID_HOME/platform-tools"
+  path_append "$ANDROID_HOME/emulator"
+fi
 
 path_prune_missing
 
@@ -108,12 +126,7 @@ unfunction _dotfiles_has_terminal
 
 alias xcode='open -a Xcode.app'
 
-# >>> grok installer >>>
-export PATH="$HOME/.grok/bin:$PATH"
-fpath=(~/.grok/completions/zsh $fpath)
-autoload -Uz compinit && compinit -C
-# <<< grok installer <<<
-# claude-yolo: ejecuta Claude Code sin pedir permisos
+# Claude Code without permission prompts.
 alias claude-yolo='claude --dangerously-skip-permissions'
 
 # iTerm2 shell integration. Needed for Cmd+D / Cmd+T to reuse the current

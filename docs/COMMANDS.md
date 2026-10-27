@@ -62,7 +62,9 @@ rg "TODO" -l | fzf | xargs nvim
 
 ```bash
 make verify                  # check links, scripts, prompt, Brewfile and Neovim
-make quick                   # relink without Homebrew or plugin sync
+make quick                   # relink only; no downloads or app settings
+make macos                   # apply my macOS settings
+ssh macmini                  # terminal on the Mac mini (docs/MAC_MINI.md)
 make nvim-sync               # update Neovim plugins
 exec zsh                     # reload the shell after changing zshrc
 p10k configure               # reconfigure the prompt (read TERMINAL_PROMPT.md first)

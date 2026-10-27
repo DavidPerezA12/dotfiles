@@ -22,8 +22,8 @@ RUN_BREW="${RUN_BREW:-1}"
 RUN_LAZY_SYNC="${RUN_LAZY_SYNC:-1}"
 RUN_ITERM2="${RUN_ITERM2:-1}"
 export HOMEBREW_NO_ENV_HINTS="${HOMEBREW_NO_ENV_HINTS:-1}"
-export HOMEBREW_NO_REQUIRE_TAP_TRUST="${HOMEBREW_NO_REQUIRE_TAP_TRUST:-1}"
 VERIFY_ONLY=0
+LINKS_ONLY=0
 
 # Helper functions
 print_success() { echo -e "${GREEN}✓ $1${NC}"; }
@@ -33,10 +33,11 @@ print_warning() { echo -e "${YELLOW}⚠ $1${NC}"; }
 
 usage() {
     cat << EOF
-Usage: ./install.sh [--verify] [--no-brew] [--no-nvim-sync] [--no-iterm2]
+Usage: ./install.sh [--verify | --links-only] [--no-brew] [--no-nvim-sync] [--no-iterm2]
 
 Options:
   --verify        Check expected symlinks and config syntax without installing.
+  --links-only    Link config and SSH include only; no downloads or app settings.
   --no-brew       Skip Homebrew bundle install.
   --no-nvim-sync  Skip lazy.nvim plugin sync.
   --no-iterm2     Skip iTerm2 preferences configuration and verification.
@@ -47,6 +48,10 @@ while [ "$#" -gt 0 ]; do
     case "$1" in
         --verify)
             VERIFY_ONLY=1
+            shift
+            ;;
+        --links-only)
+            LINKS_ONLY=1
             shift
             ;;
         --no-brew)
@@ -72,6 +77,20 @@ while [ "$#" -gt 0 ]; do
             ;;
     esac
 done
+
+if [ "$VERIFY_ONLY" = "1" ] && [ "$LINKS_ONLY" = "1" ]; then
+    print_error "--verify and --links-only cannot be combined"
+    exit 1
+fi
+
+SSH_INCLUDE="Include \"$DOTFILES_DIR/config/ssh/config\""
+
+ssh_include_present() {
+    # Accept the original unquoted line only when its path has no whitespace.
+    grep -qxF "$SSH_INCLUDE" "$HOME/.ssh/config" 2>/dev/null ||
+        { [[ "$DOTFILES_DIR" != *[[:space:]]* ]] &&
+          grep -qxF "Include $DOTFILES_DIR/config/ssh/config" "$HOME/.ssh/config" 2>/dev/null; }
+}
 
 link_dotfile() {
     local source_path="$1"
@@ -118,15 +137,65 @@ preserve_git_local_config() {
         return
     fi
 
-    {
-        echo "# Machine-local Git settings. This file is intentionally not tracked."
-        echo "[user]"
-        [ -n "$user_name" ] && printf '\tname = %s\n' "$user_name"
-        [ -n "$user_email" ] && printf '\temail = %s\n' "$user_email"
-        [ -n "$signing_key" ] && printf '\tsigningkey = %s\n' "$signing_key"
-    } > "$local_config"
+    echo "# Machine-local Git settings. This file is intentionally not tracked." > "$local_config"
+    if [ -n "$user_name" ]; then git config --file "$local_config" user.name "$user_name"; fi
+    if [ -n "$user_email" ]; then git config --file "$local_config" user.email "$user_email"; fi
+    if [ -n "$signing_key" ]; then git config --file "$local_config" user.signingkey "$signing_key"; fi
 
     print_success "Preserved Git identity in: $local_config"
+}
+
+# Homebrew only loads formulae from third-party taps once they're trusted.
+trust_tap_formulae() {
+    local brewfile="$1"
+    local -a formulae=()
+    local formula
+
+    while IFS= read -r formula; do
+        formulae+=("$formula")
+    done < <(grep -Eo '^brew "[^"/]+/[^"/]+/[^"]+"' "$brewfile" | cut -d'"' -f2)
+
+    if [ "${#formulae[@]}" -gt 0 ]; then
+        brew trust --formula "${formulae[@]}"
+    fi
+}
+
+# ~/.ssh/config stays a local file, since it can hold hosts only one machine
+# needs. The shared hosts come from the repo through an Include at the top.
+setup_ssh_config() {
+    local ssh_config="$HOME/.ssh/config"
+
+    mkdir -p "$HOME/.ssh"
+    chmod 700 "$HOME/.ssh"
+
+    if ssh_include_present; then
+        print_success "Already included: $DOTFILES_DIR/config/ssh/config"
+        return
+    fi
+
+    if [ -f "$ssh_config" ]; then
+        mkdir -p "$BACKUP_DIR"
+        cp "$ssh_config" "$BACKUP_DIR/ssh_config"
+        { echo "$SSH_INCLUDE"; echo ""; cat "$BACKUP_DIR/ssh_config"; } > "$ssh_config"
+    else
+        echo "$SSH_INCLUDE" > "$ssh_config"
+    fi
+    chmod 600 "$ssh_config"
+    print_success "Included shared SSH hosts in: $ssh_config"
+}
+
+verify_ssh_config() {
+    if ! ssh_include_present; then
+        print_error "$HOME/.ssh/config does not include $DOTFILES_DIR/config/ssh/config"
+        return 1
+    fi
+
+    if ! ssh -G -F "$HOME/.ssh/config" macmini >/dev/null 2>&1; then
+        print_error "Invalid SSH configuration (checked without connecting)"
+        return 1
+    fi
+
+    print_success "Verified: ~/.ssh/config includes the shared hosts"
 }
 
 verify_link() {
@@ -175,23 +244,32 @@ verify_nvim_config() {
         return 0
     fi
 
-    nvim --headless "+lua assert(vim.uv.fs_realpath(vim.fn.stdpath('config')) == '$DOTFILES_DIR/config/nvim')" +qa
+    # Do not load init.lua: it can bootstrap lazy.nvim and install plugins.
+    DOTFILES_NVIM_CONFIG="$DOTFILES_DIR/config/nvim" nvim --headless -u NONE \
+        "+lua assert(vim.uv.fs_realpath(vim.fn.stdpath('config')) == vim.env.DOTFILES_NVIM_CONFIG)" +qa
+}
+
+link_configuration() {
+    link_dotfile "$DOTFILES_DIR/zshrc" "$HOME/.zshrc"
+    link_dotfile "$DOTFILES_DIR/zprofile" "$HOME/.zprofile"
+    link_dotfile "$DOTFILES_DIR/p10k.zsh" "$HOME/.p10k.zsh"
+    link_dotfile "$DOTFILES_DIR/config/nvim" "$HOME/.config/nvim"
+    preserve_git_local_config
+    link_dotfile "$DOTFILES_DIR/.gitconfig" "$HOME/.gitconfig"
+    link_dotfile "$DOTFILES_DIR/.gitignore_global" "$HOME/.gitignore_global"
+    setup_ssh_config
 }
 
 # Banner
 echo -e "${BLUE}"
 cat << "EOF"
-╔═══════════════════════════════════════════════════════╗
-║                                                       ║
-║     ██████╗  ██████╗ ████████╗███████╗██╗██╗     ███████╗███████╗    ║
-║     ██╔══██╗██╔═══██╗╚══██╔══╝██╔════╝██║██║     ██╔════╝██╔════╝    ║
-║     ██║  ██║██║   ██║   ██║   █████╗  ██║██║     █████╗  ███████╗    ║
-║     ██║  ██║██║   ██║   ██║   ██╔══╝  ██║██║     ██╔══╝  ╚════██║    ║
-║     ██████╔╝╚██████╔╝   ██║   ██║     ██║███████╗███████╗███████║    ║
-║     ╚═════╝  ╚═════╝    ╚═╝   ╚═╝     ╚═╝╚══════╝╚══════╝╚══════╝    ║
-║                                                       ║
-║                Installer for macOS                    ║
-╚═══════════════════════════════════════════════════════╝
+ ██████╗  ██████╗ ████████╗███████╗██╗██╗     ███████╗███████╗
+ ██╔══██╗██╔═══██╗╚══██╔══╝██╔════╝██║██║     ██╔════╝██╔════╝
+ ██║  ██║██║   ██║   ██║   █████╗  ██║██║     █████╗  ███████╗
+ ██║  ██║██║   ██║   ██║   ██╔══╝  ██║██║     ██╔══╝  ╚════██║
+ ██████╔╝╚██████╔╝   ██║   ██║     ██║███████╗███████╗███████║
+ ╚═════╝  ╚═════╝    ╚═╝   ╚═╝     ╚═╝╚══════╝╚══════╝╚══════╝
+                       Mac setup
 EOF
 echo -e "${NC}"
 
@@ -209,6 +287,7 @@ if [ "$VERIFY_ONLY" = "1" ]; then
     verify_link "$DOTFILES_DIR/config/nvim" "$HOME/.config/nvim"
     verify_link "$DOTFILES_DIR/.gitconfig" "$HOME/.gitconfig"
     verify_link "$DOTFILES_DIR/.gitignore_global" "$HOME/.gitignore_global"
+    verify_ssh_config
     if [ "$RUN_ITERM2" = "1" ]; then
         verify_iterm2
     else
@@ -220,6 +299,14 @@ if [ "$VERIFY_ONLY" = "1" ]; then
     python3 "$DOTFILES_DIR/scripts/verify-zsh-prompt.py"
     verify_nvim_config
     print_success "Verification completed"
+    exit 0
+fi
+
+if [ "$LINKS_ONLY" = "1" ]; then
+    print_info "Linking config without installing tools or changing app settings..."
+    link_configuration
+    verify_ssh_config
+    print_success "Config linked. Run make verify after the selected tools are available."
     exit 0
 fi
 
@@ -245,6 +332,7 @@ echo ""
 # 2. Install Homebrew packages
 if [ "$RUN_BREW" = "1" ]; then
     print_info "Installing packages from Brewfile..."
+    trust_tap_formulae "$DOTFILES_DIR/Brewfile"
     brew bundle --file "$DOTFILES_DIR/Brewfile"
     print_success "Homebrew bundle completed"
 else
@@ -252,7 +340,7 @@ else
 fi
 echo ""
 
-# 5. Install Oh My Zsh
+# 3. Install Oh My Zsh
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
     print_info "Installing Oh My Zsh..."
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
@@ -262,7 +350,7 @@ else
 fi
 echo ""
 
-# 6. Install Powerlevel10k
+# 4. Install Powerlevel10k
 if [ ! -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k" ]; then
     print_info "Installing Powerlevel10k..."
     git clone --depth=1 https://github.com/romkatv/powerlevel10k.git \
@@ -273,17 +361,35 @@ else
 fi
 echo ""
 
-# 7. Install NVM (Node Version Manager)
+# 5. Install NVM (Node Version Manager)
 if [ ! -d "$HOME/.nvm" ]; then
     print_info "Installing NVM..."
-    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.8/install.sh | bash
     print_success "NVM installed"
 else
     print_success "NVM is already installed"
 fi
 echo ""
 
-# 8. Install Zsh plugins
+# 6. Install Claude Code and Bun with their own installers
+if ! command -v claude &> /dev/null && [ ! -x "$HOME/.local/bin/claude" ]; then
+    print_info "Installing Claude Code..."
+    curl -fsSL https://claude.ai/install.sh | bash
+    print_success "Claude Code installed"
+else
+    print_success "Claude Code is already installed"
+fi
+
+if [ ! -x "$HOME/.bun/bin/bun" ]; then
+    print_info "Installing Bun..."
+    curl -fsSL https://bun.sh/install | bash
+    print_success "Bun installed"
+else
+    print_success "Bun is already installed"
+fi
+echo ""
+
+# 7. Install Zsh plugins
 print_info "Installing Zsh plugins..."
 
 # zsh-autosuggestions
@@ -305,27 +411,14 @@ else
 fi
 echo ""
 
-# 9. Create symlinks
+# 8. Create symlinks
 print_info "Creating symlinks..."
 
-# Zsh
-link_dotfile "$DOTFILES_DIR/zshrc" "$HOME/.zshrc"
-link_dotfile "$DOTFILES_DIR/zprofile" "$HOME/.zprofile"
-
-# Powerlevel10k
-link_dotfile "$DOTFILES_DIR/p10k.zsh" "$HOME/.p10k.zsh"
-
-# Neovim
-link_dotfile "$DOTFILES_DIR/config/nvim" "$HOME/.config/nvim"
-
-# Git
-preserve_git_local_config
-link_dotfile "$DOTFILES_DIR/.gitconfig" "$HOME/.gitconfig"
-link_dotfile "$DOTFILES_DIR/.gitignore_global" "$HOME/.gitignore_global"
+link_configuration
 
 echo ""
 
-# 10. Verify symlinks
+# 9. Verify symlinks
 print_info "Verifying symlinks..."
 verify_link "$DOTFILES_DIR/zshrc" "$HOME/.zshrc"
 verify_link "$DOTFILES_DIR/zprofile" "$HOME/.zprofile"
@@ -333,9 +426,10 @@ verify_link "$DOTFILES_DIR/p10k.zsh" "$HOME/.p10k.zsh"
 verify_link "$DOTFILES_DIR/config/nvim" "$HOME/.config/nvim"
 verify_link "$DOTFILES_DIR/.gitconfig" "$HOME/.gitconfig"
 verify_link "$DOTFILES_DIR/.gitignore_global" "$HOME/.gitignore_global"
+verify_ssh_config
 echo ""
 
-# 11. Configure iTerm2 (optional)
+# 10. Configure iTerm2 (optional)
 if [ "$RUN_ITERM2" = "1" ] && [ -d "$DOTFILES_DIR/config/iterm2" ]; then
     print_info "Configuring iTerm2..."
     defaults write com.googlecode.iterm2 PrefsCustomFolder -string "$DOTFILES_DIR/config/iterm2"
@@ -347,7 +441,7 @@ elif [ "$RUN_ITERM2" != "1" ]; then
     echo ""
 fi
 
-# 12. Sync Neovim plugins (optional)
+# 11. Sync Neovim plugins (optional)
 if [ "$RUN_LAZY_SYNC" = "1" ] && command -v nvim &> /dev/null; then
     print_info "Syncing Neovim plugins..."
     nvim --headless "+Lazy! sync" +qa
@@ -359,28 +453,24 @@ else
 fi
 echo ""
 
-# 13. Final validation
+# 12. Final validation
 print_info "Validating configuration..."
 zsh -n "$DOTFILES_DIR/zshrc"
 verify_nvim_config
 print_success "Validation completed"
 echo ""
 
-# 14. Finish
+# 13. Finish
 echo -e "${GREEN}"
 cat << "EOF"
-╔═══════════════════════════════════════════════════════╗
-║                                                       ║
-║            ✓ Installation completed!                  ║
-║                                                       ║
-╚═══════════════════════════════════════════════════════╝
+✓ Installation completed!
 EOF
 echo -e "${NC}"
 
 print_info "Next steps:"
 echo ""
 echo "  1. Restart your terminal or run: source ~/.zshrc"
-echo "  2. Open iTerm2 and configure the Nerd Font"
-echo "  3. If you do not like the Powerlevel10k theme, run: p10k configure"
+echo "  2. Restart iTerm2 so it loads its preferences from the repo"
+echo "  3. Finish the manual steps in docs/MACOS_SETUP.md"
 echo "  4. Always edit the repo: $DOTFILES_DIR"
 echo ""

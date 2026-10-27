@@ -1,0 +1,14 @@
+# SSH hosts shared by my Macs. install.sh adds an Include for this file at the
+# top of ~/.ssh/config. Keys stay in ~/.ssh and never come here.
+
+# Mac mini home server, set up with Serverfiles. Reached over Tailscale; the
+# name resolves through MagicDNS.
+Host macmini
+    HostName davids-mac-mini
+    User david
+    IdentityFile ~/.ssh/id_ed25519
+    IdentitiesOnly yes
+    AddKeysToAgent yes
+    UseKeychain yes
+    ServerAliveInterval 30
+    ServerAliveCountMax 4
