@@ -1,11 +1,13 @@
 # SSH hosts shared by my Macs. install.sh adds an Include for this file at the
 # top of ~/.ssh/config. Keys stay in ~/.ssh and never come here.
 
+# Real host names and accounts stay out of this public repo, in
+# ~/.ssh/config.local. Copy config.local.example there on a new Mac.
+Include ~/.ssh/config.local
+
 # Mac mini home server, set up with Serverfiles. Reached over Tailscale; the
 # name resolves through MagicDNS.
 Host macmini
-    HostName davids-mac-mini
-    User david
     IdentityFile ~/.ssh/id_ed25519
     IdentitiesOnly yes
     AddKeysToAgent yes

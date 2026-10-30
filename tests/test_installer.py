@@ -99,6 +99,15 @@ class InstallerTests(unittest.TestCase):
         self.assertIn('Invalid SSH configuration', result.stdout)
         self.assertFalse(self.forbidden.exists())
 
+    def test_missing_local_ssh_config_warns_without_failing(self):
+        result = self.run_installer('--links-only')
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertIn('config.local.example', result.stdout)
+        (self.home / '.ssh/config.local').write_text('# local\n')
+        result = self.run_installer('--links-only')
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertNotIn('config.local.example', result.stdout)
+
 
 if __name__ == '__main__':
     unittest.main()

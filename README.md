@@ -52,9 +52,10 @@ hosts privados.
 
 ### Config compartida, datos privados
 
-El repo solo guarda configuración. Credenciales, claves privadas, sesiones y la
-identidad de Git (`~/.gitconfig.local`) se quedan en cada Mac. Por eso es seguro
-tener el repo público.
+El repo solo guarda configuración. Credenciales, claves privadas, sesiones, la
+identidad de Git (`~/.gitconfig.local`) y el nombre real del mini
+(`~/.ssh/config.local`) se quedan en cada Mac. Por eso es seguro tener el repo
+público.
 
 ### Las apps van aparte
 

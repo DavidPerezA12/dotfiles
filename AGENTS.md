@@ -55,7 +55,8 @@ either.
 - `zshrc`, `zprofile`, `p10k.zsh`, `.gitconfig`, `.gitignore_global`,
   `config/nvim`: symlinked into `HOME`. Edit them here, never in `HOME`.
 - `config/ssh/config`: `macmini`, SSH over Tailscale. Included from
-  `~/.ssh/config`, which stays local.
+  `~/.ssh/config`, which stays local. The real name and account live in
+  `~/.ssh/config.local`; `config/ssh/config.local.example` is its template.
 - `config/iterm2`: iTerm2 preferences, loaded from this folder.
 - `scripts/macos-defaults.sh`: David's macOS settings, applied with
   `make macos`.

@@ -196,6 +196,11 @@ verify_ssh_config() {
     fi
 
     print_success "Verified: ~/.ssh/config includes the shared hosts"
+
+    # Only a warning: the mini itself doesn't need the alias.
+    if [ ! -f "$HOME/.ssh/config.local" ]; then
+        print_warning "ssh macmini needs ~/.ssh/config.local; copy it from config/ssh/config.local.example"
+    fi
 }
 
 verify_link() {

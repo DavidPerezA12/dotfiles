@@ -21,7 +21,9 @@ reaching it from the MacBook or the iPad.
   during a code review. Saved names and IPs do not prove a live connection.
 
 - For SSH, the hosts in [`config/ssh/config`](../config/ssh/config), which
-  `install.sh` includes from `~/.ssh/config`, and my key in
+  `install.sh` includes from `~/.ssh/config`, the mini's real name and account
+  in `~/.ssh/config.local` (start from
+  [`config.local.example`](../config/ssh/config.local.example)), and my key in
   `~/.ssh/id_ed25519` authorized on the Mac mini.
 - T3 Code and Jump Desktop, both in `Brewfile.apps`, signed in to the same
   accounts as on the mini.
@@ -35,9 +37,9 @@ The iPad uses the same services from its own apps; the steps are in
 ssh macmini
 ```
 
-`davids-mac-mini` is this setup's configured MagicDNS name. Check the actual
-peer's DNSName if it changes. If a host key changes after reinstalling the
-mini, verify its new fingerprint on the host before removing the old entry.
+`~/.ssh/config.local` holds the mini's MagicDNS name. Check the actual peer's
+DNSName if it changes. If a host key changes after reinstalling the mini, verify
+its new fingerprint on the host before removing the old entry.
 
 ## T3 Code
 
@@ -78,5 +80,5 @@ only connect HOME to the local checkout; Tailscale does not sync their files.
 - If both devices are connected but the name does not resolve, inspect Use
   Tailscale DNS, the actual peer DNSName and conflicting VPN/DNS settings.
   Diagnose an iPad-specific failure on the iPad before changing its settings.
-- `tailscale ping davids-mac-mini` says if the connection is direct or through
+- `tailscale ping <mini>` says if the connection is direct or through
   a relay (`via DERP`). A relay works, just slower.
